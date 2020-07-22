@@ -1,0 +1,132 @@
+
+% Plantilla para un Trabajo Fin de Grado de la Universidad de Granada,
+% adaptada para el Doble Grado en Ingeniería Informática y Matemáticas.
+%
+%  Autor original de la plantilla original: Mario Román.
+%  Enlace: https://github.com/mroman42/templates
+%  Cambios en la plantilla por: Javier Sáez
+%  Licencia: GNU GPLv2.
+%
+% Esta plantilla es una adaptación al castellano de la plantilla
+% classicthesis de André Miede, que puede obtenerse en:
+%  https://ctan.org/tex-archive/macros/latex/contrib/classicthesis?lang=en
+% La plantilla original se licencia en GNU GPLv2.
+%
+% Esta plantilla usa símbolos de la Universidad de Granada sujetos a la normativa
+% de identidad visual corporativa, que puede encontrarse en:
+% http://secretariageneral.ugr.es/pages/ivc/normativa
+%
+% La compilación se realiza con las siguientes instrucciones:
+%   pdflatex --shell-escape main.tex
+%   bibtex main
+%   pdflatex --shell-escape main.tex
+%   pdflatex --shell-escape main.tex
+
+% Opciones del tipo de documento
+\documentclass[twoside,openright,titlepage,numbers=noenddot,openany,headinclude,footinclude=true, cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=11pt, dvipsnames]{scrreprt}
+
+% LaTeX packages loaded on start
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx} % Inclusión de imágenes.
+\usepackage{grffile}  % Distintos formatos para imágenes.
+\usepackage{longtable} % Tablas multipágina.
+\usepackage{wrapfig} % Coloca texto alrededor de una figura.
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{tikz} % Diagramas conmutativos.
+\usepackage{minted} % Código fuente.
+\usepackage[T1]{fontenc}
+\usepackage{natbib}
+\usepackage{caption}
+
+\usepackage[toc,page]{appendix}
+
+% Plantilla classicthesis
+\usepackage[beramono,eulerchapternumbers,linedheaders,parts,a4paper,dottedtoc,
+manychapters,pdfspacing]{classicthesis}
+
+% Geometría y espaciado de párrafos.
+\setcounter{secnumdepth}{0}
+\usepackage{enumitem}
+\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex}
+\usepackage[top=1in, bottom=1.5in, left=0.9in, right=1.2in]{geometry}
+\setlength\itemsep{0em}
+\setlength{\parindent}{0pt}
+\usepackage{parskip}
+
+% Algoritmos
+\usepackage[ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+
+% Todo notes
+\usepackage{todonotes}
+\let\marginpar\oldmarginpar
+
+% Profundidad de la tabla de contenidos.
+\setcounter{secnumdepth}{3}
+
+% Usa el paquete minted para mostrar trozos de código.
+% Pueden seleccionarse el lenguaje apropiado y el estilo del código.
+\usepackage{minted}
+\usemintedstyle{colorful}
+\setminted{fontsize=\small}
+\renewcommand{\theFancyVerbLine}{\sffamily\textcolor[rgb]{0.5,0.5,1.0}{\oldstylenums{\arabic{FancyVerbLine}}}}
+
+% Archivos de configuración.
+\input{macros}  % En macros.tex se almacenan las opciones y comandos para escribir matemáticas.
+\input{classicthesis-config} % En classicthesis-config.tex se almacenan las opciones propias de la plantilla.
+
+% Color institucional UGR
+% \definecolor{ugrColor}{HTML}{ed1c3e} % Versión clara.
+\definecolor{ugrColor}{HTML}{c6474b}  % Usado en el título.
+\definecolor{ugrColor2}{HTML}{c6474b} % Usado en las secciones.
+
+% Datos de portada
+\usepackage{titling} % Facilita los datos de la portada
+\author{Francisco Javier Sáez Maldonado}
+\date{\today}
+\title{Mutual Information in Unsupervised Machine Learning}
+
+% Portada
+\include{titlepage}
+\usepackage{wallpaper}
+
+\begin{document}
+
+\ThisULCornerWallPaper{1}{media/ugrA4.pdf}
+\maketitle
+
+
+\chapter*{Abstract}
+
+Abstract
+
+\tableofcontents
+
+\ctparttext{
+  \color{black}
+  \begin{center}
+    In this part we will introduce the underlying concepts of probability theory and probability distributions that will be needed.
+  \end{center}
+}
+\part{Basic Concepts}
+
+\chapter{Probability}
+
+\input{Chapters/probability}
+
+\clearpage
+\nocite{*}
+\bibliographystyle{authordate1}
+\bibliography{Bibliography}
+
+\end{document}

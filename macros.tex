@@ -1,0 +1,70 @@
+%------------------------
+% Math libraries
+%------------------------
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{shapes,fit}
+\usepackage{bussproofs}
+\EnableBpAbbreviations{}
+\usepackage{mathtools}
+\usepackage{scalerel}
+\usepackage{stmaryrd}
+
+%------------------------
+% Estilos para los teoremas
+%------------------------
+\theoremstyle{plain}
+\newtheorem{nth}{Theorem}
+\newtheorem{nprop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{ndef}{Definition}
+\newtheorem{nproof}{Proof}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{nexample}{Example}
+
+\begingroup\makeatletter\@for\theoremstyle:=definition,remark,plain\do{\expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{\addtolength\thm@preskip\parskip}}\endgroup
+
+%------------------------
+% Macros
+% ------------------------
+
+%Frequently used mathematical commands
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand{\R}{\mathbb{R}}
+% \newcommand{\E}{\mathbb{E}}
+\newcommand{\bmu}{\bm{\mu}}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bX}{\bm{X}}
+\newcommand{\bz}{\bm{z}}
+\newcommand{\bZ}{\bm{Z}}
+\newcommand{\bv}{\bm{v}}
+\newcommand{\bh}{\bm{h}}
+\newcommand{\bSigma}{\bm{\Sigma}}
+\newcommand{\bpi}{\bm{\pi}}
+\newcommand{\bLambda}{\bm{\Lambda}}
+\newcommand{\btheta}{\bm{\theta}}
+
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\I}{\mathcal{I}}
+
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+\newcommand\E[2]{\mathbb{E}_{#1}\Big[#2\Big]}
+\newcommand\KL[2]{KL\Big(#1 \bigm| #2\Big)}
+\newcommand{\bigCI}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\newcommand{\bigCD}{\centernot{\bigCI}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% My own commands:
+
+\newcommand{\Prob}{\mathcal{P}}
+\newcommand{\Alg}{\mathcal{A}}
