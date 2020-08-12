@@ -1,0 +1,46 @@
+Obtaining good representations of data is one of the most important tasks in Machine learning. Good features of our data will lead us to easier and more accurate training on \emph{Artificial Neural Networks (ANNs)} and, thus, better results on experiments.
+
+Recently, it has been discovered that maximizing \emph{Mutual Information} between two elements in our data can give us good representations for our data. We will go through the basic concepts first.
+
+
+\subsection{Entropy}
+
+The \emph{mutual information} concept is based on the \emph{Shannon entropy}, which we will introduce first, along with some basic properties of it. The \emph{Shannon entropy} its a way of measuring the uncertainty in a random variable. Given an event $\mathcal A \in \Omega$, $\Prob$ a probability measure and $\Prob[\A]$ the probability of $\mathcal A$, we can affirm that 
+$$
+log\frac{1}{\Prob[\mathcal A]}
+$$
+describes \emph{how surprising is that $\A$ occurs}. For instance, if $P[\A] = 1$, then the last expression is zero, which means that it is not a surprise that $\A$ occurred. With this motivation, we get to the following definition.
+
+\subsubsection{Discrete case}
+
+\begin{ndef}
+Let $X$ be a discrete random variable with image $\X$. The \emph{Shannon entropy}, or simply \emph{entropy} , $H(X)$ of $X$ is defined as:
+$$
+H(X) = E_X[log\frac{1}{\Prob_X(X)}] =  \sum_{x \in \X} P_X(x) log\frac{1}{\Prob_X(x)}
+$$
+\end{ndef}
+The \emph{entropy} can trivially be expressed as:
+$$
+H(X) = - \sum_{x \in \X}\Prob_X (x)log \Prob_X(x)
+$$
+There are some properties of the \emph{entropy} that must be remarked. 
+\begin{nprop}
+    Let $X$ be a random variable with image $\X$. then
+    $$
+0 \leq H(X) \leq log(|\X|)
+    $$
+\end{nprop}
+\begin{proof}
+    Since $log \ y$ is concave on $\R^+$, by Jensen's inequality:
+    $$
+    H(X) = - \sum_{x \in X}\Prob_X (x)log \Prob_X(x) \leq log(\sum_{x \in \X} 1) = log(|\X|)
+    $$
+\end{proof}
+
+%TODO: ADD APPENDIX TO ADD EXTRA RESULT PROBABLY NOT NEEDED FOR ANYTHING ELSE.
+%TODO: add jensen's inequality to appendix
+%TODO: fix the represeentation i'm giving to the RV and its image.
+% Do I have to define it for the continuous case?
+% Will I use the continuous or the discrete case?
+
+% Proposition of cotes
