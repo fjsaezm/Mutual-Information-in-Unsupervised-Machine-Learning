@@ -45,6 +45,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{natbib}
 \usepackage{caption}
+\usepackage{ mathrsfs }
 
 \usepackage[toc,page]{appendix}
 
@@ -121,10 +122,26 @@ Abstract
 \part{Basic Concepts}
 
 \chapter{Probability}
-
 \input{Chapters/probability}
 
+\chapter{Distributions}
+
 \clearpage
+
+\ctparttext{
+  \color{black}
+  \begin{center}
+  Information theory is the base for all the following work. In this part, \emph{Mutual Information} will be explained and then, some cotes for this function will be given.
+  \end{center}
+}
+\part{Information Theory}
+\chapter{Mutual Information}
+\input{Chapters/info-theory}
+
+
+
+
+
 \nocite{*}
 \bibliographystyle{authordate1}
 \bibliography{Bibliography}

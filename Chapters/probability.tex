@@ -1,3 +1,4 @@
+
 Underneath each experiment involving any grade of uncertainty there is a \emph{random variable}. This is no more than a \emph{measurable} function between two \emph{measurable spaces}.
 A probability space is composed by three elements: $(\Omega, \Alg, \Prob)$. We will define those concepts one by one.
 
@@ -13,7 +14,7 @@ A probability space is composed by three elements: $(\Omega, \Alg, \Prob)$. We w
 The pair $(\Omega,\Alg)$ is called a \emph{measurable space} To get to our probability space, we need to define a \emph{measure} on the \emph{measurable space}.
 
 \begin{ndef}
-Given $(\Omega,\Alg)$, a measurable space, a \emph{measure} $\Prob$ is a countable aditive, non-negative set function on this space. That is: $\Prob: \Alg \to \mathbb R_0^+$ satisfying:
+Given $(\Omega,\Alg)$, a measurable space, a \emph{measure} $\Prob$ is a countable additive, non-negative set function on this space. That is: $\Prob: \Alg \to \mathbb R_0^+$ satisfying:
 \begin{itemize}
   \item $\Prob(A) \geq \Prob(\emptyset) = 0$ for all $A \in \Alg$
   \item $P(\cup_n A_n) = \sum_n P(A_n)$ for any countable collection of disjoints sets $A_n \in \Alg$.
@@ -26,13 +27,31 @@ If $\Prob(\Omega) = 1$, $\Prob$ is a \emph{probability measure} or simply a \emp
 A \emph{measure space} is the tuple $(\Omega, \Alg,\Prob)$ where $\Prob$ is a \emph{measure} on $(\Omega, \Alg)$. If $\Prob$ is a \emph{probability measure} $(\Omega,\Alg,\Prob)$ will be called a \emph{probability space}.
 \end{ndef}
 
-During the document, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces. Now, the first condition of a \emph{random variable} is to be a measurable function. Those kind of functions are defined as it follows:
+During the document, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces. Some notation for these measures must be introduced.
+
+An \emph{event} $A$ is a subset of the sample space $\Omega$. We define the probability of the subset as the sum of the probabilities of each of its points. That is:
+$$
+P[A] = \sum_{a \in A}P(a)
+$$
+Now, if $B$ is another event, we will use the notation $P[A,B]$ to refer to the probability of the intersection of the events $A$ and $B$, that is: $P[A,B] := P[A\cap B]$. We remark the next definition since it will be important.
+
+\begin{ndef}
+Let $A,B$ be two events in $\Omega$. The \emph{conditional probability} of $B$ given $A$ is defined as:
+$$
+P[B|A] = \frac{P[A,B]}{P[A]}
+$$
+\end{ndef}
+
+
+We are ready to introduce \emph{random variables}. The first property \emph{random variable} is to be a measurable function. Those kind of functions are defined as it follows:
 
 \begin{ndef}
 Let $(\Omega_1, \Alg),(\Omega_2, \mathcal B)$ be measurable spaces. A function $f: \Omega_1 \to \Omega_2$ is said to be \emph{measurable} if, $f^{-1}(B) \in A$ for every $B \in \mathcal B$.
 \end{ndef}
 
 If $f,g$ are real-valued measurable functions, and $k \in \mathbb R$, it is true that $kf$, $f+g$ , $fg$ and $f/g$ (if $g \ne 0$) are also \emph{measurable functions}.
+
+
 
 We are now ready to define one of the concepts that will lead us to the main objective of this thesis.
 
@@ -46,7 +65,7 @@ $$
 
 Using that sums, products and quotients of measurable functions are measurable functions, we obtain that \emph{sums, products and quotients of random variables are random variables}
 
-The \emph{probability} of $\X$ taking a concrete value on a measurable set contained in $E$, $S \in E$, is written as:
+The \emph{probability} of $\X$ taking a concrete value on a measurable set contained in $E$, say, $S \in E$, is written as:
 $$
 P_X(S) = P(X \in S) = P(\{a \in \Omega : X(a) \in S\})
 $$
@@ -103,6 +122,22 @@ E[\X] = \sum_{i = 0}^n x_i p_i
 $$
 where $x_i$ is each possible outcome of the experiment, and $p_i$ the probability of the outcome $x_i$. The expression given in the definition before generalizes this particular case.
 
+Using the definition of the \emph{expectation} of a random variable, we can approach to the \emph{moments} of a random variable.
 
-%Define variance 1.3.67
-% Define n-th moment
+\begin{ndef}
+If $k \in \N$, then $E[\X^k]$ is called the $k-th$ moment of $\X$.
+\end{ndef}
+If we take $k = 1$, we have the definition of the \emph{expectation}. It is sometimes written as $m_\X = E[\X]$, and called the \emph{mean}. Using  \emph{the mean} and we get to the definition of the \emph{variance}:
+
+\begin{ndef}
+Let $\X$ be a random variable. If $E[\X^2] < \infty$, then the \emph{variance} of $\X$ is defined to be
+$$
+Var(\X) = E[(\X - m_\X)^2] = E[\X^2] - m_\X^2 
+$$
+\end{ndef}
+
+Thanks to the linearity of the \emph{expectation} of a random variable, it is easy to see that
+$$
+Var(a\X + b) = E[(a\X + b) - E[a\X + b])^2] = a^2E[(\X - m_\X)^2] = a^2 Var(\X)
+$$
+
