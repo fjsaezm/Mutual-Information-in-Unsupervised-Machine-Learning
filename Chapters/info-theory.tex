@@ -21,19 +21,19 @@ $$
 \end{ndef}
 The \emph{entropy} can trivially be expressed as:
 $$
-H(X) = - \sum_{x \in \X}\Prob_X (x)log \Prob_X(x)
+H(X) = - \sum_{x \in \X}\Prob_X (x)\log \Prob_X(x)
 $$
 There are some properties of the \emph{entropy} that must be remarked. 
 \begin{nprop}
     Let $X$ be a random variable with image $\X$. then
     $$
-0 \leq H(X) \leq log(|\X|)
+0 \leq H(X) \leq \log(|\X|)
     $$
 \end{nprop}
 \begin{proof}
-    Since $log \ y$ is concave on $\R^+$, by Jensen's inequality:
+    Since $log \ y$ is concave on $\R^+$, by Jensen's inequality ~\ref{prop:jensen}:
     $$
-    H(X) = - \sum_{x \in X}\Prob_X (x)log \Prob_X(x) \leq \log(\sum_{x \in \X} 1) = \log(|\X|)
+    H(X) = - \sum_{x \in X}\Prob_X (x)\log \Prob_X(x) \leq \log(\sum_{x \in \X} 1) = \log(|\X|)
     $$
     For the lower bound, it is easy to see that, since $\Prob_X(x) \in [0,1] \ \  \forall x \in \X $, and, hence , $\log \Prob_X(x) \leq 0 \ \ \forall x \in \X$. The product of both is negative, so we have a sum of negative terms that is changed its sign afterwards, so it is always $H(X) \geq 0$. 
 \end{proof}
