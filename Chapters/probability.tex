@@ -17,7 +17,7 @@ The pair $(\Omega,\Alg)$ is called a \emph{measurable space} To get to our proba
 Given $(\Omega,\Alg)$, a measurable space, a \emph{measure} $\Prob$ is a countable additive, non-negative set function on this space. That is: $\Prob: \Alg \to \mathbb R_0^+$ satisfying:
 \begin{itemize}
   \item $\Prob(A) \geq \Prob(\emptyset) = 0$ for all $A \in \Alg$
-  \item $P(\cup_n A_n) = \sum_n P(A_n)$ for any countable collection of disjoints sets $A_n \in \Alg$.
+  \item $P(\cup_n A_n) = \sum_n P(A_n)$ for any countable collection of disjoint sets $A_n \in \Alg$.
 \end{itemize}
 \end{ndef}
 
@@ -27,9 +27,9 @@ If $\Prob(\Omega) = 1$, $\Prob$ is a \emph{probability measure} or simply a \emp
 A \emph{measure space} is the tuple $(\Omega, \Alg,\Prob)$ where $\Prob$ is a \emph{measure} on $(\Omega, \Alg)$. If $\Prob$ is a \emph{probability measure} $(\Omega,\Alg,\Prob)$ will be called a \emph{probability space}.
 \end{ndef}
 
-During the document, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces. Some notation for these measures must be introduced.
+Throughout this work, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces. Some notation for these measures must be introduced.
 
-An \emph{event} $A$ is a subset of the sample space $\Omega$. We define the probability of the subset as the sum of the probabilities of each of its points. That is:
+An \emph{event} $A$ is a subset of the finite sample space $\Omega$. We define the probability of the subset as the sum of the probabilities of each of its points. That is:
 $$
 P[A] = \sum_{a \in A}P(a)
 $$
@@ -55,7 +55,7 @@ If $f,g$ are real-valued measurable functions, and $k \in \mathbb R$, it is true
 
 We are now ready to define one of the concepts that will lead us to the main objective of this thesis.
 
-\begin{ndef}{Random Variable}
+\begin{ndef}[Random Variable]
 Let $(\Omega,\Alg,\Prob)$ be a probability space, and $(E,\mu)$ be a measurable space. 
 A \emph{random variable} is a measurable function $X: \Omega \to E$, from the probability space to the measurable space. This means: for every subset $B \in (E,\mu)$, its preimage
 $$
@@ -107,7 +107,7 @@ E[X] = E[X^+] - E[X^-]
 $$
 where $X^+,X^-$ are defined as it follows:
 $$
-X^+(\omega) = max(X(\omega),0) \quad \quad , \quad \quad X^-(\omega) = min(X(\omega),0)
+X^+(\omega) = \max(X(\omega),0) \quad \quad , \quad \quad X^-(\omega) = \min(X(\omega),0)
 $$
 
 The \emph{expectation} $E[X]$ of a \emph{random variable} is a linear operation. That is, if $\mathcal Y$ is another random variable, and $\alpha,\beta \in \R$, then
@@ -116,9 +116,9 @@ E[\alpha X + \beta \mathcal Y] = \alpha E[X] + \beta E[\mathcal Y]
 $$
 this is a trivial consequence of the linearity of the \emph{Lebesgue integral}.
 
-As a note, if $X$ is a \emph{discrete} random variable, its expectation can be computed as:
+As a note, if $X$ is a \emph{discrete} random variable and $\X$ is its image, its expectation can be computed as:
 $$
-E[X] = \sum_{i = 0}^n x_i p_i
+E[X] = \sum_{x \in \X} x \dot P_X(x)
 $$
 where $x_i$ is each possible outcome of the experiment, and $p_i$ the probability of the outcome $x_i$. The expression given in the definition before generalizes this particular case.
 
@@ -132,12 +132,12 @@ If we take $k = 1$, we have the definition of the \emph{expectation}. It is some
 \begin{ndef}
 Let $X$ be a random variable. If $E[X^2] < \infty$, then the \emph{variance} of $X$ is defined to be
 $$
-Var(X) = E[(X - m_X)^2] = E[X^2] - m_X^2 
+\Var(X) = E[(X - m_X)^2] = E[X^2] - m_X^2 
 $$
 \end{ndef}
 
 Thanks to the linearity of the \emph{expectation} of a random variable, it is easy to see that
 $$
-Var(aX + b) = E[(aX + b) - E[aX + b])^2] = a^2E[(X - m_X)^2] = a^2 Var(X)
+Var(aX + b) = E[(aX + b) - E[aX + b])^2] = a^2E[(X - m_X)^2] = a^2 \Var(X)
 $$
 
