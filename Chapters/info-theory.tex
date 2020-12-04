@@ -37,7 +37,7 @@ There are some properties of the \emph{entropy} that must be remarked.
     $$
     For the lower bound, it is easy to see that, since $\Prob_X(x) \in [0,1] \ \  \forall x \in \X $, and, hence , $\log \Prob_X(x) \leq 0 \ \ \forall x \in \X$. The product of both is negative, so we have a sum of negative terms that is changed its sign afterwards, so it is always $H(X) \geq 0$. 
 \end{proof}
-We can also see that the equality on the left holds if and only if $\exists x \in \X \ : P_X(x) = 1$. The right equality holds if and only if , forall $x \in \X$, $P_X(x) = \frac{1}{|\X}$
+We can also see that the equality on the left holds if and only if $\exists x \in \X \ : P_X(x) = 1$. The right equality holds if and only if , forall $x \in \X$, $P_X(x) = \frac{1}{\abs{\X}}$
 
 \subsection*{Conditional entropy}
 We have already said that \emph{entropy measures} how surprising is that an event occurs. Usually, we will be looking at two random variables and it would be interesting to see how surprising is that one of them, say $X$, ocurred, if we already know that $Y$ ocurred. This leads us to the definition of \emph{conditional entropy}. Lets see a simpler case first:
@@ -61,7 +61,7 @@ Let $X,Y$ be random variables with images $\X,\mathcal Y$. The \emph{conditional
 
 
 \end{ndef}
-The interpretation of the \emph{Conditional Entropy} is simple: the uncertaincy in $X$ when $Y$ is given. Since we know about an event that has occurred ($Y$), intuitively the conditional entropy , or the uncertaincy of $X$ occurring given that $Y$ has occurred, will be less than the entropy of $X$. We can prove this:
+The interpretation of the \emph{Conditional Entropy} is simple: the uncertaincy in $X$ when $Y$ is given. Since we know about an event that has occurred ($Y$), intuitively the conditional entropy , or the uncertaincy of $X$ occurring given that $Y$ has occurred, will be lesser than the entropy of $X$, since we already have some information about what is happening. We can prove this:
 
 \begin{nprop}
 Let $X,Y$ be random variables with images $\mathcal X, \mathcal Y$. Then:

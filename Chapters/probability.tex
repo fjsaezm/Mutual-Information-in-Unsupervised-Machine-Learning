@@ -1,8 +1,11 @@
 
+
 Underneath each experiment involving any grade of uncertainty there is a \emph{random variable}. This is no more than a \emph{measurable} function between two \emph{measurable spaces}.
 A probability space is composed by three elements: $(\Omega, \Alg, \Prob)$. We will define those concepts one by one.
 
-\begin{ndef}Let $\Omega$ be a non empty sample space. $\mathcal A$ is a $\sigma-$algebra over $\Omega$ if its a family of subsets of $\mathcal U$ that verify:
+\subsection{Basic notions}
+
+\begin{ndef}Let $\Omega$ be a non empty sample space. $\Alg$ is a $\sigma-$algebra over $\Omega$ if its a family of subsets of $\Omega$ that verify:
 \begin{itemize}
   \item $\emptyset \in \Alg$
   \item If $A \in \Alg$, then $\Omega \textbackslash A \in \Alg$
@@ -31,27 +34,58 @@ Throughout this work, we will be always in the case where $\Prob$ is a probabili
 
 An \emph{event} $A$ is a subset of the finite sample space $\Omega$. We define the probability of the subset as the sum of the probabilities of each of its points. That is:
 $$
-P[A] = \sum_{a \in A}P(a)
+\Prob(A) = \sum_{a \in A}\Prob(a)
 $$
-Now, if $B$ is another event, we will use the notation $P[A,B]$ to refer to the probability of the intersection of the events $A$ and $B$, that is: $P[A,B] := P[A\cap B]$. We remark the next definition since it will be important.
+Now, if $B$ is another event, we will use the notation $P(A,B)$
+ to refer to the probability of the intersection of the events $A$ and $B$, that is: $P(A,B) := P(A\cap B)$. It is clear that since $A \cap B = B \cap A$, then $P(A,B) = P(B,A)$. We remark the next definition since it will be important.
 
 \begin{ndef}
 Let $A,B$ be two events in $\Omega$. The \emph{conditional probability} of $B$ given $A$ is defined as:
 $$
-P[B|A] = \frac{P[A,B]}{P[A]}
+P(B|A) = \frac{P(A,B)}{P(A)}
 $$
 \end{ndef}
 
 
-We are ready to introduce \emph{random variables}. The first property \emph{random variable} is to be a measurable function. Those kind of functions are defined as it follows:
+
+% Introduce here Bayes Theorem
+% ------------------------------------------------------------------------------
+
+There is an alternative way to state the definition that we have just made.
+
+\begin{nth}[Bayes' theorem]
+Let $A,B$ be two events in $\Omega$, given that $P(B) \neq 0$. Then
+$$
+P(B|A) = \frac{P(A|B) P(A)}{P(B)}
+$$
+\end{nth}
+\begin{proof}
+Straight from the definition of the contiditional probability we obtain that:
+$$
+P(A,B) = P(A|B)P(B)
+$$
+We also see fron the definition that
+$$
+P(B,A) = P(B|A)P(A)
+$$
+Hence, since $P(A,B) = P(B,A)$,
+$$
+P(A|B)P(B) = P(B|A)P(A) \implies P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+$$
+\end{proof}
+
+
+% Introduce Here Independece of variables
+% ------------------------------------------------------------------------------
+
+
+\emph{Random variables} will now be introduced. Their first propertty is that they are measurable functions. Those kind of functions are defined as it follows:
 
 \begin{ndef}
-Let $(\Omega_1, \Alg),(\Omega_2, \mathcal B)$ be measurable spaces. A function $f: \Omega_1 \to \Omega_2$ is said to be \emph{measurable} if, $f^{-1}(B) \in A$ for every $B \in \mathcal B$.
+Let $(\Omega_1, \Alg),(\Omega_2, \mathcal B)$ be measurable spaces. A function $f: \Omega_1 \to \Omega_2$ is said to be \emph{measurable} if, $f^{-1}(B) \in \Alg$ for every $B \in \mathcal B$.
 \end{ndef}
 
-If $f,g$ are real-valued measurable functions, and $k \in \mathbb R$, it is true that $kf$, $f+g$ , $fg$ and $f/g$ (if $g \ne 0$) are also \emph{measurable functions}.
-
-
+As a quick note, we can affirm that if $f,g$ are real-valued measurable functions, and $k \in \mathbb R$, it is true that $kf$, $f+g$ , $fg$ and $f/g$ (if $g \ne 0$) are also \emph{measurable functions}.
 
 We are now ready to define one of the concepts that will lead us to the main objective of this thesis.
 
@@ -65,7 +99,7 @@ $$
 
 Using that sums, products and quotients of measurable functions are measurable functions, we obtain that \emph{sums, products and quotients of random variables are random variables}
 
-The \emph{probability} of $X$ taking a concrete value on a measurable set contained in $E$, say, $S \in E$, is written as:
+Let now $X$ be a \emph{random variable} (r.v). The \emph{probability} of $X$ taking a concrete value on a measurable set contained in $E$, say, $S \in E$, is written as:
 $$
 P_X(S) = P(X \in S) = P(\{a \in \Omega : X(a) \in S\})
 $$
@@ -85,6 +119,8 @@ A very simple example of random variable is the following:
 
 In the last example, our random variable is \emph{discrete}, since the set $\{X(\omega): \omega \in \Omega\}$ is finite. A \emph{Random Variable} can also be \emph{continuous}, if it can take any value within an interval.
 We will refer to a \emph{Random Variable} as a \emph{R.V.}. \\
+
+\subsection{Expectation of a random variable}
 
 \begin{ndef}
 The \emph{distribution function } $F_X$ of a real-valued random variable $X$ is:
