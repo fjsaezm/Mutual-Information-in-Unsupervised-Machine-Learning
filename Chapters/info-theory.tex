@@ -24,7 +24,7 @@ $$
 H(X) = - \sum_{x \in \X}\Prob_X (x)\log \Prob_X(x)
 $$
 There are some properties of the \emph{entropy} that must be remarked. 
-\begin{nprop}
+\begin{nprop}\label{entr:prop:1}
     Let $X$ be a random variable with image $\X$. then
     $$
 0 \leq H(X) \leq \log(|\X|)
@@ -37,7 +37,7 @@ There are some properties of the \emph{entropy} that must be remarked.
     $$
     For the lower bound, it is easy to see that, since $\Prob_X(x) \in [0,1] \ \  \forall x \in \X $, and, hence , $\log \Prob_X(x) \leq 0 \ \ \forall x \in \X$. The product of both is negative, so we have a sum of negative terms that is changed its sign afterwards, so it is always $H(X) \geq 0$. 
 \end{proof}
-We can also see that the equality on the left holds if and only if $\exists x \in \X \ : P_X(x) = 1$. The right equality holds if and only if , forall $x \in \X$, $P_X(x) = \frac{1}{\abs{\X}}$
+We can also see that the equality on the left holds if and only if $\exists x \in \X \ : P_X(x) = 1$. The right equality holds if and only if , forall $x \in \X$, $P_X(x) = \frac{1}{\abs{X}}$
 
 \subsection*{Conditional entropy}
 We have already said that \emph{entropy measures} how surprising is that an event occurs. Usually, we will be looking at two random variables and it would be interesting to see how surprising is that one of them, say $X$, ocurred, if we already know that $Y$ ocurred. This leads us to the definition of \emph{conditional entropy}. Lets see a simpler case first:
@@ -61,15 +61,41 @@ Let $X,Y$ be random variables with images $\X,\mathcal Y$. The \emph{conditional
 
 
 \end{ndef}
+
 The interpretation of the \emph{Conditional Entropy} is simple: the uncertaincy in $X$ when $Y$ is given. Since we know about an event that has occurred ($Y$), intuitively the conditional entropy , or the uncertaincy of $X$ occurring given that $Y$ has occurred, will be lesser than the entropy of $X$, since we already have some information about what is happening. We can prove this:
 
-\begin{nprop}
+\begin{nprop}\label{entr:prop:2}
 Let $X,Y$ be random variables with images $\mathcal X, \mathcal Y$. Then:
 $$
 0 \leq H(X|Y) \leq H(X)
 $$
 \end{nprop}
+\begin{proof}
 
+The inequality on the left was proved on Proposition \ref{entr:prop:1}. The characterization of when $H(X|Y) = 0$ was also mentioned after it.  Let's look at the inequality on the right. Note that, restricting to the $(x,y)$ where $P_{XY}(x,y) > 0$ and using the definition of the conditional probability we have:
+\begin{align*}
+H(X|Y) = & \sum_y P_Y(y) \sum_x P_{X|Y}(x|y)\log \frac{1}{P_{X|Y}(x|y)}\\ = & \sum_{x,y} P_Y(y) P_{X|Y}(x,y) \log \frac{P_Y(y)}{P_{XY}(x,y)} = \sum_{x,y} P_{XY}(x,y)\log \frac{P_Y(y)}{P_{XY}(x,y)} 
+\end{align*}
+and 
+$$
+H(X) = \sum_x P_X(x) \log \frac{1}{P_X(x)} = \sum_{x,y}P_{XY}(x,y) \log \frac{1}{P_X(x)}
+$$
+hence,
+$$
+H(X|Y) - H(X) = \sum_{x,y}P_{XY}(x,y) \left( \log \frac{P_Y(y)}{P_{XY}(x,y) - \log \frac{1}{P_X(x)}}\right) = \sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)}
+$$
+so, using Jensen's Inequality , we obtain:
+\begin{align*}
+\sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)} \leq & \log \left( \sum_{x,y}\frac{ \cancel{P_{XY}(x,y)} \ \  P_Y(y) P_X(x)}{\cancel{P_{XY}(x,y)}} \right) \\ \leq & \log\left( \left( \sum_x P_X(x) \right) \left(\sum_y P_Y(y)\right)\right) = \log 1 = 0
+\end{align*}
+and this leads us to:
+$$
+H(X|Y) - H(X) \leq 0 \implies H(X|Y) \leq H(X)
+$$
+as we wanted.
+\end{proof}
+
+It must be noted that, on the development of $H(X|Y) - H(X)$,in the first inequality,equality holds if and only if $P_{XY}(x,y) = P_X(x) P_Y(y)$ for all $(x,y)$ with $P_{XY} (x,y) > 0$, as it is said in Jensen's inequality. For the second inequality, equality holds if and only if $P_{XY}(x,y) = 0$, which implies $P_X(x)P_Y(y) = 0$ for any $x\in \mathcal X$, $y \in \mathcal Y$. It follows that $H(X|Y) = H(X)$ if and only if $P_{XY}(x,y) = P_X(x)P_Y(y)$ for all $(x,y) \in \mathcal X \times \mathcal Y$
 % Do I have to define it for the continuous case?
 % Will I use the continuous or the discrete case?
 

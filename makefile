@@ -1,7 +1,7 @@
-all: eod
+all: thesis
 
-eod: eod.tex Chapters/probability.tex Chapters/info-theory.tex Chapters/appendix-a.tex
-	pdflatex --shell-escape eod.tex
-	bibtex eod
-	pdflatex --shell-escape eod.tex
-	pdflatex --shell-escape eod.tex
+eod: thesis.tex Chapters/probability.tex Chapters/info-theory.tex Chapters/appendix-a.tex
+	pdflatex --shell-escape thesis.tex
+	bibtex thesis
+	pdflatex --shell-escape thesis.tex
+	pdflatex --shell-escape thesis.tex
