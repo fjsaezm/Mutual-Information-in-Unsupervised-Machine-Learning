@@ -1,13 +1,12 @@
-Obtaining good representations of data is one of the most important tasks in Machine learning. Good features of our data will lead us to easier and more accurate training on \emph{Artificial Neural Networks (ANNs)} and, thus, better results on experiments.
-
+Obtaining good representations of data is one of the most important tasks in Machine learning. 
 Recently, it has been discovered that maximizing \emph{Mutual Information} between two elements in our data can give us good representations for our data. We will go through the basic concepts first.
 
 
 \section{Entropy}
 
-The \emph{mutual information} concept is based on the \emph{Shannon entropy}, which we will introduce first, along with some basic properties of it. The \emph{Shannon entropy} its a way of measuring the uncertainty in a random variable. Given an event $\mathcal A \in \Omega$, $\Prob$ a probability measure and $\Prob[\A]$ the probability of $\mathcal A$, we can affirm that 
+The \emph{mutual information} concept is based on the \emph{Shannon entropy}, which we will introduce first, along with some basic properties of it. The \emph{Shannon entropy} its a way of measuring the uncertainty in a random variable. Given an event $\mathcal A \in \Omega$, $P$ a probability measure and $P[\A]$ the probability of $\mathcal A$, we can affirm that 
 $$
-\log\frac{1}{\Prob[\mathcal A]}
+\log\frac{1}{P[\mathcal A]}
 $$
 describes \emph{how surprising is that $\A$ occurs}. For instance, if $P[\A] = 1$, then the last expression is zero, which means that it is not a surprise that $\A$ occurred. With this motivation, we get to the following definition.
 
@@ -16,12 +15,12 @@ describes \emph{how surprising is that $\A$ occurs}. For instance, if $P[\A] = 1
 \begin{ndef}
 Let $X$ be a discrete random variable with image $\X$. The \emph{Shannon entropy}, or simply \emph{entropy} , $H(X)$ of $X$ is defined as:
 $$
-H(X) = E_X\left[\log\frac{1}{\Prob_X(X)}\right] =  \sum_{x \in \X} P_X(x) \log\frac{1}{\Prob_X(x)}
+H(X) = E_X\left[\log\frac{1}{P_X(X)}\right] =  \sum_{x \in \X} P_X(x) \log\frac{1}{P_X(x)}
 $$
 \end{ndef}
 The \emph{entropy} can trivially be expressed as:
 $$
-H(X) = - \sum_{x \in \X}\Prob_X (x)\log \Prob_X(x)
+H(X) = - \sum_{x \in \X}P_X (x)\log P_X(x)
 $$
 There are some properties of the \emph{entropy} that must be remarked. 
 \begin{nprop}\label{entr:prop:1}
@@ -31,20 +30,20 @@ There are some properties of the \emph{entropy} that must be remarked.
     $$
 \end{nprop}
 \begin{proof}
-    Since $\log \ y$ is concave on $\R^+$, by Jensen's inequality , see ~\ref{prop:jensen},:
+    Since $\log \ y$ is concave on $\R^+$, by Jensen's inequality, see ~\ref{prop:jensen},:
     $$
-    H(X) = - \sum_{x \in X}\Prob_X (x)\log \Prob_X(x) \leq \log(\sum_{x \in \X} 1) = \log(|\X|)
+    H(X) = - \sum_{x \in X}P_X (x)\log P_X(x) \leq \log(\sum_{x \in \X} 1) = \log(|\X|)
     $$
-    For the lower bound, it is easy to see that, since $\Prob_X(x) \in [0,1] \ \  \forall x \in \X $, and, hence , $\log \Prob_X(x) \leq 0 \ \ \forall x \in \X$. The product of both is negative, so we have a sum of negative terms that is changed its sign afterwards, so it is always $H(X) \geq 0$. 
+    For the lower bound, it is easy to see that, since $P_X(x) \in [0,1] \ \  \forall x \in \X $, and, hence , $\log P_X(x) \leq 0 \ \ \forall x \in \X$. The product of both is negative, so we have a sum of negative terms that is changed its sign afterwards, so it is always $H(X) \geq 0$. 
 \end{proof}
-We can also see that the equality on the left holds if and only if $\exists x \in \X \ : P_X(x) = 1$. The right equality holds if and only if , forall $x \in \X$, $P_X(x) = \frac{1}{\abs{X}}$
+We can also see that the equality on the left holds if and only if exists $ x $ in  $X$ such that its probabilty is exactly one, that is $P_X(x) = 1$. The right equality holds if and only if , for all $x \in \X$, its probability is $P_X(x) = \frac{1}{\abs{X}}$
 
 \subsection*{Conditional entropy}
 We have already said that \emph{entropy measures} how surprising is that an event occurs. Usually, we will be looking at two random variables and it would be interesting to see how surprising is that one of them, say $X$, ocurred, if we already know that $Y$ ocurred. This leads us to the definition of \emph{conditional entropy}. Lets see a simpler case first:
 
-Let $\mathcal A$ be an event, and $X$ a random variable. The conditional probability $\Prob_{X|A}$ defines the entropy of $X$ conditioned to $\mathcal A$:
+Let $\mathcal A$ be an event, and $X$ a random variable. The conditional probability $P_{X|A}$ defines the entropy of $X$ conditioned to $\mathcal A$:
 $$
-H(X|\mathcal A) = \sum_{x \in \X} \Prob_{X|A}(x) \log\frac{1}{\Prob_{X|A}(x)}
+H(X|\mathcal A) = \sum_{x \in \X} P_{X|A}(x) \log\frac{1}{P_{X|A}(x)}
 $$
 If $Y$ is another random variable and $\mathcal Y$ is its image, intuitively we can sum the conditional entropy of an event with all the events in $\mathcal Y$, and this way we obtain the conditional entropy of $X$ given $Y$.
 \begin{ndef}[Conditional Entropy]
@@ -52,9 +51,9 @@ Let $X,Y$ be random variables with images $\X,\mathcal Y$. The \emph{conditional
 
 \begin{equation*}
         \begin{split}
-    H(X|Y) :=  & \sum_{y \in \mathcal Y} \Prob_{\mathcal Y}(y) H(X| Y = y)  \\ 
-    & = \sum_{y \in \mathcal Y} \Prob_{\mathcal  Y}(y) \sum_{x \in \X} \Prob_{X | Y}(x|y)\log\frac{1}{\Prob_{X|Y}(x|y)}  \\
-   & = \sum_{x \in X,y \in \mathcal Y}\Prob_{XY}(x,y)\log\frac{\Prob_Y(y)}{\Prob_{XY}(x,y)}
+    H(X|Y) :=  & \sum_{y \in \mathcal Y} P_{\mathcal Y}(y) H(X| Y = y)  \\ 
+    & = \sum_{y \in \mathcal Y} P_{\mathcal  Y}(y) \sum_{x \in \X} P_{X | Y}(x|y)\log\frac{1}{P_{X|Y}(x|y)}  \\
+   & = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}
 \end{split}
 \end{equation*}
 
@@ -62,7 +61,7 @@ Let $X,Y$ be random variables with images $\X,\mathcal Y$. The \emph{conditional
 
 \end{ndef}
 
-The interpretation of the \emph{Conditional Entropy} is simple: the uncertaincy in $X$ when $Y$ is given. Since we know about an event that has occurred ($Y$), intuitively the conditional entropy , or the uncertaincy of $X$ occurring given that $Y$ has occurred, will be lesser than the entropy of $X$, since we already have some information about what is happening. We can prove this:
+The interpretation of the \emph{Conditional Entropy} is simple: the uncertaincy in $X$ when $Y$ is given. Since we know about an event that has occurred ($Y$), intuitively the conditional entropy , or the uncertainty of $X$ occurring given that $Y$ has occurred, will be lesser than the entropy of $X$, since we already have some information about what is happening. We can prove this:
 
 \begin{nprop}\label{entr:prop:2}
 Let $X,Y$ be random variables with images $\mathcal X, \mathcal Y$. Then:
@@ -95,7 +94,7 @@ $$
 as we wanted.
 \end{proof}
 
-It must be noted that, on the development of $H(X|Y) - H(X)$,in the first inequality,equality holds if and only if $P_{XY}(x,y) = P_X(x) P_Y(y)$ for all $(x,y)$ with $P_{XY} (x,y) > 0$, as it is said in Jensen's inequality. For the second inequality, equality holds if and only if $P_{XY}(x,y) = 0$, which implies $P_X(x)P_Y(y) = 0$ for any $x\in \mathcal X$, $y \in \mathcal Y$. It follows that $H(X|Y) = H(X)$ if and only if $P_{XY}(x,y) = P_X(x)P_Y(y)$ for all $(x,y) \in \mathcal X \times \mathcal Y$
+It must be noted that, on the development of $H(X|Y) - H(X)$, in the first inequality, equality holds if and only if $P_{XY}(x,y) = P_X(x) P_Y(y)$ for all $(x,y)$ with $P_{XY} (x,y) > 0$, as it is said in Jensen's inequality. For the second inequality, equality holds if and only if $P_{XY}(x,y) = 0$, which implies $P_X(x)P_Y(y) = 0$ for any $x\in \mathcal X$, $y \in \mathcal Y$. It follows that $H(X|Y) = H(X)$ if and only if $P_{XY}(x,y) = P_X(x)P_Y(y)$ for all $(x,y) \in \mathcal X \times \mathcal Y$
 % Do I have to define it for the continuous case?
 % Will I use the continuous or the discrete case?
 

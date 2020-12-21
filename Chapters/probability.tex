@@ -3,9 +3,9 @@
 Underneath each experiment involving any grade of uncertainty there is a \emph{random variable}. This is no more than a \emph{measurable} function between two \emph{measurable spaces}.
 A probability space is composed by three elements: $(\Omega, \Alg, \Prob)$. We will define those concepts one by one.
 
-\subsection{Basic notions}
+\section{Basic notions}
 
-\begin{ndef}Let $\Omega$ be a non empty sample space. $\Alg$ is a $\sigma-$algebra over $\Omega$ if its a family of subsets of $\Omega$ that verify:
+\begin{ndef}Let $\Omega$ be a non empty sample space. $\Alg$ is a $\sigma-$algebra over $\Omega$ if it is a family of subsets of $\Omega$ that verify that the emptyset is in $\Alg$, and it is closed under complementation and countable unions. That is:
 \begin{itemize}
   \item $\emptyset \in \Alg$
   \item If $A \in \Alg$, then $\Omega \textbackslash A \in \Alg$
@@ -30,14 +30,9 @@ If $\Prob(\Omega) = 1$, $\Prob$ is a \emph{probability measure} or simply a \emp
 A \emph{measure space} is the tuple $(\Omega, \Alg,\Prob)$ where $\Prob$ is a \emph{measure} on $(\Omega, \Alg)$. If $\Prob$ is a \emph{probability measure} $(\Omega,\Alg,\Prob)$ will be called a \emph{probability space}.
 \end{ndef}
 
-Throughout this work, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces. Some notation for these measures must be introduced.
-
-An \emph{event} $A$ is a subset of the finite sample space $\Omega$. We define the probability of the subset as the sum of the probabilities of each of its points. That is:
-$$
-\Prob(A) = \sum_{a \in A}\Prob(a)
-$$
-Now, if $B$ is another event, we will use the notation $P(A,B)$
- to refer to the probability of the intersection of the events $A$ and $B$, that is: $P(A,B) := P(A\cap B)$. It is clear that since $A \cap B = B \cap A$, then $P(A,B) = P(B,A)$. We remark the next definition since it will be important.
+Throughout this work, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces. Some notation for these measures must be introduced. Let $A$ and $B$ be two events.
+The notation $P(A,B)$ reffers to the probability of the intersection of the events $A$ and $B$, that is: $P(A,B) := P(A\cap B)$.
+ It is clear that since $A \cap B = B \cap A$, then $P(A,B) = P(B,A)$. We remark the next definition since it will be important.
 
 \begin{ndef}
 Let $A,B$ be two events in $\Omega$. The \emph{conditional probability} of $B$ given $A$ is defined as:
@@ -60,11 +55,11 @@ P(B|A) = \frac{P(A|B) P(A)}{P(B)}
 $$
 \end{nth}
 \begin{proof}
-Straight from the definition of the contiditional probability we obtain that:
+Straight from the definition of the conditional probability we obtain that:
 $$
 P(A,B) = P(A|B)P(B)
 $$
-We also see fron the definition that
+We also see from the definition that
 $$
 P(B,A) = P(B|A)P(A)
 $$
@@ -75,31 +70,34 @@ $$
 \end{proof}
 
 
-% Introduce Here Independece of variables
-% ------------------------------------------------------------------------------
+However, events might not give any information about another event occurring. When this happens, we call those events to be \emph{independent}. Mathematically, if $A$,$B$ are independent events:
+$$
+P(A,B) = P(A)P(B)
+$$
+and as a consequence of this, the conditional probabilty of those events is $P(A|B) = P(A)$.\\
 
 
-\emph{Random variables} will now be introduced. Their first propertty is that they are measurable functions. Those kind of functions are defined as it follows:
+\emph{Random variables} (R.V.) can now be introduced. Their first property is that they are measurable functions. Those kind of functions are defined as it follows:
 
 \begin{ndef}
 Let $(\Omega_1, \Alg),(\Omega_2, \mathcal B)$ be measurable spaces. A function $f: \Omega_1 \to \Omega_2$ is said to be \emph{measurable} if, $f^{-1}(B) \in \Alg$ for every $B \in \mathcal B$.
 \end{ndef}
 
-As a quick note, we can affirm that if $f,g$ are real-valued measurable functions, and $k \in \mathbb R$, it is true that $kf$, $f+g$ , $fg$ and $f/g$ (if $g \ne 0$) are also \emph{measurable functions}.
+As a quick note, we can affirm that if $f,g$ are real-valued measurable functions, and $k \in \mathbb R$, it is true that $kf$, $f+g$ , $fg$ and $f/g$ (if $g$ is not the identically zero function) are also \emph{measurable functions}.
 
 We are now ready to define one of the concepts that will lead us to the main objective of this thesis.
 
-\begin{ndef}[Random Variable]
-Let $(\Omega,\Alg,\Prob)$ be a probability space, and $(E,\mu)$ be a measurable space. 
-A \emph{random variable} is a measurable function $X: \Omega \to E$, from the probability space to the measurable space. This means: for every subset $B \in (E,\mu)$, its preimage
+\begin{ndef}[Random variable]
+Let $(\Omega,\Alg,\Prob)$ be a probability space, and $(E,\mathcal B)$ be a measurable space. 
+A \emph{random variable} is a measurable function $X: \Omega \to E$, from the probability space to the measurable space. This means: for every subset $B \in (E,\mathcal B)$, its preimage
 $$
-X^{-1}(B) = \{\omega : X(\omega) \in B\} \in \Alg
+X^{-1}(B) = \{\omega : X(\omega) \in B\} \in \Alg .
 $$
 \end{ndef}
 
-Using that sums, products and quotients of measurable functions are measurable functions, we obtain that \emph{sums, products and quotients of random variables are random variables}
+Using that sums, products and quotients of measurable functions are measurable functions, we obtain that \emph{sums, products and quotients of random variables are random variables}.
 
-Let now $X$ be a \emph{random variable} (r.v). The \emph{probability} of $X$ taking a concrete value on a measurable set contained in $E$, say, $S \in E$, is written as:
+Let now $X$ be a R.V. The \emph{probability} of $X$ taking a concrete value on a measurable set contained in $E$, say, $S \in E$, is written as:
 $$
 P_X(S) = P(X \in S) = P(\{a \in \Omega : X(a) \in S\})
 $$
@@ -110,26 +108,62 @@ A very simple example of random variable is the following:
   Consider tossing a coin. The possible outcomes of this experiment are \emph{Heads or Tails}. Those are our random events. We can give our random events a possible value. For instance, let \emph{Heads} be $1$ and \emph{Tails} be 0. Then, our random variable looks like this:
   \begin{equation*}
       X  = \left\{ \begin{aligned}
-  1 \quad \text{if we obtain Heads} \\
-  0 \quad \text{if we obtain Tails}
+  1 & \text{if we obtain heads} \\
+  0 & \text{if we obtain tails}
 \end{aligned}\right.
   \end{equation*}
 
 \end{nexample}
 
-In the last example, our random variable is \emph{discrete}, since the set $\{X(\omega): \omega \in \Omega\}$ is finite. A \emph{Random Variable} can also be \emph{continuous}, if it can take any value within an interval.
-We will refer to a \emph{Random Variable} as a \emph{R.V.}. \\
+In the last example, our random variable is \emph{discrete}, since the set $\{X(\omega): \omega \in \Omega\}$ is finite.
+ A \emph{Random Variable} can also be \emph{continuous}, if it can take any value within an interval.\\
 
-\subsection{Expectation of a random variable}
+
+\section{Expectation of a random variable}
 
 \begin{ndef}
-The \emph{distribution function } $F_X$ of a real-valued random variable $X$ is:
+The \emph{cumulative distribution function } $F_X$ of a real-valued random variable $X$ is its probability of taking value below or equal to $x$. That is:
 $$
 F_X(x) = P(X \leq x) = P(\{\omega : X(\omega) \leq x\}) = P_X((-\infty,x]) \quad \forall x \in \mathbb R
 $$
 \end{ndef}
 
-And now, it will be introduced one of the most important concepts when talking about a \emph{R.V.}, its expectation.
+Depending on the image of a random variable $X$, we can difference between certain types of random variables. If the image $\mathcal X$ of $X$ is countable, we call it a \emph{discrete} random variable. Its \emph{probability mass function} gives the
+probability of the r.v. being equal to a certain value:
+$$
+p(x) = P(X = x).
+$$
+If the image $\mathcal X$ of $X$ is uncountable and real, then $X$ is a \emph{continuous} random variable. In this case there might exist a non-negative Lebesgue-integrable function $f$ such that:
+$$
+F_X(x) = \int_{\infty}^x f(t) dt,
+$$
+called the \emph{probability density function} of $X$.\\
+
+
+Usually, when it comes to applying these concepts to a real problem, we will be looking at multiple variables. We would like to have a collection of random variables each one representing one of this variables.
+In order to set the notation for these kinds of situations, we will introduce \emph{random vectors}.
+
+\begin{ndef}
+  A random vector is a row vector $\rvc$ whose components are rea-valued random variables on the same probabilty space $(\Omega,\Alg,P)$.
+\end{ndef}
+
+The probability distribution of a random variable can be extended in to the \emph{joint probability distribution} of a random vector.
+
+\begin{ndef}
+Let $rvc$ be a random vector. The \emph{cumulative distribution funcion} $F_{\rv} : \R^n \to [0,1]$ of $\rv$ is defined as:
+$$
+F_{\rv}(x) = P(X_1 \leq x_1 , \dots, X_n \leq x_n)
+$$
+\end{ndef}
+
+The distribution of each of the component random variables $X_i$ of $\rv$ are called \emph{marginal distributions}.
+
+
+
+
+\section{Expectation of a Random Variable}
+
+We would also like to know what are the most probably values that we can obtain out of a random variable.  This is called the \emph{expectation} of a random variable.
 
 \begin{ndef}[Expectation of a \emph{R.V.}]
 Let $X$ be a non negative random variable on a probability space $(\Omega,\Alg,\Prob)$. The expectation $E[X]$ of $X$ is defined as:
@@ -143,7 +177,7 @@ E[X] = E[X^+] - E[X^-]
 $$
 where $X^+,X^-$ are defined as it follows:
 $$
-X^+(\omega) = \max(X(\omega),0) \quad \quad , \quad \quad X^-(\omega) = \min(X(\omega),0)
+X^+(\omega) = \max(X(\omega),0) \quad \quad  \quad \quad X^-(\omega) = \min(X(\omega),0)
 $$
 
 The \emph{expectation} $E[X]$ of a \emph{random variable} is a linear operation. That is, if $\mathcal Y$ is another random variable, and $\alpha,\beta \in \R$, then
@@ -154,16 +188,16 @@ this is a trivial consequence of the linearity of the \emph{Lebesgue integral}.
 
 As a note, if $X$ is a \emph{discrete} random variable and $\X$ is its image, its expectation can be computed as:
 $$
-E[X] = \sum_{x \in \X} x \dot P_X(x)
+E[X] = \sum_{x \in \X} x  P_X(x)
 $$
-where $x_i$ is each possible outcome of the experiment, and $p_i$ the probability of the outcome $x_i$. The expression given in the definition before generalizes this particular case.
+where $x$ is each possible outcome of the experiment, and $P_X(x)$ the probability under the distribution of $X$ of the outcome $x$. The expression given in the definition before generalizes this particular case.
 
 Using the definition of the \emph{expectation} of a random variable, we can approach to the \emph{moments} of a random variable.
 
 \begin{ndef}
 If $k \in \N$, then $E[X^k]$ is called the $k-th$ moment of $X$.
 \end{ndef}
-If we take $k = 1$, we have the definition of the \emph{expectation}. It is sometimes written as $m_X = E[X]$, and called the \emph{mean}. Using  \emph{the mean} and we get to the definition of the \emph{variance}:
+If we take $k = 1$, we have the definition of the \emph{expectation}. It is sometimes written as $m_X = E[X]$, and called the \emph{mean}. We use the \emph{mean} in the definition of the variance:
 
 \begin{ndef}
 Let $X$ be a random variable. If $E[X^2] < \infty$, then the \emph{variance} of $X$ is defined to be
