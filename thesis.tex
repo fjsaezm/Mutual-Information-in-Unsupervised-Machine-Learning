@@ -23,7 +23,7 @@
 %   pdflatex --shell-escape main.tex
 
 % Opciones del tipo de documento
-\documentclass[twoside,openright,titlepage,numbers=noenddot,openany,headinclude,footinclude=true, cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=11pt, dvipsnames]{scrreprt}
+\documentclass[oneside,openright,titlepage,numbers=noenddot,openany,headinclude,footinclude=true, cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=11pt, dvipsnames]{scrreprt}
 
 % LaTeX packages loaded on start
 \usepackage[utf8]{inputenc}
@@ -127,9 +127,9 @@ Abstract
 \part{Basic Concepts}
 
 \chapter{Probability}
-\input{Chapters/probability}
+\input{Chapters/1-Probability-Theory/1-Introduction}
 
-\chapter{Distributions}
+%\chapter{Distributions}
 
 \clearpage
 
@@ -141,7 +141,7 @@ Abstract
 }
 \part{Information Theory}
 \chapter{Mutual Information}
-\input{Chapters/info-theory}
+\input{Chapters/2-Information-Theory/1-Entropy-MI}
 
 
 
@@ -152,7 +152,7 @@ Abstract
   \end{center}
 }
 \part{A}
-\input{Chapters/appendix-a}
+\input{Chapters/APPENDIX/APPENDIX-A}
 
 
 

@@ -10,7 +10,6 @@ $$
 $$
 describes \emph{how surprising is that $\A$ occurs}. For instance, if $P[\A] = 1$, then the last expression is zero, which means that it is not a surprise that $\A$ occurred. With this motivation, we get to the following definition.
 
-\subsection{Discrete case}
 
 \begin{ndef}
 Let $X$ be a discrete random variable with image $\X$. The \emph{Shannon entropy}, or simply \emph{entropy} , $H(X)$ of $X$ is defined as:
@@ -81,11 +80,11 @@ H(X) = \sum_x P_X(x) \log \frac{1}{P_X(x)} = \sum_{x,y}P_{XY}(x,y) \log \frac{1}
 $$
 hence,
 $$
-H(X|Y) - H(X) = \sum_{x,y}P_{XY}(x,y) \left( \log \frac{P_Y(y)}{P_{XY}(x,y) - \log \frac{1}{P_X(x)}}\right) = \sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)}
+H(X|Y) - H(X) = \sum_{x,y}P_{XY}(x,y) \left( \log \frac{P_Y(y)}{P_{XY}(x,y)} - \log \frac{1}{P_X(x)}\right) = \sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)}
 $$
 so, using Jensen's Inequality , we obtain:
 \begin{align*}
-\sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)} \leq & \log \left( \sum_{x,y}\frac{ \cancel{P_{XY}(x,y)} \ \  P_Y(y) P_X(x)}{\cancel{P_{XY}(x,y)}} \right) \\ \leq & \log\left( \left( \sum_x P_X(x) \right) \left(\sum_y P_Y(y)\right)\right) = \log 1 = 0
+\sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)} \leq & \log \left( \sum_{x,y}\frac{ \cancel{P_{XY}(x,y)} \ \  P_Y(y) P_X(x)}{\cancel{P_{XY}(x,y)}} \right) \\ = & \log\left( \left( \sum_x P_X(x) \right) \left(\sum_y P_Y(y)\right)\right) = \log 1 = 0
 \end{align*}
 and this leads us to:
 $$
@@ -98,3 +97,16 @@ It must be noted that, on the development of $H(X|Y) - H(X)$, in the first inequ
 % Do I have to define it for the continuous case?
 % Will I use the continuous or the discrete case?
 
+\section{Mutual Information}
+
+Using the \emph{entropy} of a random variable we can directly state the definition of \emph{Mutual Information} as it follows:
+
+\begin{ndef}[Mutual Information]
+Let $X,Z$ be rnadom variables. The \emph{Mutual Information (MI)} is expressed as the difference between the entropy of $X$ and the conditional entropy of $X$ and $Z$, that is:
+$$
+I(X,Z) := H(X) - H(X|Z)
+$$
+\end{ndef}
+
+Since the entropy of the random variable $H(X)$ explains the uncertainty of $X$ occurring, the intuitive idea of the \emph{MI} is to determine the decrease of uncertainty of $X$ occurring when we already
+know that $Z$ has occurred.
