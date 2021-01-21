@@ -1,0 +1,30 @@
+We have introduced the concepts of \emph{random variable},  \emph{random vector} and its \emph{probability distribution}.  Now, given two distributions, in the following chapters we will like to see how different they are from each other.
+In order to compare them, we enunciate the definition of the Kullback-Leibler divergence.
+
+\begin{ndef}[Kullback-Leibler Divergence]
+Let P and Q be probability distributions over the same probability space $\Omega$. Then, the Kullback-Leibler divergence is defined as:
+$$
+D_{KL}(P \ || \ Q) = E_P\left[\log{\frac{P(x)}{Q(x)}}\right]
+$$
+\end{ndef}
+Clearly, it is defined if and only if, for all $x\in \Omega$ where $Q(x) = 0$, then $P(x) = 0$. There are some properties of this definition that must be stated. The first one is the following proposition:
+
+\begin{nprop}
+If P,Q are two probability distributions over the same probability space, then $D_{KL}(P|Q) \geq 0$.
+\end{nprop}
+\begin{proof}
+Firstly, note that if $a \in \R^+$, then $ln\ a \leq a-1$. Then:
+\begin{align*}
+-D_{KL}(P \ || \ Q) & = - E_P\left[\log{\frac{P(x)}{Q(x)}}\right] \\
+             & = E_P\left[\log{\frac{Q(x)}{P(x)}}\right] \\
+             & \leq E_P\left[\left(\frac{Q(x)}{P(x)} - 1\right)\right]\\
+             & = \int P(x) \frac{Q(x)}{P(x)} dx -1 \\
+             & = 0
+\end{align*}
+So we have obtained that $-D_{KL}(P\ ||\ Q) \leq 0$, which implies that $D_{KL}(P\ || \ Q) \geq 0$.
+\end{proof}
+As a corollary of this proposition, we can affirm that $D_{KL}(P\ ||\ Q)$ equals zero if and only if $P = Q$ almost everywhere. We will also remark the discrete case, as it will be used later. Let $P,Q$ be discrete probability distributions
+defined on the same probability space $\Omega$. Then, 
+$$
+D_{KL}(P\ ||\ Q) = \sum_{x \in \Omega} P(x) \log \left( \frac{P(x)}{Q(x)}\right)
+$$

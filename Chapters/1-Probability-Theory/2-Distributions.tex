@@ -1,0 +1,25 @@
+We have introduced the concepts of \emph{random variable},  \emph{random vector} and its \emph{probability distribution}.  Now, given two distributions, in the following chapters we will like to see how different they are from each other.
+In order to compare them, we enunciate the definition of the Kullback-Leibler divergence.
+
+\begin{ndef}[Kullback-Leibler Divergence]
+Let P and Q be probability distributions over the same probability space $\Omega$. Then, the Kullback-Leibler divergence is defined as:
+$$
+D_{KL}(P|Q) = E_P[\log{\frac{P(x)}{Q(x)}}]
+$$
+\end{ndef}
+Clearly, it is defined if and only if, for all $x\in \Omega$ where $Q(x) = 0$, then $P(x) = 0$. There are some properties of this definition that must be stated. The first one is the following proposition:
+
+\begin{nprop}
+If P,Q are two probability distributions over the same probability space, then $D_{KL}(P|Q) \geq 0$.
+\end{nprop}
+\begin{nproof}
+Firstly, note that if $a \in \R^+$, then $ln\ a \leq a-1$. Then:
+\begin{align*}
+-D_{KL}(P|Q) & = - E_P[\log{\frac{P(x)}{Q(x)}}] \\
+             & = E_P[\log{\frac{Q(x)}{P(x)}}] \\
+             & \leq E_P[(\frac{Q(x)}{P(x)} - 1)]\\
+             & = \int P(x) \frac{Q(x)}{P(x)} dx -1 \\
+             & = 0
+\end{align*}
+So we have obtained that $-D_{KL}(P|Q) \leq 0$, which implies that $D_{KL}(P|Q) \geq 0$.
+\end{nproof}

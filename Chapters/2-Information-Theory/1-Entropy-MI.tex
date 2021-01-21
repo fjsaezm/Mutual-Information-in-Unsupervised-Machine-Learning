@@ -40,9 +40,9 @@ We can also see that the equality on the left holds if and only if exists $ x $ 
 \subsection*{Conditional entropy}
 We have already said that \emph{entropy measures} how surprising is that an event occurs. Usually, we will be looking at two random variables and it would be interesting to see how surprising is that one of them, say $X$, ocurred, if we already know that $Y$ ocurred. This leads us to the definition of \emph{conditional entropy}. Lets see a simpler case first:
 
-Let $\mathcal A$ be an event, and $X$ a random variable. The conditional probability $P_{X|A}$ defines the entropy of $X$ conditioned to $\mathcal A$:
+Let $A$ be an event, and $X$ a random variable. The conditional probability $P_{X|A}$ defines the entropy of $X$ conditioned to $ A$:
 $$
-H(X|\mathcal A) = \sum_{x \in \X} P_{X|A}(x) \log\frac{1}{P_{X|A}(x)}
+H(X| A) = \sum_{x \in \X} P_{X|A}(x) \log\frac{1}{P_{X|A}(x)}
 $$
 If $Y$ is another random variable and $\mathcal Y$ is its image, intuitively we can sum the conditional entropy of an event with all the events in $\mathcal Y$, and this way we obtain the conditional entropy of $X$ given $Y$.
 \begin{ndef}[Conditional Entropy]
@@ -79,9 +79,9 @@ $$
 H(X) = \sum_x P_X(x) \log \frac{1}{P_X(x)} = \sum_{x,y}P_{XY}(x,y) \log \frac{1}{P_X(x)}
 $$
 hence,
-$$
+\begin{equation}\label{eq:dif-expr-mi}
 H(X|Y) - H(X) = \sum_{x,y}P_{XY}(x,y) \left( \log \frac{P_Y(y)}{P_{XY}(x,y)} - \log \frac{1}{P_X(x)}\right) = \sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)}
-$$
+\end{equation}
 so, using Jensen's Inequality , we obtain:
 \begin{align*}
 \sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)} \leq & \log \left( \sum_{x,y}\frac{ \cancel{P_{XY}(x,y)} \ \  P_Y(y) P_X(x)}{\cancel{P_{XY}(x,y)}} \right) \\ = & \log\left( \left( \sum_x P_X(x) \right) \left(\sum_y P_Y(y)\right)\right) = \log 1 = 0
@@ -109,7 +109,13 @@ $$
 \end{ndef}
 
 Since the entropy of the random variable $H(X)$ explains the uncertainty of $X$ occurring, the intuitive idea of the \emph{MI} is to determine the decrease of uncertainty of $X$ occurring when we already
-know that $Z$ has occurred. We also have to note that, using the definition of the \emph{entropy}, we can rewrite the \emph{MI} as it follows:
-$$
-I(X,Z) = \sum
-$$
+know that $Z$ has occurred. We also have to note that, using the definition of the \emph{entropy} and the expression obtained in \ref{eq:dif-expr-mi}, we can rewrite the \emph{MI} as it follows:
+\begin{align*}
+I(X,Z) & = \sum_{x \in \X}P_X(x) \log \frac{1}{P(x)} - \sum_{x \in \X, z \in \mathcal Z} P_{XZ}(x,z) \log \frac{P_Z(x)}{P_{XZ}(x,z)} \\  & = \sum_{x,z}P_{XZ}\log \frac{P_Z(z)P_X(x)}{P_{XZ}(x,z)} = D_{KL}(P_{XZ} \ || \ P_X P_Z)
+\end{align*}
+and we have obtained an expression of the mutual information using the \emph{Kullback-Leibler} divergence. This provides with the following immediate consequences:
+\begin{enumerate}[label=$(\roman*)$]
+\item Mutual information is non-negative , that is : $I(X,Z) \geq 0$.
+\item If $X,Z$ are random variables, then its mutual information equals zero if and only if they are independent. This is trivial because if $D_{KL}(P_{XZ} \ || \ P_X P Z) = 0$, then $P_{XZ} = P_X P_Z$ almost everywhere and,so, $X$ and $Z$ are independent.
+\item Since $P_{XZ} = P_{ZX}$ and $P_X P_Z = P_Z P_X$, mutual information is symmetric. That is: $I(X,Z) = I(Z,X)$.
+\end{enumerate}
