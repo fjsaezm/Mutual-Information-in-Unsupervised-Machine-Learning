@@ -77,10 +77,10 @@ $$
 and as a consequence of this, the conditional probabilty of those events is $P(A|B) = P(A)$. For a finite set of events $\{A_i\}_{i=1}^n$, we say that they are mutually independent if and only if every event is independet of any intersection of the other events. 
 That is, if $\{B_i\} \subset \{A_i\}$, then
 $$
-P\left(\cap_{i = 1}^k\right) = \prod_{i = 1}^k P(B_i) \quad \quad \forall k \leq n
+P\left(\cap_{i = 1}^k B_i \right) = \prod_{i = 1}^k P(B_i) \quad \quad \forall k \leq n
 $$
 
-\emph{Random variables} (R.V.) can now be introduced. Their first property is that they are measurable functions. Those kind of functions are defined as it follows:
+\emph{Random variables} (R.V.) can now be introduced. Their first property is that they are measurable functions. These kind of functions are defined as it follows:
 
 \begin{ndef}
 Let $(\Omega_1, \Alg),(\Omega_2, \mathcal B)$ be measurable spaces. A function $f: \Omega_1 \to \Omega_2$ is said to be \emph{measurable} if, $f^{-1}(B) \in \Alg$ for every $B \in \mathcal B$.
@@ -108,7 +108,7 @@ $$
 A very simple example of random variable is the following:
 
 \begin{nexample}
-  Consider tossing a coin. The possible outcomes of this experiment are \emph{Heads or Tails}. Those are our random events. We can give our random events a possible value. For instance, let \emph{Heads} be $1$ and \emph{Tails} be 0. Then, our random variable looks like this:
+  Consider tossing a coin. The possible outcomes of this experiment are \emph{Heads or Tails}. Those are our random events. We can give our random events a possible value. For instance, let \emph{Heads} be $1$ and \emph{Tails} be $0$. Then, our random variable looks like this:
   \begin{equation*}
       X  = \left\{ \begin{aligned}
   1 & \text{ if we obtain heads} \\
@@ -142,7 +142,7 @@ F_X(x) = \int_{\infty}^x f(t) dt,
 $$
 called the \emph{probability density function} of $X$.\\
 
-We would also like to know what are the most probably values that we can obtain out of a random variable.  This is called the \emph{expectation} of a random variable.
+We are now ready to introduce the \emph{expectation} of a random variable.
 
 \begin{ndef}[Expectation of a \emph{R.V.}]
 Let $X$ be a non negative random variable on a probability space $(\Omega,\Alg,\Prob)$. The expectation $E[X]$ of $X$ is defined as:
@@ -196,7 +196,7 @@ Usually, when it comes to applying these concepts to a real problem, we will be 
 In order to set the notation for these kinds of situations, we will introduce \emph{random vectors}.
 
 \begin{ndef}
-  A random vector is a row vector $\rvc$ whose components are rea-valued random variables on the same probabilty space $(\Omega,\Alg,P)$.
+  A random vector is a row vector $\rvc$ whose components are real-valued random variables on the same probability space $(\Omega,\Alg,P)$.
 \end{ndef}
 
 The probability distribution of a random variable can be extended in to the \emph{joint probability distribution} of a random vector.
@@ -204,7 +204,7 @@ The probability distribution of a random variable can be extended in to the \emp
 \begin{ndef}
 Let $\rvc$ be a random vector. The \emph{cumulative distribution funcion} $F_{\rv} : \R^n \to [0,1]$ of $\rv$ is defined as:
 $$
-F_{\rv}(x) = P(X_1 \leq x_1 , \dots, X_n \leq x_n)
+F_{\rv}(x) = P(X_1 \leq x_1 , \dots, X_n \leq x_n).
 $$
 \end{ndef}
 
@@ -213,7 +213,7 @@ We also name it \emph{multivariate distribution}.  We explained before the indep
 A finite set of $n$ random variables $\{X_1,\dots,X_n\}$ is mutually independent if and only if, for any sequence $\{x_1,\dots,x_n\}$, the events $\{X_1 \leq x_1\}, \dots, \{X_n \leq x_n\}$ are mutually independent. 
 Equivalently, this finite set is mutually independent if and only if:
 $$
-F_{X_1,\dots, X_n}(x_1,\dots,x_n) = F_{X_1}(x_1) \dots F_{X_n}(x_n) \quad \quad \text{ for all } x_1,\dots,x_n
+F_{X_1,\dots, X_n}(x_1,\dots,x_n) = F_{X_1}(x_1) \dots F_{X_n}(x_n) \quad \quad \text{ for all } x_1,\dots,x_n.
 $$
 \end{ndef}
 
@@ -232,7 +232,7 @@ To generalize the variance of a random variable, we have to build the following 
 \begin{ndef}
 Let $\rvc$ ve a random vector. Then, the \emph{covariance matrix} of $\rv$ is defined as:
 $$
-\Sigma = Cov(\rv) = E[(\rv - \mu_\rv)(\rv - \mu_\rv)^T] = \left ( \begin{array}{ccc} 
+\Sigma = \mathrm{Cov}(\rv) = E[(\rv - \mu_\rv)(\rv - \mu_\rv)^T] = \left ( \begin{array}{ccc} 
   \sigma_{11} & \cdots & \sigma_{1n}\\
   \vdots & \ddots & \vdots \\
   \sigma_{n1} & \cdots & \sigma_{nn}
@@ -242,13 +242,13 @@ where $\sigma_{ij} = Cov(X_i,X_j) = E[(X_i - \mu_i)(X_j - \mu_j)] = \sigma_{ji}$
 \end{ndef}
 
 
-It can also happen that, given a \emph{random vector}, we would like to know thr probability distribution of a few of its components. That is called the \emph{marginal distirbution}.
+It can also happen that, given a \emph{random vector}, we would like to know the probability distribution of a few of its components. That is called the \emph{marginal distribution}.
 
 \begin{ndef}[Marginal Distribution]
 Let $\rvc$ be a random vector. The marginal distribution of a subset of $\rv$ is the probability distribution of the variables contained in the subset. 
 \end{ndef}
-In the simple case of having two random variables,e.g. $X_1$ and $X_2$, then the marginal distribution of $X_1$ is:
+In the simple case of having two random variables, e.g. $X_1$ and $X_2$, then the marginal distribution of $X_1$ is:
 $$
-P(x) = \int_{X_2} P(x_1,x_2).
+P(x) = \int_{X_2} P(x_1,x_2) dx_2.
 $$
 
