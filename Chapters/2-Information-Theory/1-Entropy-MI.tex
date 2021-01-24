@@ -1,10 +1,10 @@
-Obtaining good representations of data is one of the most important tasks in Machine learning. 
+Obtaining good representations of data is one of the most important tasks in Machine Learning. 
 Recently, it has been discovered that maximizing \emph{Mutual Information} between two elements in our data can give us good representations for our data. We will go through the basic concepts first.
 
 
 \section{Entropy}
 
-The \emph{mutual information} concept is based on the \emph{Shannon entropy}, which we will introduce first, along with some basic properties of it. The \emph{Shannon entropy} its a way of measuring the uncertainty in a random variable. Given an event $\mathcal A \in \Omega$, $P$ a probability measure and $P[\A]$ the probability of $\mathcal A$, we can affirm that 
+The \emph{mutual information} concept is based on the \emph{Shannon entropy}, which we will introduce first, along with some basic properties of it. The Shannon entropy is a way of measuring the uncertainty in a random variable. Given an event $\mathcal A \in \Omega$, $P$ a probability measure and $P[\A]$ the probability of $\mathcal A$, we can affirm that 
 $$
 \log\frac{1}{P[\mathcal A]}
 $$
@@ -12,7 +12,7 @@ describes \emph{how surprising is that $\A$ occurs}. For instance, if $P[\A] = 1
 
 
 \begin{ndef}
-Let $X$ be a discrete random variable with image $\X$. The \emph{Shannon entropy}, or simply \emph{entropy} , $H(X)$ of $X$ is defined as:
+Let $X$ be a discrete random variable with image $\X$. The \emph{Shannon entropy}, or simply \emph{entropy}  $H(X)$ of $X$ is defined as:
 $$
 H(X) = E_X\left[\log\frac{1}{P_X(X)}\right] =  \sum_{x \in \X} P_X(x) \log\frac{1}{P_X(x)}
 $$
@@ -23,22 +23,24 @@ H(X) = - \sum_{x \in \X}P_X (x)\log P_X(x)
 $$
 There are some properties of the \emph{entropy} that must be remarked. 
 \begin{nprop}\label{entr:prop:1}
-    Let $X$ be a random variable with image $\X$. then
+    Let $X$ be a random variable with image $\X$. If $|\X|$ is the cardinal of $\X$, then
     $$
-0 \leq H(X) \leq \log(|\X|)
+0 \leq H(X) \leq \log(|\X|).
     $$
 \end{nprop}
 \begin{proof}
-    Since $\log \ y$ is concave on $\R^+$, by Jensen's inequality, see ~\ref{prop:jensen},:
+    Since $\log y$ is concave on $\R^+$, by Jensen's inequality, see ~\cref{prop:jensen},:
     $$
-    H(X) = - \sum_{x \in X}P_X (x)\log P_X(x) \leq \log(\sum_{x \in \X} 1) = \log(|\X|)
+    H(X) = - \sum_{x \in \X}P_X (x)\log P_X(x) \leq \log\left(\sum_{x \in \X} 1\right) = \log(|\X|).
     $$
-    For the lower bound, it is easy to see that, since $P_X(x) \in [0,1] \ \  \forall x \in \X $, and, hence , $\log P_X(x) \leq 0 \ \ \forall x \in \X$. The product of both is negative, so we have a sum of negative terms that is changed its sign afterwards, so it is always $H(X) \geq 0$. 
+    For the lower bound we see that, since $P_X(x) \in [0,1]$ for all  $x \in \X $ then $\log P_X(x) \leq 0 \ \ \forall x \in \X$. Hence , $-P_X(x) \log P_X(x) \geq 0$ for all $x \in X$ , so $H(X) \geq 0$.
 \end{proof}
-We can also see that the equality on the left holds if and only if exists $ x $ in  $X$ such that its probabilty is exactly one, that is $P_X(x) = 1$. The right equality holds if and only if , for all $x \in \X$, its probability is $P_X(x) = \frac{1}{\abs{X}}$
+We can also see that the equality on the left holds if , and only if , exists $ x $ in  $X$ such that its probability is exactly one, that is $P_X(x) = 1$. The right equality holds if and only if , for all $x \in \X$, its probability is $P_X(x) = \frac{1}{\abs{X}}$.
 
 \subsection*{Conditional entropy}
-We have already said that \emph{entropy measures} how surprising is that an event occurs. Usually, we will be looking at two random variables and it would be interesting to see how surprising is that one of them, say $X$, ocurred, if we already know that $Y$ ocurred. This leads us to the definition of \emph{conditional entropy}. Lets see a simpler case first:
+We have already said that entropy measures how surprising is that an event occurs.
+Usually, we will be looking at two random variables and it would be interesting to see how surprising is that one of them, say $X$, occurred, if we already know that $Y$ occurred. 
+This leads us to the definition of \emph{conditional entropy}. Let us see a simpler case first:
 
 Let $A$ be an event, and $X$ a random variable. The conditional probability $P_{X|A}$ defines the entropy of $X$ conditioned to $ A$:
 $$
@@ -50,9 +52,9 @@ Let $X,Y$ be random variables with images $\X,\mathcal Y$. The \emph{conditional
 
 \begin{equation*}
         \begin{split}
-    H(X|Y) :=  & \sum_{y \in \mathcal Y} P_{\mathcal Y}(y) H(X| Y = y)  \\ 
+    H(X|Y) &  :=   \sum_{y \in \mathcal Y} P_{\mathcal Y}(y) H(X| Y = y)  \\ 
     & = \sum_{y \in \mathcal Y} P_{\mathcal  Y}(y) \sum_{x \in \X} P_{X | Y}(x|y)\log\frac{1}{P_{X|Y}(x|y)}  \\
-   & = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}
+   & = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}.
 \end{split}
 \end{equation*}
 
@@ -60,19 +62,20 @@ Let $X,Y$ be random variables with images $\X,\mathcal Y$. The \emph{conditional
 
 \end{ndef}
 
-The interpretation of the \emph{Conditional Entropy} is simple: the uncertaincy in $X$ when $Y$ is given. Since we know about an event that has occurred ($Y$), intuitively the conditional entropy , or the uncertainty of $X$ occurring given that $Y$ has occurred, will be lesser than the entropy of $X$, since we already have some information about what is happening. We can prove this:
+The interpretation of the conditional entropy is simple: the uncertainty in $X$ when $Y$ is given. Since we know about an event that has occurred ($Y$), intuitively the conditional entropy , or the uncertainty of $X$ occurring given that $Y$ has occurred, will be lesser than the entropy of $X$, since we already have some information about what is happening. We can prove this:
 
 \begin{nprop}\label{entr:prop:2}
 Let $X,Y$ be random variables with images $\mathcal X, \mathcal Y$. Then:
 $$
-0 \leq H(X|Y) \leq H(X)
+0 \leq H(X|Y) \leq H(X).
 $$
 \end{nprop}
 \begin{proof}
 
-The inequality on the left was proved on Proposition \ref{entr:prop:1}. The characterization of when $H(X|Y) = 0$ was also mentioned after it.  Let's look at the inequality on the right. Note that, restricting to the $(x,y)$ where $P_{XY}(x,y) > 0$ and using the definition of the conditional probability we have:
+The inequality on the left was proved on Proposition \cref{entr:prop:1}. The characterization of when $H(X|Y) = 0$ was also mentioned after it.
+Let us look at the inequality on the right. Note that restricting to the $(x,y)$ where $P_{XY}(x,y) > 0$ and using the definition of the conditional probability we have:
 \begin{align*}
-H(X|Y) = & \sum_y P_Y(y) \sum_x P_{X|Y}(x|y)\log \frac{1}{P_{X|Y}(x|y)}\\ = & \sum_{x,y} P_Y(y) P_{X|Y}(x,y) \log \frac{P_Y(y)}{P_{XY}(x,y)} = \sum_{x,y} P_{XY}(x,y)\log \frac{P_Y(y)}{P_{XY}(x,y)} 
+H(X|Y) = & \sum_{y \in \mathcal{Y}} P_Y(y) \sum_{x \in \X} P_{X|Y}(x|y)\log \frac{1}{P_{X|Y}(x|y)}\\ = & \sum_{x,y} P_Y(y) P_{X|Y}(x,y) \log \frac{P_Y(y)}{P_{XY}(x,y)} = \sum_{x,y} P_{XY}(x,y)\log \frac{P_Y(y)}{P_{XY}(x,y)} 
 \end{align*}
 and 
 $$
@@ -84,7 +87,8 @@ H(X|Y) - H(X) = \sum_{x,y}P_{XY}(x,y) \left( \log \frac{P_Y(y)}{P_{XY}(x,y)} - \
 \end{equation}
 so, using Jensen's Inequality , we obtain:
 \begin{align*}
-\sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)} \leq & \log \left( \sum_{x,y}\frac{ \cancel{P_{XY}(x,y)} \ \  P_Y(y) P_X(x)}{\cancel{P_{XY}(x,y)}} \right) \\ = & \log\left( \left( \sum_x P_X(x) \right) \left(\sum_y P_Y(y)\right)\right) = \log 1 = 0
+\sum_{x,y}P_{XY}\log \frac{P_Y(y)P_X(x)}{P_{XY}(x,y)} \leq & \log \left( \sum_{x,y}\frac{ \cancel{P_{XY}(x,y)} \ \  P_Y(y) P_X(x)}{\cancel{P_{XY}(x,y)}} \right) \\ 
+= & \log\left( \left( \sum_x P_X(x) \right) \left(\sum_y P_Y(y)\right)\right) = \log 1 = 0,
 \end{align*}
 and this leads us to:
 $$
@@ -99,23 +103,23 @@ It must be noted that, on the development of $H(X|Y) - H(X)$, in the first inequ
 
 \section{Mutual Information}
 
-Using the \emph{entropy} of a random variable we can directly state the definition of \emph{Mutual Information} as it follows:
+Using the entropy of a random variable we can directly state the definition of \emph{Mutual Information} as it follows:
 
 \begin{ndef}[Mutual Information]
-Let $X,Z$ be rnadom variables. The \emph{Mutual Information (MI)} is expressed as the difference between the entropy of $X$ and the conditional entropy of $X$ and $Z$, that is:
+Let $X,Z$ be random variables. The \emph{Mutual Information (MI)} $I(X,Z)$ between $X$ and $Z$ is expressed as the difference between the entropy of $X$ and the conditional entropy of $X$ and $Z$, that is:
 $$
 I(X,Z) := H(X) - H(X|Z)
 $$
 \end{ndef}
 
 Since the entropy of the random variable $H(X)$ explains the uncertainty of $X$ occurring, the intuitive idea of the \emph{MI} is to determine the decrease of uncertainty of $X$ occurring when we already
-know that $Z$ has occurred. We also have to note that, using the definition of the \emph{entropy} and the expression obtained in \ref{eq:dif-expr-mi}, we can rewrite the \emph{MI} as it follows:
+know that $Z$ has occurred. We also have to note that, using the definition of the \emph{entropy} and the expression obtained in Eq. \ref{eq:dif-expr-mi}, we can rewrite the \emph{MI} as it follows:
 \begin{align*}
 I(X,Z) & = \sum_{x \in \X}P_X(x) \log \frac{1}{P(x)} - \sum_{x \in \X, z \in \mathcal Z} P_{XZ}(x,z) \log \frac{P_Z(x)}{P_{XZ}(x,z)} \\  & = \sum_{x,z}P_{XZ}\log \frac{P_Z(z)P_X(x)}{P_{XZ}(x,z)} = D_{KL}(P_{XZ} \ || \ P_X P_Z)
 \end{align*}
 and we have obtained an expression of the mutual information using the \emph{Kullback-Leibler} divergence. This provides with the following immediate consequences:
 \begin{enumerate}[label=$(\roman*)$]
 \item Mutual information is non-negative , that is : $I(X,Z) \geq 0$.
-\item If $X,Z$ are random variables, then its mutual information equals zero if and only if they are independent. This is trivial because if $D_{KL}(P_{XZ} \ || \ P_X P Z) = 0$, then $P_{XZ} = P_X P_Z$ almost everywhere and,so, $X$ and $Z$ are independent.
+\item If $X,Z$ are random variables, then its mutual information equals zero if, and only if, they are independent. This is trivial because if $D_{KL}(P_{XZ} \ || \ P_X P_Z) = 0$, then $P_{XZ} = P_X P_Z$ almost everywhere so $X$ and $Z$ are independent.
 \item Since $P_{XZ} = P_{ZX}$ and $P_X P_Z = P_Z P_X$, mutual information is symmetric. That is: $I(X,Z) = I(Z,X)$.
 \end{enumerate}
