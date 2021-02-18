@@ -1,0 +1,72 @@
+From now on, let $\D$ be any kind of observed data. This will always be a finite subset of samples taken from a probability distribution $\pd$. There are models that, given $\D$, try to approximate the 
+probability distribution that lies underneath it. These are called \emph{generative models (G.M.)}. 
+
+Generative models can give parametric and non parametric approximations to the distribution $\pd$. 
+In our case, we will focus on parametric approximations where the model search for the parameters that minimize the \emph{distance} between the model distribution and the data distribution. 
+
+We can express our problem more formally as it follows. Let $\theta$ be a generative model within a model family $\mathcal M$. The goal of generative models is the following optimization:
+$$
+\min_{\theta \in \mathcal M} d(\pd,p_\theta),
+$$
+where $d$ stands for the distance between the distributions. We can use, for instance, $K-L$ divergence.
+
+Generative models have many useful applications. We can however remark the characteristics that we would like our generative model to be able to do. Those are:
+\begin{itemize}
+\item Estimate the density function: given a datapoint , $x \in D$, estimate the probability of that point $p_\theta(x)$,
+\item Generate new samples from the model distribution $x \sim p_\theta(x)$,
+\item Learn useful features of the datapoints.
+\end{itemize}
+
+Retaking the example of the zebras, if make our generative model learn about images of zebras, we will expect our $p_\theta(x)$ to be high for zebra's images. We will also expect the model
+to generate new images of this animal and to learn different features of the animal, such as their big size in comparison with cats.
+
+\section{Autoregressive Models}
+
+A very first definition of \emph{Autoregressive models (AR)} would be the following one: \emph{autoregressive models are feed-forward models that predict future values using past values}. Let us go deeper into this 
+concept and explain how it behaves.
+
+Again, let $\D$ be a set of $n-$dimensional datapoints $x$. We can assume that $x \in \{0,1\}^n$ for simplicity, without losing generality. If we choose any $x\in \D$, using the chain rule of probability, we obtain
+$$
+p(x) = \prod_{i=1} ^n p(x_i | x_1,\dots,x_{i-1}) = \prod_{i = 1}^n p(x_i|\bm{x}_{<i}) \quad \quad \text{ where } \quad \quad \bm{x}_{<i} = [x_1,\dots, x_{i-1}]
+$$
+We see using that expression how, fixing an order of the variables $x_1,\dots,x_n$, the distribution for the $i-th$ random variable depends on all the preceeding values in the particular chosen order. 
+
+It is known that given a set of discrete and mutually dependent random variables, they can be displayed in a table of conditional probabilities. If $K_i$ is the number of states that each random variable can take
+then $\prod K_i$ is the number of cells that the table will have. If we represent $p(x_i|\bm{x}_{<i})$ for every $i$ in tabular form, we can represent
+any possible distribution over $n$ random variables. 
+
+This, however, will cause an exponential growth on the complexity of the representation, because in our case we would need to specify $2^{n-1}$ possibilities 
+for each case. In terms of neural networks, since each column must sum $1$ because we are working with probabilities, we have $2^{n-1}-1$ parameters for this conditional, and the tabular representation
+becomes impractical for our network to learn.
+
+In autoregressive generative models, the conditionals are specified as we have mentioned before: parametrized functions with a fixed numbers of parameters. More precisely,  we assume 
+the conditional distributions to be Bernoulli random variables and learn a function $p_{\theta_i}$ that maps these random variables to the mean of the distribution. Mathematically, we have to find 
+$$
+p_{\theta_i}(x_i | \bm{x}_{<i}) = Bern(f_i(x_1,\dots,x_{i-1})),
+$$
+where $\theta_i$ is the set of parameters that specify the mean function $f_i:\{0,1\}^{i-i} \to [0,1]$.
+
+The number of parameters is the reduced to $\sum_{i=1}^n \abs{\theta_i}$, and then we can not represent all possible distributions as we could when using the tabular form of the conditional probabilities.
+We are now setting the limit of its expressiveness because we are setting the conditional distributions $p_{\theta_i}(x_i|\bm{x}_{<i})$ to be \emph{Bernoulli} random variables. 
+
+Let us see a very simple case first in order to understand it better and then we will generalize it. Let $\sigma$ be a sigmoid non linear function and 
+$\theta_i = \{\alpha_{0}^{(i)},\alpha_{1}^{(i)},\dots, \alpha_{i-1}^{(i)}\}$ the parameters of the mean function. Then, we can define our function $f_i$ as the application of the non linear function to the
+sum of the first parameter $\alpha_0^{(i)}$ with the product of each parameter $\alpha_{j}^{(i)}$ with its random variable $x_j$, with $j =1,2,\dots,i-1$ .  That is:
+$$
+f_i(x_1,\dot, x_{i-1}) = \sigma(\alpha_{0}^{(i)} + \alpha_{1}^{(i)}x_i + \dots + \alpha_{i-1}^{(i)}x_{i-1}).
+$$
+In this case, the number of parameters would be $\sum_{i = 1}^n i = \frac{n(n+1)}{2}$, so using \emph{Big }$O$ notation, we would be in the case of $O(n^2)$. We will state now a more general and useful case,
+giving a more interesting parametrization for the mean function: \emph{multi layer perceptrons}\footnotemark (MLP).
+
+%------------- Footnotemark
+\footnotetext{Multi layer perceptrons are feed-forward neural networks with at least 3 layers: input, hidden and output layers; each one using an activation
+function.}
+%----------------------
+
+For this example we will consider the most simple MLP: the one with one hidden layer. Let $h_i = \sigma(\bm{A}_i \bm{x}_{<i} + c_i)$ be the hidden layer activation function. Remember that $h_i \in \R^d$. Let
+$ \theta_i = \{ \bm{A}_i \in \R^{d \times (i-1)}, \ c_i \in \R^d, \ \alpha^{(i)} \in \R^d, \ b_i \in \R\}$ the set of parameters
+for the mean function $f_i$, that we define as:
+$$
+f_i(\bm{x}_{<i}) = \sigma(\alpha^{(i)}h_i + b_i)
+$$
+In this case, the number of parameters will be $O(n^2 d)$.

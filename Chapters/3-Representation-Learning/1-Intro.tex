@@ -1,0 +1,21 @@
+
+\section*{Motivation}
+Machine learning models can not directly give labels to input examples. Before, they must create a \emph{representation} that 
+contains the data's key qualities.  Here is where \emph{representation learning} is born. 
+Representation learning is a set of techniques that allows a system to discover the representations needed for feature detection or classification. 
+In contrast to manual feature engineering, feature learning allows a machine to learn the features and to use them to perform a task.
+
+Feature learning can be supervised or unsupervised. In supervised feature learning, representations are learned using labeled data.
+Examples of this kind of feature learning are supervised neural networks and multilayer perceptron. In unsupervised learning, the features are learned using unlabeled data. 
+There are many examples of this, such as independent component analysis (ICP) and autoencoders. In this work, we will be working with unsupervised feature learning.
+
+
+The performance of machine learning methods is heavily dependent on the choice of data features \cite{bengio_representation_2014}. This is why most of the current 
+effort in machine learning focuses on designing preprocessing and data transformation that lead to good quality representations. A representation will be of good quality when its features
+produce good results at running the models.
+
+Data's features that are invariant through time are very useful for machine learning models. In \cite{wiskott_slow_2002}, \emph{slow features} are presented. Slow features are defined as features of a signal 
+(which can be the input of a model) that vary slowly during time. These kind of features are the most interesting ones when creating representations, since they give an abstract view of the original data.
+Let us give an example: In computer vision, the value of the pixels in an image can vary fastly. For instance, if we have a zebra on a video and the zebra is moving from one side of the image to the other, due 
+to the black stripes of this animal, the pixels will fastly change from black to white and viceversa, so value of pixels is probably not a good feature to choose as an slow feature. However, there will always
+be a zebra on the image, so the feature that indicates that there is a zebra on the image will stay positive throughout all the video, so we can say that this is a slow feature.

@@ -30,3 +30,30 @@ We will also remark the discrete case, as it will be used later. Let $P,Q$ be di
 $$
 D_{KL}(P\ ||\ Q) = \sum_{x \in \Omega} P(x) \log \left( \frac{P(x)}{Q(x)}\right)
 $$
+
+\section{Examples of distributions}
+
+Some examples of common distributions will now be presented. They will be used further in this document.
+
+\subsection{Bernoulli}
+
+Imagine that you want to model the possible outcomes of an experiment with two possibilites: sucess or failure. Imagine also that you already know that in your experiment there is a probability $p$ of 
+achieving success. That is the intuitive idea of a Bernoulli distribution. We can define it more formally as it follows: 
+
+The Bernoulli distribution is a discrete probability distribution of a random variable that takes two values, $\{0,1\}$, with probabilities $p$ and $q = 1-p$, respectively. We will say that our distribution is a $Bern(p)$.
+
+If $k$ is a possible outcome, we can define
+the probability mass function $f$ of a Bernoulli distribution as:
+$$
+f(k,p) = 
+\begin{cases} 
+p \quad & \text{ if } k=1,\\
+1-p \quad & \text{ if} k = 0
+\end{cases}
+$$
+Using the expression of the mean for discrete random variables, we obtain that $E[X] = p$ and 
+$$
+\Var[X] = E[X^2] - E[X]^2 = E[X] - E[X]^2 = p-p^2 = p(1-p) = pq.
+$$
+
+As a note, this is just a particular case of the \emph{Binomial distribution} with $n=1$.
