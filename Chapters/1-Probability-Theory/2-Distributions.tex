@@ -57,3 +57,39 @@ $$
 $$
 
 As a note, this is just a particular case of the \emph{Binomial distribution} with $n=1$.
+
+\subsection{Gaussian Distribution}
+
+The Gaussian (or normal) distribution is used to represent real-valued random variables whose distributions are not known.
+Its importancy relies in the fact that, using the \emph{central limit theorem}, we can assume that the average of many samples of
+a random variable with finite meand and variance is a random variable whose distribution converges to a normal distribution.
+
+\begin{ndef}
+We say that the real valued random variable $X$ follows a \emph{normal distribution} of parameters $\mu,\sigma\in \R$ if, and only if,
+its probability density function exists and it is determined by
+\[
+f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}\left( \frac{x - \mu}{\sigma}\right)^2},
+\]
+where $\mu$ is the mean and $\sigma$ is its standard deviation. We denote this normal distribution as $X \sim \mathcal N (\mu,\sigma)$
+\end{ndef}
+
+The particular case where $\mu = 0$ and $\sigma = 1$ is widely used in statistics. In this case, the density function is simpler:
+\[
+f(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}.
+\]
+
+As a remarkable property of these distributions is that, if $f : \R \to \R$ is a real valued function defined 
+as $f(x) = ax+b$, then $f(X) \sim \mathcal N (\mu + b, a^2 \sigma)$.\\
+
+In the same way that we extended random variables to random vectors, we can extend the normal distribution to a multivariate
+random distribution.
+
+\begin{ndef}
+We say that a random vector $\bm{X} = (X_1,\dots,X_n)$ follows a multivariate normal distributions of parameters
+$\mu \in \R^n$, $\Sigma \in \mathcal M_N(\R)$ if, and only if, its probabity density function is:
+\[
+f(x) = \frac{1}{\sqrt{det(2\pi \Sigma)}}e^{-\frac{1}{2}(x - \mu )^T \Sigma^{-1} (x-\mu)}.
+\]
+It is denoted $X \sim \mathcal N(\mu, \Sigma)$.
+In this case, $\sigma$ is the mean vector of the distribution and $\Sigma$ denotes de covariance matrix.  
+\end{ndef}
