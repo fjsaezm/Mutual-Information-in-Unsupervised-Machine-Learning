@@ -1,7 +1,27 @@
 
+
+
+Before continuing presenting the mathematical notions of the topics that are treated in this work, it is interesting to present what we are pursuing with this work.\\
+
+\emph{Machine Learning} is the part of computer science that studies \emph{algorithms} that improve automatically through experience from examples. These algorithms help computer to discover how to
+perform tasks without being explicitly programmed to do them. For the computers to learn, it is mandatory that a finite set of data (or dataset) $\mathcal D$ is available. \\
+
+Depending on how the data (\emph{or signal}) is given to the computer, the machine learning approaches can be divided in three broad categories:
+\begin{enumerate}
+    \item \emph{Supervised learning}. In this category each point $x_i \in \mathcal D$ in the dataset is \emph{labeled}: each example is related to a tag $y_i \in Y$ that gives information about $x$. The goal in this case is to find 
+    a function $g:D \to Y$.
+    \item \emph{Unsupervised learning}. In ths case, the data is \emph{unlabeled}, so the approach is completely different. Usually, the goal here is to discover hidden patterns in data or to learn features from it.
+    \item \emph{Reinforcement learning}. This is the area concerned with how intelligent agents take decisions in an an specific environment in order to obtain the best reward in their objective.
+\end{enumerate}
+
+
+
+
+
 \section*{Motivation}
-Machine learning models can not directly give labels to input examples. Before, they must create a \emph{representation} that 
-contains the data's key qualities.  Here is where \emph{representation learning} is born. 
+In the learning process, machine learning models can not directly give labels to input examples. Before, they must create a \emph{representation} that 
+contains the data's key qualities.  Here is where \emph{representation learning} is born. \\
+
 Representation learning is a set of techniques that allows a system to discover the representations needed for feature detection or classification. 
 In contrast to manual feature engineering, feature learning allows a machine to learn the features and to use them to perform a task.\\
 
