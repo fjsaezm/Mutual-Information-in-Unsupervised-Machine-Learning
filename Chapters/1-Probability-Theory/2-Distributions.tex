@@ -116,14 +116,19 @@ In a whole dataset $\D$ consisting in independent observations, we would can wri
 This can be computationally hard to work with, so it is often used the \emph{log-likelyhood} instead.
 
 \begin{ndef}
-Let $\D$ be a dataset of independent observatoins and $\theta$ a set of parameters. Then, we define the log-likelyhood $\mathcal l$ as the sum of the logarithms of the evaluations of $p_\theta$ in each $x$ in the dataset. That is:
+Let $\D$ be a dataset of independent observatoins and $\theta$ a set of parameters. Then, we define the log-likelyhood $\ell$ as the sum of the logarithms of the evaluations of $p_\theta$ in each $x$ in the dataset. That is:
 \[
-\mathcal l(\theta | X) = \sum_{x \in \D} \log p_\theta(x).
+\ell (\theta | X) = \sum_{x \in \D} \log p_\theta(x).
 \]
 \end{ndef}
 
 The optimal for our purposes would be to find the optimal value $\cap{\theta}$ that maximizes the likelyhood of observing the dataset $\D$. We get to the following definition:
 
 \begin{ndef}
-We say that \emph{maximum likelyhood estimation} is the method used
+We say that \emph{maximum likelyhood estimation} is the method used to estimate $\cap \theta$, the set of parameters $\theta$ of a density function
+$p_\theta (x)$, that are most likely to be the probability density function that approximates $\D$. More formally:
+$$
+\cap \theta = \argmax_{\theta} \mathcal L(\theta|X).
+$$
+$\cap\theta$ is also called the \emph{maximum likelyhood estimate} (MLE).
 \end{ndef}
