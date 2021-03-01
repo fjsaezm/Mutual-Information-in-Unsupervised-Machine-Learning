@@ -48,7 +48,7 @@ $$
 f(k,p) = 
 \begin{cases} 
 p \quad & \text{ if } k=1,\\
-1-p \quad & \text{ if} k = 0
+1-p \quad & \text{ if } k = 0
 \end{cases}
 $$
 Using the expression of the mean for discrete random variables, we obtain that $E[X] = p$ and 
@@ -91,7 +91,7 @@ $\mu \in \R^n$, $\Sigma \in \mathcal M_N(\R)$ if, and only if, its probabity den
 f(x) = \frac{1}{\sqrt{det(2\pi \Sigma)}}e^{-\frac{1}{2}(x - \mu )^T \Sigma^{-1} (x-\mu)}.
 \]
 It is denoted $X \sim \mathcal N(\mu, \Sigma)$.
-In this case, $\sigma$ is the mean vector of the distribution and $\Sigma$ denotes de covariance matrix.  
+In this case, $\sigma$ is the mean vector of the distribution and $\Sigma$ denotes the covariance matrix.  
 \end{ndef}
 
 
@@ -101,34 +101,34 @@ In the following chapters, we will be trying to estimate density functions in a 
 is a family of density functions that can be described using a finite numbers of parameters $\theta$. We can get to the concept of \emph{log-likelyhood} now.
 
 \begin{ndef}
-The \emph{likelyhood} $\mathcal L(\theta | x)$ of a parameter set $\theta$ is a function that measures how plausible is $\theta$, given an observed point $x$ in the dataset $\D$. It is defined as the value of the 
+The \emph{likelihood} $\mathcal L(\theta | x)$ of a parameter set $\theta$ is a function that measures how plausible is $\theta$, given an observed point $x$ in the dataset $\D$. It is defined as the value of the 
 density function parametrized by $\theta$ at $x$. That is:
 $$
 \mathcal L(\theta|x) = p_\theta(x).
 $$
 \end{ndef}
 
-In a whole dataset $\D$ consisting in independent observations, we would can write:
+In a finite dataset $\D$ consisting in independent observations, we can write:
 \[
 \mathcal L(\theta | X) = \prod_{x \in D} p_\theta(x).
 \]
 
-This can be computationally hard to work with, so it is often used the \emph{log-likelyhood} instead.
+This can be computationally hard to work with, so it is often used the \emph{log-likelihood} instead.
 
 \begin{ndef}
-Let $\D$ be a dataset of independent observatoins and $\theta$ a set of parameters. Then, we define the log-likelyhood $\ell$ as the sum of the logarithms of the evaluations of $p_\theta$ in each $x$ in the dataset. That is:
+Let $\D$ be a dataset of independent observatoins and $\theta$ a set of parameters. Then, we define the log-likelihood $\ell$ as the sum of the logarithms of the evaluations of $p_\theta$ in each $x$ in the dataset. That is:
 \[
 \ell (\theta | X) = \sum_{x \in \D} \log p_\theta(x).
 \]
 \end{ndef}
 
-The optimal for our purposes would be to find the optimal value $\cap{\theta}$ that maximizes the likelyhood of observing the dataset $\D$. We get to the following definition:
+The optimal for our purposes would be to find the optimal value $\cap{\theta}$ that maximizes the likelihood of observing the dataset $\D$. We get to the following definition:
 
 \begin{ndef}
-We say that \emph{maximum likelyhood estimation} is the method used to estimate $\cap \theta$, the set of parameters $\theta$ of a density function
+We say that \emph{maximum likelihood estimation} is the method used to estimate $\hat \theta$, the set of parameters $\theta$ of a density function
 $p_\theta (x)$, that are most likely to be the probability density function that approximates $\D$. More formally:
 $$
-\cap \theta = \argmax_{\theta} \mathcal L(\theta|X).
+\hat \theta = \argmax_{\theta} \mathcal L(\theta|X).
 $$
-$\cap\theta$ is also called the \emph{maximum likelyhood estimate} (MLE).
+$\hat\theta$ is also called the \emph{maximum likelihood estimate} (MLE).
 \end{ndef}

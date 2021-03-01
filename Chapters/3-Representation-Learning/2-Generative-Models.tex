@@ -29,7 +29,7 @@ Again, let $\D$ be a set of $n-$dimensional datapoints $x$. We can assume that $
 $$
 p(x) = \prod_{i=1} ^n p(x_i | x_1,\dots,x_{i-1}) = \prod_{i = 1}^n p(x_i|\bm{x}_{<i}) \quad \quad \text{ where } \quad \quad \bm{x}_{<i} = [x_1,\dots, x_{i-1}]
 $$
-We see using that expression how, fixing an order of the variables $x_1,\dots,x_n$, the distribution for the $i-th$ random variable depends on all the preceeding values in the particular chosen order. 
+We see using that expression how, fixing an order of the variables $x_1,\dots,x_n$, the distribution for the $i$-th random variable depends on all the preceeding values in the particular chosen order. 
 
 It is known that given a set of discrete and mutually dependent random variables, they can be displayed in a table of conditional probabilities. If $K_i$ is the number of states that each random variable can take
 then $\prod K_i$ is the number of cells that the table will have. If we represent $p(x_i|\bm{x}_{<i})$ for every $i$ in tabular form, we can represent
@@ -39,14 +39,14 @@ This, however, will cause an exponential growth on the complexity of the represe
 for each case. In terms of neural networks, since each column must sum $1$ because we are working with probabilities, we have $2^{n-1}-1$ parameters for this conditional, and the tabular representation
 becomes impractical for our network to learn.
 
-In autoregressive generative models, the conditionals are specified as we have mentioned before: parametrized functions with a fixed numbers of parameters. More precisely,  we assume 
+In autoregressive generative models, the conditionals are specified as we have mentioned before: parameterized functions with a fixed numbers of parameters. More precisely,  we assume 
 the conditional distributions to be Bernoulli random variables and learn a function $p_{\theta_i}$ that maps these random variables to the mean of the distribution. Mathematically, we have to find 
 $$
 p_{\theta_i}(x_i | \bm{x}_{<i}) = Bern(f_i(x_1,\dots,x_{i-1})),
 $$
 where $\theta_i$ is the set of parameters that specify the mean function $f_i:\{0,1\}^{i-i} \to [0,1]$.
 
-The number of parameters is the reduced to $\sum_{i=1}^n \abs{\theta_i}$, and then we can not represent all possible distributions as we could when using the tabular form of the conditional probabilities.
+The number of parameters is then reduced to $\sum_{i=1}^n \abs{\theta_i}$, and then we can not represent all possible distributions as we could when using the tabular form of the conditional probabilities.
 We are now setting the limit of its expressiveness because we are setting the conditional distributions $p_{\theta_i}(x_i|\bm{x}_{<i})$ to be \emph{Bernoulli} random variables. 
 
 Let us see a very simple case first in order to understand it better and then we will generalize it. Let $\sigma$ be a sigmoid non linear function and 
