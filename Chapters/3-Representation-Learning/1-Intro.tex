@@ -50,6 +50,9 @@ Let us give an example: In computer vision, the value of the pixels in an image 
 to the black stripes of this animal, the pixels will fast change from black to white and viceversa, so value of pixels is probably not a good feature to choose as an slow feature. However, there will always
 be a zebra on the image, so the feature that indicates that there is a zebra on the image will stay positive throughout all the video, so we can say that this is a slow feature.\\
 
-In the following chapters, we will explain how features are learned by using the concept of mutual information that we presented before. 
+We will be studying different models that try to learn representations from raw data without labels, as we have mentioned. We usually need a function that measures what is the penalty that the model gets for making an election in a parameter.
+This is called a \emph{loss function}, that we will want to maximize or minimize, depending on the general goal of the model. Typically, neural networks seek to minimize the penalty.
+
+In the following chapters, we will explain different kinds of neural networks and which kind of loss functions they use. 
 
 

@@ -1,1 +1,7 @@
-We will now connnect the concepts of mutual information and generative models that we have presented. 
+We are now ready to connnect the concepts of mutual information and generative models that we have presented. In unsupervised learning,
+it is a common strategy to predict future information and to try to find out if our predictions are correct.
+In \emph{natural language processing},for instance, representations are learned 
+using neighbouring words (https://arxiv.org/pdf/1301.3781.pdf), and in images, some studies have been able to predict color from grey-scale (https://arxiv.org/pdf/1505.05192.pdf).
+
+When we talk about high-dimensional data, it is not useful to make use of an unimodal loss function to evaluate our model. If we did it like this, we would be assuming that there is only
+one peak in the distribution function and that it is actually similar to a Gaussian. This is why we can not use
