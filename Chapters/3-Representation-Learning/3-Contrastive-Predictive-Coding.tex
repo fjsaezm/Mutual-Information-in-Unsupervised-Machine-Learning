@@ -6,7 +6,8 @@ using neighbouring words (https://arxiv.org/pdf/1301.3781.pdf), and in images, s
 When we talk about high-dimensional data, it is not useful to make use of an unimodal loss function to evaluate our model. If we did it like this, we would be assuming that there is only
 one peak in the distribution function and that it is actually similar to a Gaussian.  This is not always true, so we can not assume it for our models. Generative models can be used for this purpose:
 they will model the relationships in the data $x$. However,they ignore the context $c$ in which the data $x$ is involved. As an easy example of this, an image contains thousands of bits of information,
-while the label that classifies the image contains much less information , say, $10$ bits for $1024$ categories. 
+while the label that classifies the image contains much less information , say, $10$ bits for $1024$ categories. Because of this, modeling $p(x|c)$ might not be the best way to proceed if we want
+to obtain the real distribution that generates our data. 
 
 Our goal here will be to seek for a way of extracting shared information between the context and the data. Due to the differences in data dimensionality, if we want to predict the future $x$ using the context $c$, firstly we must
 encode our entry data $x$ into a representation which size is comparable to context size. Firstly, an \emph{encoder} is used. An encoder is a model that, given an input $x$, provides a feature map or vector that holds the information
@@ -16,3 +17,14 @@ I(x,c) = \sum{x,c}p(x,c)\log\frac{p(x|c)}{p(x)}
 $$
 that is, the mutual information between the input $x$ and the context $c$.  Maximizing the mutual information between $x$ and $c$, we extract the latent variables
 that the inputs have in common.
+
+So, we will use an encoder $g_{enc}$ that transforms the input sequence of observations $x_t$ to a sequence of latent representations
+$$
+z_t = g_{enc}(x_t).
+$$
+After we have obtained $z_t$, we use it as input of an autoregressive model to produce a context latent representation:
+$$
+c_t = g_{ar}(z_{\leq t}).
+$$
+In this case, $c_t$ will summarize the information of $z_i$ for $i \leq t$. Following the argument that we gave before, predicting the future $x_{t+k}$ using only a generative model, say $p_k(x_{t+k}|c)$
+might not be correct, since we would be ignoring the context.
