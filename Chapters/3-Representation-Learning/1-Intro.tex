@@ -43,7 +43,7 @@ Data's features that are invariant through time are very useful for machine lear
 
 
 %------------- Footnotemark
-\footnotetext{A time series is an ordered secuence of values of a random variable at equally spaced time intervals}
+\footnotetext{A time series is an ordered sequence of values of a random variable at equally spaced time intervals}
 %----------------------
 
 Let us give an example: In computer vision, the value of the pixels in an image can vary fast. For instance, if we have a zebra on a video and the zebra is moving from one side of the image to the other, due 
@@ -51,7 +51,17 @@ to the black stripes of this animal, the pixels will fast change from black to w
 be a zebra on the image, so the feature that indicates that there is a zebra on the image will stay positive throughout all the video, so we can say that this is a slow feature.\\
 
 We will be studying different models that try to learn representations from raw data without labels, as we have mentioned. We usually need a function that measures what is the penalty that the model gets for making an election in a parameter.
-This is called a \emph{loss function}, that we will want to maximize or minimize, depending on the general goal of the model. Typically, neural networks seek to minimize the penalty.
+This is called a \emph{loss function}, that we will want to maximize or minimize, depending on the general goal of the model. Typically, neural networks seek to minimize the penalty. The loss function used in each task depends on the nature of the task.
+For instance, in a regression problem, a good example of loss function is \emph{mean squared error}, which is expressed as it follows:
+\[
+MSE = \frac{\sum_{i =1 }^n \left(y_i - \hat{y_i}\right)^2}{n}.
+\]
+If , for instance, the problem is about classification, the score of the correct category should be greater than the sum of the scores of all incorrect categories, so we could use a function like \emph{support vector machine (SVM) loss}:
+\[
+SVMLoss = \sum_{j \neq y_i} \max(0,s_j - s_{y_i} + 1)
+\]
+
+
 
 In the following chapters, we will explain different kinds of neural networks and which kind of loss functions they use. 
 
