@@ -1,7 +1,7 @@
 We are now ready to connnect the concepts of mutual information and generative models that we have presented. In unsupervised learning,
 it is a common strategy to predict future information and to try to find out if our predictions are correct.
 In \emph{natural language processing},for instance, representations are learned 
-using neighbouring words (https://arxiv.org/pdf/1301.3781.pdf), and in images, some studies have been able to predict color from grey-scale (https://arxiv.org/pdf/1505.05192.pdf).
+using neighbouring words \citep{mikolov_efficient_2013}, and in images, some studies have been able to predict color from grey-scale \citep{doersch_unsupervised_2016}.
 
 When we talk about high-dimensional data, it is not useful to make use of an unimodal loss function to evaluate our model. If we did it like this, we would be assuming that there is only
 one peak in the distribution function and that it is actually similar to a Gaussian.  This is not always true, so we can not assume it for our models. Generative models can be used for this purpose:
@@ -27,4 +27,18 @@ $$
 c_t = g_{ar}(z_{\leq t}).
 $$
 In this case, $c_t$ will summarize the information of $z_i$ for $i \leq t$. Following the argument that we gave before, predicting the future $x_{t+k}$ using only a generative model, say $p_k(x_{t+k}|c)$
-might not be correct, since we would be ignoring the context.
+might not be correct, since we would be ignoring the context. Let us see how we train the encoder $g_{enc}$ and the autoregressive model $g_{ar}$.
+
+Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain positive sample taken from the distribution $p(x_{x+k}|c_t)$ and $N-1$ negative
+samples from the distribution propused $p(x_{t+k})$. With this set, we would like to optimize the following loss function:
+$$
+\mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(x_{t+k},c_t)}{\sum_{x_j \in X} f_k(x_k,c_k)}\right].
+$$
+
+
+This is no more than the known \emph{categorical cross-entropy} of classifying the positive sample correctly, with the argument of the logarithm being the prediction
+of the model. The optimal probability for this loss can be written as $p(d = i|X,c_t)$, letting $[d = i]$ the indicate that the sample $x_i$ is the positive sample. Now, the probability that $x_i$ was drawn from the conditional
+distribution $p(X_{t+k}|c_t)$ rather than the proposal distribution $p(x_{t+k})$, leads us to the following expression:
+$$
+p(d = i | X , c_t) = \frac{p(x_i|c_t) \prod_{l \neq i}p(x_l)}{\sum_{j=1}^N p(x_j|c_t) \prod_{l \neq j} p(x_l)} = 
+$$
