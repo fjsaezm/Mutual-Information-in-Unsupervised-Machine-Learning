@@ -2,14 +2,14 @@ We have introduced the concepts of \emph{random variable},  \emph{random vector}
 Now, given two distributions, in the following chapters we will like to see how different they are from each other.
 In order to compare them, we enunciate the definition of the Kullback-Leibler divergence.
 
-\begin{ndef}[Kullback-Leibler Divergence]
+\begin{ndef}
 Let $P$ and $Q$ be probability distributions over the same probability space $\Omega$. Then, the Kullback-Leibler divergence is defined as:
 $$
 D_{KL}(P \ || \ Q) = E_P\left[\log{\frac{P(x)}{Q(x)}}\right].
 $$
 \end{ndef}
-It is defined if, and only if $P$ is \emph{absolutely continuous with respect to} $Q$, that is , if $P(A) = 0$ for any $A$ subset of $\Omega$ where $Q(A) = 0$.
- There are some properties of this definition that must be stated. The first one is the following proposition:
+It is defined if, and only if, $P$ is \emph{absolutely continuous with respect to} $Q$, that is, if $P(A) = 0$ for any $A$ subset of $\Omega$ where $Q(A) = 0$.
+ There are some properties of this definition that must be stated. 
 
 \begin{nprop}
 If $P,$ $Q$ are two probability distributions over the same probability space, then $D_{KL}(P|Q) \geq 0$.
@@ -20,7 +20,7 @@ Firstly, note that if $a \in \R^+$, then $\log \ a \leq a-1$. Then:
 -D_{KL}(P \ || \ Q) & = - E_P\left[\log{\frac{P(x)}{Q(x)}}\right] \\
              & = E_P\left[\log{\frac{Q(x)}{P(x)}}\right] \\
              & \leq E_P\left[\left(\frac{Q(x)}{P(x)} - 1\right)\right]\\
-             & = \int P(x) \frac{Q(x)}{P(x)} dx -1 \\
+             & = \int P(x) \frac{Q(x)}{P(x)} \mathop{dx} -1 \\
              & = 0.
 \end{align*}
 So we have obtained that $-D_{KL}(P\ ||\ Q) \leq 0$, which implies that $D_{KL}(P\ || \ Q) \geq 0$.
@@ -28,27 +28,27 @@ So we have obtained that $-D_{KL}(P\ ||\ Q) \leq 0$, which implies that $D_{KL}(
 As a corollary of this proposition, we can affirm that $D_{KL}(P\ ||\ Q)$ equals zero if and only if $P = Q$ almost everywhere. 
 We will also remark the discrete case, as it will be used later. Let $P,Q$ be discrete probability distributions defined on the same probability space $\Omega$. Then, 
 $$
-D_{KL}(P\ ||\ Q) = \sum_{x \in \Omega} P(x) \log \left( \frac{P(x)}{Q(x)}\right)
+D_{KL}(P\ ||\ Q) = \sum_{x \in \Omega} P(x) \log \left( \frac{P(x)}{Q(x)}\right).
 $$
 
 \section{Examples of distributions}
 
-Some examples of common distributions will now be presented. They will be used further in this document.
+Let us present some examples o common distributions. They will be used further in this document.
 
 \subsection*{Bernoulli}
 
-Imagine that you want to model the possible outcomes of an experiment with two possibilites: sucess or failure. Imagine also that you already know that in your experiment there is a probability $p$ of 
-achieving success. That is the intuitive idea of a Bernoulli distribution. We can define it more formally as it follows: 
+Think for a moment that you want to model the possible outcomes of an experiment with two possibilites: sucess or failure. Imagine also that you already know that in your experiment there is a probability $p$ of 
+achieving success. That is the intuitive idea of a Bernoulli distribution. We can define it more formally as follows: 
 
-The Bernoulli distribution is a discrete probability distribution of a random variable that takes two values, $\{0,1\}$, with probabilities $p$ and $q = 1-p$, respectively. We will say that our distribution is a $Bern(p)$.
+The \emph{Bernoulli distribution} is a discrete probability distribution of a random variable that takes two values, $\{0,1\}$, with probabilities $p$ and $q = 1-p$, respectively. We will say that our distribution is a $Bern(p)$.
 
 If $k$ is a possible outcome, we can define
 the probability mass function $f$ of a Bernoulli distribution as:
 $$
 f(k,p) = 
 \begin{cases} 
-p \quad & \text{ if } k=1,\\
-1-p \quad & \text{ if } k = 0
+p, \quad & \text{ if } k=1,\\
+1-p, \quad & \text{ if } k = 0.
 \end{cases}
 $$
 Using the expression of the mean for discrete random variables, we obtain that $E[X] = p$ and 
@@ -61,8 +61,8 @@ As a note, this is just a particular case of the \emph{Binomial distribution} wi
 \subsection*{Gaussian Distribution}
 
 The Gaussian (or normal) distribution is used to represent real-valued random variables whose distributions are not known.
-Its importancy relies in the fact that, using the \emph{central limit theorem}, we can assume that the average of many samples of
-a random variable with finite mean and variance is a random variable whose distribution converges to a normal distribution.
+Its importance relies in the fact that, using the \emph{central limit theorem}, we can assume that the average of many samples of
+a random variable with finite mean and variance is a random variable whose distribution converges to a normal distribution as the number of samples increases.
 
 \begin{ndef}
 We say that the real valued random variable $X$ follows a \emph{normal distribution} of parameters $\mu,\sigma\in \R$ if, and only if,
@@ -70,7 +70,7 @@ its probability density function exists and it is determined by
 \[
 f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}\left( \frac{x - \mu}{\sigma}\right)^2},
 \]
-where $\mu$ is the mean and $\sigma$ is its standard deviation. We denote this normal distribution as $X \sim \mathcal N (\mu,\sigma)$
+where $\mu$ is the mean and $\sigma$ is its standard deviation. We denote this normal distribution as $X \sim \mathcal N (\mu,\sigma)$.
 \end{ndef}
 
 The particular case where $\mu = 0$ and $\sigma = 1$ is widely used in statistics. In this case, the density function is simpler:
@@ -78,8 +78,8 @@ The particular case where $\mu = 0$ and $\sigma = 1$ is widely used in statistic
 f(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}.
 \]
 
-As a remarkable property of these distributions is that, if $f : \R \to \R$ is a real valued function defined 
-as $f(x) = ax+b$, then $f(X) \sim \mathcal N (\mu + b, a^2 \sigma)$.\\
+A remarkable property of these distributions is that, if $f : \R \to \R$ is a real-valued function defined 
+as $f(x) = ax+b$, then $f(X) \sim \mathcal N (a\mu + b, \abs{a} \sigma)$.\\
 
 In the same way that we extended random variables to random vectors, we can extend the normal distribution to a multivariate
 random distribution.
@@ -88,17 +88,17 @@ random distribution.
 We say that a random vector $\bm{X} = (X_1,\dots,X_n)$ follows a multivariate normal distributions of parameters
 $\mu \in \R^n$, $\Sigma \in \mathcal M_N(\R)$ if, and only if, its probabity density function is:
 \[
-f(x) = \frac{1}{\sqrt{det(2\pi \Sigma)}}e^{-\frac{1}{2}(x - \mu )^T \Sigma^{-1} (x-\mu)}.
+f(x) = \frac{1}{\sqrt{\det(2\pi \Sigma)}}e^{-\frac{1}{2}(x - \mu )^T \Sigma^{-1} (x-\mu)}.
 \]
 It is denoted $X \sim \mathcal N(\mu, \Sigma)$.
-In this case, $\sigma$ is the mean vector of the distribution and $\Sigma$ denotes the covariance matrix.  
+In this case, $\mu$ is the mean vector of the distribution and $\Sigma$ denotes the covariance matrix.  
 \end{ndef}
 
 
 \section{Parametric Modeling}
 
 In the following chapters, we will be trying to estimate density functions in a dataset. To do this we will be using \emph{parametric models}. We say that a \emph{parametric model}, $p_\theta(x)$, 
-is a family of density functions that can be described using a finite numbers of parameters $\theta$. We can get to the concept of \emph{log-likelyhood} now.
+is a family of density functions that can be described using a finite numbers of parameters $\theta$. We can get to the concept of \emph{log-likelihood} now.
 
 \begin{ndef}
 The \emph{likelihood} $\mathcal L(\theta | x)$ of a parameter set $\theta$ is a function that measures how plausible is $\theta$, given an observed point $x$ in the dataset $\D$. It is defined as the value of the 
@@ -108,21 +108,21 @@ $$
 $$
 \end{ndef}
 
-In a finite dataset $\D$ consisting in independent observations, we can write:
+In a finite dataset $\D$ consisting of independent observations, we can write:
 \[
 \mathcal L(\theta | X) = \prod_{x \in D} p_\theta(x).
 \]
 
-This can be computationally hard to work with, so it is often used the \emph{log-likelihood} instead.
+This can be computationally hard to work with, so the log-likelyhood is often used instead.
 
 \begin{ndef}
-Let $\D$ be a dataset of independent observatoins and $\theta$ a set of parameters. Then, we define the log-likelihood $\ell$ as the sum of the logarithms of the evaluations of $p_\theta$ in each $x$ in the dataset. That is:
+Let $\D$ be a dataset of independent observations and $\theta$ a set of parameters. Then, we define the \emph{log-likelihood} $\ell$ as the sum of the logarithms of the evaluations of $p_\theta$ in each $x$ in the dataset. That is:
 \[
 \ell (\theta | X) = \sum_{x \in \D} \log p_\theta(x).
 \]
 \end{ndef}
 
-The optimal for our purposes would be to find the optimal value $\cap{\theta}$ that maximizes the likelihood of observing the dataset $\D$. We get to the following definition:
+Our goal would be to find the optimal value $\hat{\theta}$ that maximizes the likelihood of observing the dataset $\D$. We get to the following definition:
 
 \begin{ndef}
 We say that \emph{maximum likelihood estimation} is the method used to estimate $\hat \theta$, the set of parameters $\theta$ of a density function

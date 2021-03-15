@@ -5,7 +5,7 @@ A probability space is composed by three elements: $(\Omega, \Alg, \Prob)$. We w
 
 \section{Basic notions}
 
-\begin{ndef}Let $\Omega$ be a non empty sample space. $\Alg$ is a $\sigma-$algebra over $\Omega$ if it is a family of subsets of $\Omega$ that verify that the emptyset is in $\Alg$, and it is closed under complementation and countable unions. That is:
+\begin{ndef}Let $\Omega$ be a non empty sample space. $\Alg$ is a \emph{$\sigma-$algebra} over $\Omega$ if it is a family of subsets of $\Omega$ that verify that the emptyset is in $\Alg$, and it is closed under complementation and countable unions. That is:
 \begin{itemize}
   \item $\emptyset \in \Alg$.
   \item If $A \in \Alg$, then $\Omega \backslash A \in \Alg$.
@@ -61,7 +61,7 @@ P(A,B) = P(A|B)P(B).
 $$
 We also see from the definition that
 $$
-P(B,A) = P(B|A)P(A)
+P(B,A) = P(B|A)P(A).
 $$
 Hence, since $P(A,B) = P(B,A)$,
 $$
@@ -74,13 +74,13 @@ However, events might not give any information about another event occurring. Wh
 $$
 P(A,B) = P(A)P(B)
 $$
-and as a consequence of this, the conditional probabilty of those events is $P(A|B) = P(A)$. For a finite set of events $\{A_i\}_{i=1}^n$, we say that they are mutually independent if and only if every event is independet of any intersection of the other events. 
+and as a consequence of this, the conditional probabilty of those events is $P(A|B) = P(A)$. For a finite set of events $\{A_i\}_{i=1}^n$, we say that they are mutually independent if, and only if, every event is independet of any intersection of the other events. 
 That is, if $\{B_i\} \subset \{A_i\}$, then
 $$
-P\left(\cap_{i = 1}^k B_i \right) = \prod_{i = 1}^k P(B_i) \quad \quad \text{for all } k \leq n
+P\left(\cap_{i = 1}^k B_i \right) = \prod_{i = 1}^k P(B_i) \quad \quad \text{for all } k \leq n.
 $$
 
-\emph{Random variables} (R.V.) can now be introduced. Their first property is that they are measurable functions. This kind of functions are defined as it follows:
+\emph{Random variables} (RV) can now be introduced. Their first property is that they are measurable functions. This kind of functions are defined as it follows:
 
 \begin{ndef}
 Let $(\Omega_1, \Alg),(\Omega_2, \mathcal B)$ be measurable spaces. A function $f: \Omega_1 \to \Omega_2$ is said to be \emph{measurable} if, $f^{-1}(B) \in \Alg$ for every $B \in \mathcal B$.
@@ -90,7 +90,7 @@ As a quick note, we can affirm that if $f,g$ are real-valued measurable function
 
 We are now ready to define one of the concepts that will lead us to the main objective of this thesis.
 
-\begin{ndef}[Random variable]
+\begin{ndef}
 Let $(\Omega,\Alg,\Prob)$ be a probability space, and $(E,\mathcal B)$ be a measurable space. 
 A \emph{random variable} is a measurable function $X: \Omega \to E$, from the probability space to the measurable space. This means: for every subset $B \in (E,\mathcal B)$, its preimage
 $$
@@ -102,7 +102,7 @@ Using that sums, products and quotients of measurable functions are measurable f
 
 Let now $X$ be a R.V. The \emph{probability} of $X$ taking a concrete value on a measurable set contained in $E$, say, $S \in E$, is written as:
 $$
-P_X(S) = P(X \in S) = P(\{a \in \Omega : X(a) \in S\})
+P_X(S) = P(X \in S) = P(\{a \in \Omega : X(a) \in S\}).
 $$
 
 A very simple example of random variable is the following:
@@ -112,15 +112,15 @@ A very simple example of random variable is the following:
   For instance, let \emph{Heads} be $1$ and \emph{Tails} be $0$. Then, our random variable looks like this:
   \begin{equation*}
       X  = \left\{ \begin{aligned}
-  1 \quad & \text{ if we obtain heads} \\
-  0 \quad & \text{ if we obtain tails}
+  1, \quad & \text{ if we obtain heads,} \\
+  0, \quad & \text{ if we obtain tails.}
 \end{aligned}\right.
   \end{equation*}
 
 \end{nexample}
 
 In the last example, our random variable is \emph{discrete}, since the set $\{X(\omega): \omega \in \Omega\}$ is finite.
- A \emph{Random Variable} can also be \emph{continuous}, if it can take any value within an interval.\\
+ A random variable can also be \emph{continuous}, if it can take any value within an interval.\\
 
 
 \section{Expectation of a random variable}
@@ -128,34 +128,39 @@ In the last example, our random variable is \emph{discrete}, since the set $\{X(
 \begin{ndef}
 The \emph{cumulative distribution function } $F_X$ of a real-valued random variable $X$ is its probability of taking value below or equal to $x$. That is:
 $$
-F_X(x) = P(X \leq x) = P(\{\omega : X(\omega) \leq x\}) = P_X((-\infty,x]) \quad \forall x \in \mathbb R
+F_X(x) = P(X \leq x) = P(\{\omega : X(\omega) \leq x\}) = P_X((-\infty,x]) \quad \text{ for all } x \in \R .
 $$
 \end{ndef}
 
-We can difference between certain types of random variables. If the image , $\mathcal X$ , of $X$ is countable, we call it a \emph{discrete} random variable. Its \emph{probability mass function p} gives the
+We can difference between certain types of random variables. If the image, $\mathcal X$, of $X$ is countable, we call it a \emph{discrete} random variable. Its \emph{probability mass function p} gives the
 probability of the R.V. being equal to a certain value:
 $$
 p(x) = P(X = x).
 $$
-If the comulative distribution function of our random variable $X$ is continuous everywhere, then $X$ is a \emph{continuous} random variable.
+If the cumulative distribution function of our random variable $X$ is continuous everywhere, then $X$ is a \emph{continuous} random variable.
  In this case there might exist a non-negative Lebesgue-integrable function $f$ such that:
 $$
 F_X(x) = \int_{\infty}^x f(t) dt,
 $$
 called the \emph{probability density function} of $X$.\\
 
-We are now ready to introduce the \emph{expectation} of a random variable. Imagine observing a wide number of outcomes from our random variable, and take the average of these random values. The expectation is the value of this average when we 
+During this document, distributions $P(x)$ will be adressed many times. We will use $P(x)$ to denote the probability mass function of a discrete random variable or the probability density function of a continuous random variable.\\
+
+We are now ready to introduce the \emph{expectation} of a random variable. Imagine observing a wide number of outcomes from our random variable, and taking the average of these random values. The expectation is the value of this average when we 
 take \emph{infinite} outcomes of our random variable.
 
-\begin{ndef}[Expectation of a \emph{R.V.}]\label{def:expectation}
-Let $X$ be a non negative random variable on a probability space $(\Omega,\Alg,\Prob)$. The expectation $E[X]$ of $X$ is defined as:
+\begin{ndef}\label{def:expectation}
+Let $X$ be a non negative random variable on a probability space $(\Omega,\Alg,\Prob)$. The \emph{expectation} $E[X]$ of $X$ is defined as:
 $$
 E[X] = \int_\Omega X(\omega) \ dP(\omega).
 $$
 \end{ndef}
+
+Sometimes we might be referring to multiple random variables. In these cases, in order to make reference to the variable (or distribution function, that will be presented later) for which we calculate the expectation, we will denote it as $E_X$ (or $E_P$, in the case that we are adressing a distribution).
+
 The expectation of a random variable will be also denoted as $\mu$. Now, if $X$ is generic \emph{R.V}, the expectation is defined as:
 $$
-E[X] = E[X^+] - E[X^-]
+E[X] = E[X^+] - E[X^-],
 $$
 where $X^+,X^-$ are defined as it follows:
 $$
@@ -173,9 +178,9 @@ $$
 E[X] = \sum_{x \in \X} x  P_X(x),
 $$
 where $x$ is each possible outcome of the experiment, and $P_X(x)$ the probability under the distribution of $X$ of the outcome $x$. 
-The expression given in Def. \ref{def:expectation} before generalizes this particular case.
+The expression given in Def. \ref{def:expectation}  generalizes this particular case.
 
-Using the definition of the \emph{expectation} of a random variable, we can approach to the \emph{moments} of a random variable.
+Using the definition of the expectation of a random variable, we can approach to the concept of the \emph{moments} of a random variable.
 
 \begin{ndef}
 If $k \in \N$, then $E[X^k]$ is called the $k-th$ moment of $X$.
@@ -183,9 +188,9 @@ If $k \in \N$, then $E[X^k]$ is called the $k-th$ moment of $X$.
 If we take $k = 1$, we have the definition of the \emph{expectation}. It is sometimes written as $m_X = E[X]$, and called the \emph{mean}. We use the \emph{mean} in the definition of the variance:
 
 \begin{ndef}
-Let $X$ be a random variable. If $E[X^2] < \infty$, then the \emph{variance} of $X$ is defined to be
+Let $X$ be a random variable. If $E\left[X^2\right] < \infty$, then the \emph{variance} of $X$ is defined to be
 $$
-\Var(X) = E[(X - m_X)^2] = E[X^2] - m_X^2.
+\Var(X) = E\left[(X - m_X)^2\right] = E\left[X^2\right] - m_X^2.
 $$
 \end{ndef}
 
@@ -196,7 +201,7 @@ $$
 
 
 
-Usually, when it comes to applying these concepts to a real problem, we will be looking at multiple variables. We would like to have a collection of random variables each one representing one of this variables.
+Usually, when it comes to applying these concepts to a real problem, we will be observing multiple features that a phenomenon in nature presents. We would like to have a collection of random variables each one representing one of this features.
 In order to set the notation for these kinds of situations, we will introduce \emph{random vectors}.
 
 \begin{ndef}
@@ -206,16 +211,16 @@ In order to set the notation for these kinds of situations, we will introduce \e
 The probability distribution of a random variable can be extended in to the \emph{joint probability distribution} of a random vector.
 
 \begin{ndef}
-Let $\rvc$ be a random vector. The \emph{cumulative distribution funcion} $F_{\rv} : \R^n \to [0,1]$ of $\rv$ is defined as:
+Let $\rvc$ be a random vector. The \emph{cumulative distribution function} (or simply, the \emph{distribution function}) $F_{\rv} : \R^n \to [0,1]$ of $\rv$ is defined as:
 $$
 F_{\rv}(x) = P(X_1 \leq x_1 , \dots, X_n \leq x_n).
 $$
 \end{ndef}
 
-We also name it \emph{multivariate distribution}.  We explained before the independence of a pair of events. Using the cumulative distribution function, we can now define the independence between random variables.
+We also name it \emph{multivariate distribution}. Before, we presented the concept of independence between a pair of events. Using the cumulative distribution function, we can now define the independence between random variables.
 \begin{ndef}
-A finite set of $n$ random variables $\{X_1,\dots,X_n\}$ is mutually independent if and only if, for any sequence $\{x_1,\dots,x_n\}$, the events $\{X_1 \leq x_1\}, \dots, \{X_n \leq x_n\}$ are mutually independent. 
-Equivalently, this finite set is mutually independent if and only if:
+A finite set of $n$ random variables $\{X_1,\dots,X_n\}$ is mutually independent if, and only if, for any sequence $\{x_1,\dots,x_n\}$, the events $\{X_1 \leq x_1\}, \dots, \{X_n \leq x_n\}$ are mutually independent. 
+Equivalently, this finite set is mutually independent if, and only if,:
 $$
 F_{X_1,\dots, X_n}(x_1,\dots,x_n) = F_{X_1}(x_1) \dots F_{X_n}(x_n), \quad \quad \text{ for all } x_1,\dots,x_n.
 $$
@@ -234,7 +239,7 @@ $$
 To generalize the variance of a random variable, we have to build the following matrix.
 
 \begin{ndef}
-Let $\rvc$ ve a random vector. Then, the \emph{covariance matrix} of $\rv$ is defined as:
+Let $\rvc$ be a random vector. Then, the \emph{covariance matrix} of $\rv$ is defined as:
 $$
 \Sigma = \Cov(\rv) = E[(\rv - \mu_\rv)(\rv - \mu_\rv)^T] = \left ( \begin{array}{ccc} 
   \sigma_{11} & \cdots & \sigma_{1n}\\
@@ -242,17 +247,17 @@ $$
   \sigma_{n1} & \cdots & \sigma_{nn}
   \end{array} \right ),
 $$
-where $\sigma_{ij} = Cov(X_i,X_j) = E[(X_i - \mu_i)(X_j - \mu_j)] = \sigma_{ji}$.
+where $\sigma_{ij} = \Cov(X_i,X_j) = E[(X_i - \mu_i)(X_j - \mu_j)] = \sigma_{ji}$.
 \end{ndef}
 
 
-It can also happen that, given a \emph{random vector}, we would like to know the probability distribution of a few of its components. That is called the \emph{marginal distribution}.
+It can also happen that, given a random vector, we would like to know the probability distribution of some of its components. That is called the \emph{marginal distribution}.
 
-\begin{ndef}[Marginal Distribution]
-Let $\rvc$ be a random vector. The marginal distribution of a subset of $\rv$ is the probability distribution of the variables contained in the subset. 
+\begin{ndef}
+Let $\rvc$ be a random vector. The \emph{marginal distribution} of a subset of $\rv$ is the probability distribution of the variables contained in the subset. 
 \end{ndef}
 In the simple case of having two random variables, e.g. $X= (X_1, X_2)$, then the marginal distribution of $X_1$ is:
 $$
-P(x) = \int_{X_2} P(x_1,x_2) dx_2.
+P(x) = \int_{x_2} P(x_1,x_2) dx_2.
 $$
 

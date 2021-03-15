@@ -35,10 +35,16 @@ $$
 \mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(x_{t+k},c_t)}{\sum_{x_j \in X} f_k(x_k,c_k)}\right].
 $$
 
+Let us have a look at the \emph{categorical cross-entropy} loss function:
+\[
+    CE = -\sum_i^C t_i \log(f(s)_i)    
+\]
+where $C$ is the number of possible classes in a classification problem, $t_i$ are the groundtruth of each class and $f(s_i)$ is the application of an activation function (sigmoid,softmax) to the the score $s_i$ of each class.
 
-This is no more than the known \emph{categorical cross-entropy} of classifying the positive sample correctly, with the argument of the logarithm being the prediction
-of the model. The optimal probability for this loss can be written as $p(d = i|X,c_t)$, letting $[d = i]$ the indicate that the sample $x_i$ is the positive sample. Now, the probability that $x_i$ was drawn from the conditional
-distribution $p(X_{t+k}|c_t)$ rather than the proposal distribution $p(x_{t+k})$, leads us to the following expression:
+We can say that $\mathcal L_N$ is no more than ategorical cross-entropy of classifying the positive sample correctly, with the argument of the logarithm being the prediction
+of the model. If we note with $[d = i]$ as an indicator of the sample $x_i$ being the positive sample in $X$, the optimal probability for this loss can be written as $p(d = i|X,c_t)$. 
+
+Now, the probability that $x_i$ was drawn from the conditional distribution $p(x_{t+k}|c_t)$ that has the context in account, rather than the proposal distribution $p(x_{t+k})$ that does not have $c_t$ in account, leads us to the following expression:
 $$
 p(d = i | X , c_t) = \frac{p(x_i|c_t) \prod_{l \neq i}p(x_l)}{\sum_{j=1}^N p(x_j|c_t) \prod_{l \neq j} p(x_l)} = 
 $$
