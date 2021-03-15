@@ -1,30 +1,37 @@
 
 
 
-Before continuing presenting the mathematical notions about the topics that are treated in this work, it is interesting to present what we are trying to achieve.\\
+Before continuing to present the mathematical notions that are neccesary for the topics that are treated in this work, it is interesting to present what we are trying to achieve.\\
 
-\emph{Machine Learning} is the part of computer science that studies \emph{algorithms} that improve automatically through experience from examples. These algorithms help computer to discover how to
+\emph{Machine learning} is the field of computer science that studies algorithms that improve automatically through experience from examples. 
+These algorithms allow computers to discover how to
 perform tasks without being explicitly programmed to do them. For the computers to learn, it is mandatory that a finite set of data (or dataset) $\D$ is available. \\
 
-Depending on how the data (\emph{or signal}) is given to the computer, the machine learning approaches can be divided in three broad categories:
+Depending on how the data (\emph{or signal}) is given to the computer, the machine learning approaches can be divided into three broad categories:
 \begin{enumerate}
     \item \emph{Supervised learning}. In this category each point $x_i \in \D$ in the dataset is \emph{labeled}: each example is related to a tag $y_i \in Y$ that gives information about $x$. The goal in this case is to find 
     a function $g:\D \to Y$.
     \item \emph{Unsupervised learning}. In ths case, the data is \emph{unlabeled}, so the approach is completely different. Usually, the goal here is to discover hidden patterns in data or to learn features from it.
-    \item \emph{Reinforcement learning}. This is the area concerned with how intelligent agents take decisions in an an specific environment in order to obtain the best reward in their objective.
+    \item \emph{Reinforcement learning}. This is the area concerned with how intelligent agents take decisions in a specific environment in order to obtain the best reward in their objective.
 \end{enumerate}
 
 In this work, we will focus on unsupervised learning. Particularly, in representation learning.\\
 
-In the learning process, machine learning models can not directly give labels to input examples. Before, they must create a \emph{representation} that 
+
+%------------------------------------------------ Introduce feature definition
+
+%----------------------------------------------
+
+There are many different tasks that can be performed with the data, such as linear regression, logistic regression, or classification. In any of these tasks, computers might need
+to do intermediate steps before giving a label to the input example. Sometimes, they must create a \emph{representation} that 
 contains the data's key qualities.  Here is where \emph{representation learning} is born. 
 
 
-Intuitively, if $x$ is a datapoint of a dataset $\D \subset \R^d$,  \emph{representation} of $x$ is a vector $r \in \R^n$ (usually, $n \leq d$), that shares information with the datapoint $x$. That is, if a machine learning model
-tries to make a posterior task, such as classification, the output for $x$ and $r$ should be the same.
+Intuitively, if $x$ is a datapoint in a dataset $\D \subset \R^d$,  \emph{representation} of $x$ is a vector $r \in \R^n$ (usually, $n \leq d$), that shares information with the datapoint $x$. That is, if a machine learning model
+tries to make a posterior task, such as classification, the input $x$ must be transformed to a, usually lower dimensional, vector $r$ in order to perform the final label.
 
 
-Representation learning is a set of techniques that allows a system to discover the representations needed for feature detection or classification. 
+Representation learning is a set of techniques that allow a system to discover the representations needed for feature detection or classification. 
 In contrast to manual feature engineering, feature learning allows a machine to learn the features and to use them to perform a task.\\
 
 Feature learning can be supervised or unsupervised. In supervised feature learning, representations are learned using labeled data.
@@ -38,7 +45,7 @@ produce good results at running the models.\\
 The main goal in representation learning is to obtain features of the data that are generally good for any supervised task. That is, we would like to obtain
 a representation that is either good for image classification (giving an image a label of what we can see in it) or image captioning (producing a text that describes the image).\\
 
-Data's features that are invariant through time are very useful for machine learning models. In \cite{wiskott_slow_2002}, \emph{slow features} are presented. Slow features are defined as features of a signal 
+Data's features that are invariant through time are very useful for machine learning models. In \citep{wiskott_slow_2002}, \emph{slow features} are presented. Slow features are defined as features of a signal 
 (which can be the input of a model) that vary slowly during time. That means, if $\bm{X}$ is a \emph{time series}\footnotemark, we will try to find any number of features in $\bm{X}$ that vary the most slowly. These kind of features are the most interesting ones when creating representations, since they give an abstract view of the original data.\\
 
 
@@ -50,7 +57,7 @@ Let us give an example: In computer vision, the value of the pixels in an image 
 to the black stripes of this animal, the pixels will fast change from black to white and viceversa, so value of pixels is probably not a good feature to choose as an slow feature. However, there will always
 be a zebra on the image, so the feature that indicates that there is a zebra on the image will stay positive throughout all the video, so we can say that this is a slow feature.\\
 
-We will be studying different models that try to learn representations from raw data without labels, as we have mentioned. We usually need a function that measures what is the penalty that the model gets for making an election in a parameter.
+We will be studying different models that try to learn representations from raw data without labels, as we have mentioned. We usually need a function that measures what is the penalty that the model gets for a choice of a parameter.
 This is called a \emph{loss function}, that we will want to maximize or minimize, depending on the general goal of the model. Typically, neural networks seek to minimize the penalty. The loss function used in each task depends on the nature of the task.
 For instance, in a regression problem, a good example of loss function is \emph{mean squared error}, which is expressed as it follows:
 \[

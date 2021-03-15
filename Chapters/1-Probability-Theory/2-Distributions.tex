@@ -125,10 +125,9 @@ Let $\D$ be a dataset of independent observations and $\theta$ a set of paramete
 Our goal would be to find the optimal value $\hat{\theta}$ that maximizes the likelihood of observing the dataset $\D$. We get to the following definition:
 
 \begin{ndef}
-We say that \emph{maximum likelihood estimation} is the method used to estimate $\hat \theta$, the set of parameters $\theta$ of a density function
-$p_\theta (x)$, that are most likely to be the probability density function that approximates $\D$. More formally:
-$$
-\hat \theta = \argmax_{\theta} \mathcal L(\theta|X).
-$$
-$\hat\theta$ is also called the \emph{maximum likelihood estimate} (MLE).
+    We say that $\hat{\theta} = \hat\theta (\D)$ is a \emph{maximum likelihood estimator}(MLE) for $\theta$ if  
+    $$
+    \hat\theta \in \argmax_{\theta} \mathcal L(\theta | \D)
+    $$
+    for every observation $\D$. 
 \end{ndef}
