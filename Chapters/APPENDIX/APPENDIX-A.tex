@@ -1,9 +1,9 @@
 This appendix will be used to set forth some theoretical results that might not always be relevant but are needed to understand some details during this thesis. Not all of them will be proven.
 
 \begin{nprop}[Jensen's Inequality]\label{prop:jensen}
-    Let $f:\mathcal D \to \R$ be a concave function and $n\in \mathbb N$. For any $p_1,\dots,p_n \in \R^+_0$ with $\sum p_i = 1$ and any $x_1,\dots,x_n \in \mathbb D$, it holds that:
+    Let $f:\mathcal D \to \R$ be a concave function and $n\in \mathbb N$. For any $p_1,\dots,p_n \in \R^+_0$ with $\sum p_i = 1$ and any $x_1,\dots,x_n \in \mathcal D$, it holds that:
     $$
-    \sum_{i = 1}^n p_i f(x_i) \leq f(\sum_{i=1}^n p_i x_i)
+    \sum_{i = 1}^n p_i f(x_i) \leq f \left(\sum_{i=1}^n p_i x_i\right).
     $$
-    Furthermore, if $f$ is \emph{strictly} concave and $p_i \geq 0$ for all $i  = 1,\dots,n$,then the equality holds if and only if $x_1 = \dots = x_n$
+    Furthermore, if $f$ is \emph{strictly} concave and $p_i \geq 0$ for all $i  = 1,\dots,n$, then the equality holds if, and only if, $x_1 = \dots = x_n$.
 \end{nprop}

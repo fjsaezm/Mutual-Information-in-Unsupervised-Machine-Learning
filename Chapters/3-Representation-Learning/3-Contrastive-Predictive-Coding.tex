@@ -13,7 +13,7 @@ Our goal here will be to seek for a way of extracting shared information between
 encode our entry data $x$ into a representation which size is comparable to context size. Firstly, an \emph{encoder} is used. An encoder is a model that, given an input $x$, provides a feature map or vector that holds the information
 that the input $x$ had. In fact, and here is where we link the mutual information with the current topic, we want our encoder to maximize
 $$
-I(x,c) = \sum{x,c}p(x,c)\log\frac{p(x|c)}{p(x)}
+I(x,c) = \sum_{x,c}p(x,c)\log\frac{p(x|c)}{p(x)}
 $$
 that is, the mutual information between the input $x$ and the context $c$.  Maximizing the mutual information between $x$ and $c$, we extract the latent variables
 that the inputs have in common.
@@ -37,11 +37,11 @@ $$
 
 Let us have a look at the \emph{categorical cross-entropy} loss function:
 \[
-    CE = -\sum_i^C t_i \log(f(s)_i)    
+    \text{CE} = -\sum_i^C t_i \log(f(s)_i)    
 \]
 where $C$ is the number of possible classes in a classification problem, $t_i$ are the groundtruth of each class and $f(s_i)$ is the application of an activation function (sigmoid,softmax) to the the score $s_i$ of each class.
 
-We can say that $\mathcal L_N$ is no more than ategorical cross-entropy of classifying the positive sample correctly, with the argument of the logarithm being the prediction
+We can say that $\mathcal L_N$ is no more than the categorical cross-entropy of classifying the positive sample correctly, with the argument of the logarithm being the prediction
 of the model. If we note with $[d = i]$ as an indicator of the sample $x_i$ being the positive sample in $X$, the optimal probability for this loss can be written as $p(d = i|X,c_t)$. 
 
 Now, the probability that $x_i$ was drawn from the conditional distribution $p(x_{t+k}|c_t)$ that has the context in account, rather than the proposal distribution $p(x_{t+k})$ that does not have $c_t$ in account, leads us to the following expression:
