@@ -12,9 +12,9 @@ to obtain the real distribution that generates our data.
 Our goal here will be to seek for a way of extracting shared information between the context and the data. Due to the differences in data dimensionality, if we want to predict the future $x$ using the context $c$, firstly we must
 encode our entry data $x$ into a representation which size is comparable to context size. Firstly, an \emph{encoder} is used. An encoder is a model that, given an input $x$, provides a feature map or vector that holds the information
 that the input $x$ had. In fact, and here is where we link the mutual information with the current topic, we want our encoder to maximize
-$$
+\begin{equation}\label{EQ:MI}
 I(x,c) = \sum_{x,c}p(x,c)\log\frac{p(x|c)}{p(x)}
-$$
+\end{equation}
 that is, the mutual information between the input $x$ and the context $c$.  Maximizing the mutual information between $x$ and $c$, we extract the latent variables
 that the inputs have in common.
 
@@ -31,9 +31,9 @@ might not be correct, since we would be ignoring the context. Let us see how we 
 
 Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain positive sample taken from the distribution $p(x_{x+k}|c_t)$ and $N-1$ negative
 samples from the distribution propused $p(x_{t+k})$. With this set, we would like to optimize the following loss function:
-$$
+\begin{equation}\label{NCE:loss}
 \mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(x_{t+k},c_t)}{\sum_{x_j \in X} f_k(x_k,c_k)}\right].
-$$
+\end{equation}
 
 Let us have a look at the \emph{categorical cross-entropy} loss function:
 \[
@@ -45,6 +45,27 @@ We can say that $\mathcal L_N$ is no more than the categorical cross-entropy of 
 of the model. If we note with $[d = i]$ as an indicator of the sample $x_i$ being the positive sample in $X$, the optimal probability for this loss can be written as $p(d = i|X,c_t)$. 
 
 Now, the probability that $x_i$ was drawn from the conditional distribution $p(x_{t+k}|c_t)$ that has the context in account, rather than the proposal distribution $p(x_{t+k})$ that does not have $c_t$ in account, leads us to the following expression:
+\[
+p(d = i | X , c_t) = \frac{p(x_i|c_t) \prod_{l \neq i}p(x_l)}{\sum_{j=1}^N p(x_j|c_t) \prod_{l \neq j} p(x_l)} = \frac{\frac{p(x_i|c_t){p(x_i)}}}{\sum_{j=1}^N \frac{p(x_j|c_t)}{p(x_j)}}.
+\]
+
+This is the optimal case for \eqref{NCE:loss}. In fact, if we denote $f(x_{t+k},c_t)$  as the density ratio that preserves the mutual information between $x_{t+k}$ and $c_t$ in the mutual information definition \eqref{EQ:MI}, we have just proved that if $k$ is a step in the experiments, then
+\begin{equation}\label{EQ:Proportional}
+f_k(x_{t+k},c_t)  \propto \frac{p(t_{x+k}| c_t)}{p_{x_{t+k}}},
+\end{equation}
+where $\propto$ means that the member on the left is proportional to the member on the right. We can see that the optimal value $f_k(x_{t+k},c_t)$ does not depend on $N-1$, the number of negative samples in $X$. Using this density ratio, we are relieved from modeling the high dimensional distribution $x_{t_k}$. In 
+
+%--------------------------
+
+INSERT 1st ref to oord et al here
+%-------------- 
+for instance, the following log-bilinear model expression is used:
 $$
-p(d = i | X , c_t) = \frac{p(x_i|c_t) \prod_{l \neq i}p(x_l)}{\sum_{j=1}^N p(x_j|c_t) \prod_{l \neq j} p(x_l)} = 
+f_k(x_{t+k},c_t) = exp(z_{t+k}^T W_k c_t).
 $$
+
+
+
+In this model, we can either use the representation given by the encoder $(z_t)$ or the representation given by the autoregressive model $(c_t)$ for downstream tasks. Clearly, the representation that aggregates information from past inputs will be more useful
+if more information about the context is needed. Furthermore, any type of models for the encoder and the autoregressive models can be used in this kind of framework \ref{OORDE ET AL }
+
