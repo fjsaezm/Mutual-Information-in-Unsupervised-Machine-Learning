@@ -32,12 +32,12 @@ might not be correct, since we would be ignoring the context. Let us see how we 
 Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain positive sample taken from the distribution $p(x_{x+k}|c_t)$ and $N-1$ negative
 samples from the distribution propused $p(x_{t+k})$. With this set, we would like to optimize the following loss function:
 \begin{equation}\label{NCE:loss}
-\mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(x_{t+k},c_t)}{\sum_{x_j \in X} f_k(x_k,c_k)}\right].
+\mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(x_{t+k},c_t)}{\sum_{x_j \in X} f_k(x_j,c_k)}\right].
 \end{equation}
 
 Let us have a look at the \emph{categorical cross-entropy} loss function:
 \[
-    \text{CE} = -\sum_i^C t_i \log(f(s)_i)    
+    \text{CE} = -\sum_i^C t_i \log(f(s_i))    
 \]
 where $C$ is the number of possible classes in a classification problem, $t_i$ are the groundtruth of each class and $f(s_i)$ is the application of an activation function (sigmoid,softmax) to the the score $s_i$ of each class.
 
@@ -69,3 +69,20 @@ $$
 In this model, we can either use the representation given by the encoder $(z_t)$ or the representation given by the autoregressive model $(c_t)$ for downstream tasks. Clearly, the representation that aggregates information from past inputs will be more useful
 if more information about the context is needed. Furthermore, any type of models for the encoder and the autoregressive models can be used in this kind of framework \ref{OORDE ET AL }
 
+
+Now, it will be shown how optimizing the loss presented in \ref{NCE:loss}, we are maximizing mutual information between $c_t$ and $z_{t+k}$. Using that the optimal value for $f(x_{t+k},c_t)$ was proven to be $\frac{p(x_{t+k}|c_t)}{p(x_{t+k})}$, if we have that:
+$$
+L_N^{\operatorname{opt}} = - E_X log \left[ \frac{\frac{p(x_{t+k}|c_t)}{p(x_{t+k})}}{ \sum_{x_j \in X} \frac{p(x_{j}|c_t)}{p(x_{j})}} \right].
+$$
+We can split the denominator in the positive sample $x_{t+k}$ and the negative samples, and use that $-log(a) = log(a^{-1})$ to obtain:
+$$
+L_N^{\operatorname{opt}} = E_X \left[ 1+ \frac{\sum_{x_j \in X_{\operatorname{neg}}} \frac{p(x_j|c_t)}{p(x_j)}{\frac{p(x_{t+k})}{p(x_{t+k}|c_t)}}} \right],
+$$
+and, since the negatives are uniformly distributed, this we obtain:
+$$
+L_N^{\operatorname{opt}} = E_X \operatorname{log}\left[ 1+ \frac{\sum_{x_j \in X_{\operatorname{neg}}} \frac{p(x_j|c_t)}{p(x_j)}{\frac{p(x_{t+k})}{p(x_{t+k}|c_t)}}} \right] \approx E_X \left[ 1+ \frac{\sum_{\left(N-1\right)E_{x_j}\left[ \frac{p(x_j|c_t)}{p(x_j)}\right]}{\frac{p(x_{t+k})}{p(x_{t+k}|c_t)}}} \right].
+$$
+If we observe that $E_{x_j}\left[ \frac{p(x_j|c_t)}{p(x_j)}\right] = \sum_{x_j} p(x_j) \frac{p(x_j|c_t)}{p(x_j)} = 1$, then we can derive the last expression as follows:
+$$
+E_X \operatorname{log} \left[ 1+ \frac{\sum_{\left(N-1\right)E_{x_j}\left[ \frac{p(x_j|c_t)}{p(x_j)}\right]}{\frac{p(x_{t+k})}{p(x_{t+k}|c_t)}}} \right] = E_X \operatorname{log} \left[ 1 + \frac{N-1}{ \frac{p(x_{t+k}|c_t)}{p(x_{t+k})}}\right] = 
+$$
