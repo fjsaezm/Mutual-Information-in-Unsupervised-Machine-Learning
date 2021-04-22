@@ -45,27 +45,41 @@ We can say that $\mathcal L_N$ is no more than the categorical cross-entropy of 
 of the model. If we note with $[d = i]$ as an indicator of the sample $x_i$ being the positive sample in $X$, the optimal probability for this loss can be written as $p(d = i|X,c_t)$. 
 
 Now, the probability that $x_i$ was drawn from the conditional distribution $p(x_{t+k}|c_t)$ that has the context in account, rather than the proposal distribution $p(x_{t+k})$ that does not have $c_t$ in account, leads us to the following expression:
-\[
-p(d = i | X , c_t) = \frac{p(x_i|c_t) \prod_{l \neq i}p(x_l)}{\sum_{j=1}^N p(x_j|c_t) \prod_{l \neq j} p(x_l)} = \frac{\frac{p(x_i|c_t){p(x_i)}}}{\sum_{j=1}^N \frac{p(x_j|c_t)}{p(x_j)}}.
-\]
+%\begin{align*}
+%p(d = i | X , c_t) = & \frac{p(x_i|c_t) \prod_{l \neq i}p(x_l)}{\sum_{j=1}^N p(x_j|c_t) \prod_{l \neq j} p(x_l)}\\
+%                   = & \frac{\frac{p(x_i|c_t)}{p(x_i)}}{\sum_{j=1}^N \frac{p(x_j|c_t)}{p(x_j)}}.
+%\end{align*}
+$$
+p(d = i | X , c_t) = \frac{ \frac{p(x_i|c_t)}{p(x_i)}}{\sum_{j=1}^N \frac{p(x_j|c_t)}{p(x_j)}}.
+$$
 
-This is the optimal case for \eqref{NCE:loss}. In fact, if we denote $f(x_{t+k},c_t)$  as the density ratio that preserves the mutual information between $x_{t+k}$ and $c_t$ in the mutual information definition \eqref{EQ:MI}, we have just proved that if $k$ is a step in the experiments, then
+This is the optimal case for \eqref{NCE:loss}. Lets provide with further explanation on this formula. Firstly, it is necessary to see that:
+$$
+\begin{WithArrows}
+p( d = i | X) & =   \frac{p(d=i,X)}{p(X)} \\
+              & =  \frac{X | d = i}{p(X)} \\
+              & =  \frac{p(X | d = i)}{\sum_{j = 1}^N p(X|d = j) p(d = j)} \Arrow{$\left(\ast\right)$}\\
+              & =  \frac{D(i) p(x_i) \prod_{j \neq i}q(x_j)}{\sum_{j=1}^N D(j) p(x_j)\prod_{k \neq j}q(x_k)} \Arrow{assume D is uniform} \\
+              & =  \frac{p(x_i)\prod_{j \neq i}q(x_j)}{\sum_{j=1}^N p(x_j)\prod_{k \neq j}q(x_k)}, 
+\end{WithArrows}
+$$
+
+Where, in $\left(\ast\right)$, we have used that since $p(X|d=i)$ reffers to the probability of the sample $X$ given that $d = i$ which means that $x_i$ has been extracted from $p(x_{t+k}|c_t)$ and 
+$x_j$ for $j \neq i$ have been extracted from $p(x_{t+k})$ (noted $q$ in the formula to remark the difference), that means $p(X|d=i) = p(x_i)\prod_{j\neq i} q(x_j)$. Also, we can assume that $D$ is uniform because each $x_i$ with $i = 1,\dots,N$ 
+has the same probability to have been chosen to be the positive sample in $X$.
+
+
+In fact, if we denote $f(x_{t+k},c_t)$  as the density ratio that preserves the mutual information between $x_{t+k}$ and $c_t$ in the mutual information definition \eqref{EQ:MI}, we have just proved that if $k$ is a step in the experiments, then
 \begin{equation}\label{EQ:Proportional}
 f_k(x_{t+k},c_t)  \propto \frac{p(t_{x+k}| c_t)}{p_{x_{t+k}}},
 \end{equation}
-where $\propto$ means that the member on the left is proportional to the member on the right. We can see that the optimal value $f_k(x_{t+k},c_t)$ does not depend on $N-1$, the number of negative samples in $X$. Using this density ratio, we are relieved from modeling the high dimensional distribution $x_{t_k}$. In 
-
-%--------------------------
-
-INSERT 1st ref to oord et al here
-%-------------- 
-for instance, the following log-bilinear model expression is used:
+where $\propto$ means that the member on the left is proportional to the member on the right. We can see that the optimal value $f_k(x_{t+k},c_t)$ does not depend on $N-1$, the number of negative samples in $X$.
+Using this density ratio, we are relieved from modeling the high dimensional distribution $x_{t_k}$. In \citep{oord_representation_2019}, paper that we have followed and tried to explain in this document, for instance, the following log-bilinear model expression is used:
 $$
 f_k(x_{t+k},c_t) = exp(z_{t+k}^T W_k c_t).
 $$
 
 
-
-In this model, we can either use the representation given by the encoder $(z_t)$ or the representation given by the autoregressive model $(c_t)$ for downstream tasks. Clearly, the representation that aggregates information from past inputs will be more useful
-if more information about the context is needed. Furthermore, any type of models for the encoder and the autoregressive models can be used in this kind of framework \ref{OORDE ET AL }
+In the proposed model, we can either use the representation given by the encoder $(z_t)$ or the representation given by the autoregressive model $(c_t)$ for downstream tasks. Clearly, the representation that aggregates information from past inputs will be more useful
+if more information about the context is needed. Furthermore, any type of models for the encoder and the autoregressive models can be used in this kind of framework.
 
