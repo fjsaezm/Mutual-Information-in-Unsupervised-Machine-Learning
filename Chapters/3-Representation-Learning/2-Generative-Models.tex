@@ -32,10 +32,11 @@ A very first definition of \emph{autoregressive models (AR)} would be the follow
 concept and explain how it behaves.
 
 Again, let $\D$ be a set of $n-$dimensional datapoints $x$. We can assume that $x \in \{0,1\}^n$ for simplicity, without losing generality. If we choose any $x\in \D$, using the chain rule of probability, we obtain
-$$
-p(x) = \prod_{i=1} ^n p(x_i | x_1,\dots,x_{i-1}) = \prod_{i = 1}^n p(x_i|\bm{x}_{<i}), \quad  \text{ where }  \quad \bm{x}_{<i} = [x_1,\dots, x_{i-1}].
-$$
+\[
+p(x) = \prod_{i=1} ^n p(x_i | x_1,\dots,x_{i-1}) = \prod_{i = 1}^n p(x_i|\bm{x}_{<i}),
+\]
 
+where $\bm{x}_{<i} \in \R^{i-1}$ is a vector whose componentes are the previous $x_j$ for $j = 1,\dots, i-1$, that is: $\bm{x}_{<i}= [x_1,\dots, x_{i-1}]$. \\
 It is known that given a set of discrete and mutually dependent random variables, they can be displayed in a table of conditional probabilities. If $K_i$ is the number of states that each random variable can take
 then $\prod K_i$ is the number of cells that the table will have. If we represent $p(x_i|\bm{x}_{<i})$ for every $i$ in tabular form, we can represent
 any possible distribution over $n$ random variables. 
@@ -47,7 +48,7 @@ becomes impractical for our network to learn when $n$ increases.
 In autoregressive generative models, the conditionals are specified as we have mentioned before: parameterized functions with a fixed numbers of parameters. More precisely,  we assume 
 the conditional distributions to be Bernoulli random variables and learn a function $f_i$ that maps these random variables to the mean of the distribution. Mathematically, we have to find 
 $$
-p_{\theta_i}(x_i | \bm{x}_{<i}) = \text{Bern}(f_i(x_1,\dots,x_{i-1})),
+p_{\theta_i}(x_i | \bm{x}_{<i}) = \operatorname{Bern}(f_i(x_1,\dots,x_{i-1})),
 $$
 where $\theta_i$ is the set of parameters that specify the mean function $f_i:\{0,1\}^{i-1} \to [0,1]$.
 
