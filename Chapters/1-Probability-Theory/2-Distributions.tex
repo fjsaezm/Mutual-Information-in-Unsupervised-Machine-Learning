@@ -131,3 +131,32 @@ Our goal would be to find the optimal value $\hat{\theta}$ that maximizes the li
     $$
     for every observation $\D$. 
 \end{ndef}
+
+\subsection*{Minimal sufficient statistics}
+
+In parametric modeling, the goal was to determine the density function under a distribution. Another interesting task can be determining specific parameters or quantitys related to a distribution 
+, given a sample $X = (x_1,\cdots,x_n)$.
+
+\begin{ndef}
+    A \emph{statistic} is a measurable function of the data. That is, if $T : \Omega \to \mathbb T$ is measurable, then $T(X)$ is a statistic.
+\end{ndef}
+
+However, not all statistics will provide useful information for the statistical inference problem. We would like to find statistics that provide relevant information.
+
+\begin{ndef}
+    Let $X \sim P_\theta$. Then, the statistic $T(X) = T : (\Omega, \Alg) \to (\mathbb T, \mathcal B)$, is sufficient for a family of parameters $\{P_\theta \ : \ \theta \in \Theta \}$ if the conditional distribution of $X$, given $T = t$, is indepentent of $\theta$.\\
+
+    Alternatively, we can say $T(X)$ is sufficient for $\theta$ if its mutual information with $\theta$ equals the mutual information between $X$ and $\theta$, that is:
+    $$
+    I(\theta, X) = I (\theta, T(X))
+    $$
+\end{ndef}
+
+The easiest example of a sufficient statistic is the mean $\mu$ of a gaussian distribution with known variance. Oppositely, the \emph{median} of an arbitrary distribution
+is not sufficient for the mean since, even if the median of the sample is known, more information about the mean of the population can be obtained from the mean of the sample itself.
+
+Although it will not be shown in this document, sufficient statistics are not unique. In fact, if $T$ is sufficient, $\psi(T)$ is sufficient for any bijecte mapping $\psi$. It would be interesting to find a sufficient statistic $T$ that is \emph{the smallest} of them.
+
+\begin{ndef}
+    A sufficient statistic $T$ is minimal if, for every sufficient statistic $U$, there exists a mapping $f$ such that $T(x) = f(U(x))$ for any $x \in \Omega$.
+\end{ndef}

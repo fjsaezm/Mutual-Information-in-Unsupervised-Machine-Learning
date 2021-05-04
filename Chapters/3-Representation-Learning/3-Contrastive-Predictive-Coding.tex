@@ -83,7 +83,7 @@ has the same probability to have been chosen to be the positive sample in $X$.
 
 In fact, if we denote $f(\xtk,c_t)$  as the density ratio that preserves the mutual information between $\xtk$ and $c_t$ in the mutual information definition \eqref{EQ:MI}, we have just proved that if $k$ is a step in the experiments, then
 \begin{equation}\label{EQ:Proportional}
-f_k(\xtk,c_t)  \propto \frac{p(t_{x+k}| c_t)}{p_{\xtk}},
+f_k(\xtk,c_t)  \propto \frac{p(t_{x+k}| c_t)}{p(\xtk)},
 \end{equation}
 where $\propto$ means that the member on the left is proportional to the member on the right. We can see that the optimal value $f_k(\xtk,c_t)$ does not depend on $N-1$, the number of negative samples in $X$.
 Using this density ratio, we are relieved from modeling the high dimensional distribution $x_{t_k}$. In \citep{oord_representation_2019}, paper that we have followed and tried to explain in this document, for instance, the following log-bilinear model expression is used:
