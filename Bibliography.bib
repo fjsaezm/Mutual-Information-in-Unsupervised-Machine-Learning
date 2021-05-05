@@ -89,3 +89,78 @@
 	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning},
 	file = {Oord et al. - 2019 - Representation Learning with Contrastive Predictiv.pdf:C\:\\Users\\fjsae\\Zotero\\storage\\BEXEB8IG\\Oord et al. - 2019 - Representation Learning with Contrastive Predictiv.pdf:application/pdf},
 }
+
+
+
+@article{tian_what_2020,
+	title = {What {Makes} for {Good} {Views} for {Contrastive} {Learning}?},
+	url = {http://arxiv.org/abs/2005.10243},
+	abstract = {Contrastive learning between multiple views of the data has recently achieved state of the art performance in the ﬁeld of self-supervised representation learning. Despite its success, the inﬂuence of different view choices has been less studied. In this paper, we use theoretical and empirical analysis to better understand the importance of view selection, and argue that we should reduce the mutual information (MI) between views while keeping task-relevant information intact. To verify this hypothesis, we devise unsupervised and semi-supervised frameworks that learn effective views by aiming to reduce their MI. We also consider data augmentation as a way to reduce MI, and show that increasing data augmentation indeed leads to decreasing MI and improves downstream classiﬁcation accuracy. As a byproduct, we achieve a new state-of-the-art accuracy on unsupervised pre-training for ImageNet classiﬁcation (73\% top-1 linear readout with a ResNet-50)1.},
+	language = {en},
+	urldate = {2021-05-05},
+	journal = {arXiv:2005.10243 [cs]},
+	author = {Tian, Yonglong and Sun, Chen and Poole, Ben and Krishnan, Dilip and Schmid, Cordelia and Isola, Phillip},
+	month = dec,
+	year = {2020},
+	note = {arXiv: 2005.10243},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning},
+	file = {Tian et al. - 2020 - What Makes for Good Views for Contrastive Learning.pdf:C\:\\Users\\fjsae\\Zotero\\storage\\7XCI74ET\\Tian et al. - 2020 - What Makes for Good Views for Contrastive Learning.pdf:application/pdf},
+}
+
+
+@article{hjelm_learning_2019,
+	title = {Learning deep representations by mutual information estimation and maximization},
+	url = {http://arxiv.org/abs/1808.06670},
+	abstract = {This work investigates unsupervised learning of representations by maximizing mutual information between an input and the output of a deep neural network encoder. Importantly, we show that structure matters: incorporating knowledge about locality in the input into the objective can signiﬁcantly improve a representation’s suitability for downstream tasks. We further control characteristics of the representation by matching to a prior distribution adversarially. Our method, which we call Deep InfoMax (DIM), outperforms a number of popular unsupervised learning methods and compares favorably with fully-supervised learning on several classiﬁcation tasks in with some standard architectures. DIM opens new avenues for unsupervised learning of representations and is an important step towards ﬂexible formulations of representation learning objectives for speciﬁc end-goals.},
+	language = {en},
+	urldate = {2020-12-02},
+	journal = {arXiv:1808.06670 [cs, stat]},
+	author = {Hjelm, R. Devon and Fedorov, Alex and Lavoie-Marchildon, Samuel and Grewal, Karan and Bachman, Phil and Trischler, Adam and Bengio, Yoshua},
+	month = feb,
+	year = {2019},
+	note = {arXiv: 1808.06670},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning},
+	file = {Hjelm et al. - 2019 - Learning deep representations by mutual informatio.pdf:C\:\\Users\\fjsae\\Zotero\\storage\\BLBKU5W8\\Hjelm et al. - 2019 - Learning deep representations by mutual informatio.pdf:application/pdf},
+}
+
+
+
+@article{gutmann_noise-contrastive_nodate,
+	title = {Noise-{Contrastive} {Estimation} of {Unnormalized} {Statistical} {Models}, with {Applications} to {Natural} {Image} {Statistics}},
+	abstract = {We consider the task of estimating, from observed data, a probabilistic model that is parameterized by a ﬁnite number of parameters. In particular, we are considering the situation where the model probability density function is unnormalized. That is, the model is only speciﬁed up to the partition function. The partition function normalizes a model so that it integrates to one for any choice of the parameters. However, it is often impossible to obtain it in closed form. Gibbs distributions, Markov and multi-layer networks are examples of models where analytical normalization is often impossible. Maximum likelihood estimation can then not be used without resorting to numerical approximations which are often computationally expensive. We propose here a new objective function for the estimation of both normalized and unnormalized models. The basic idea is to perform nonlinear logistic regression to discriminate between the observed data and some artiﬁcially generated noise. With this approach, the normalizing partition function can be estimated like any other parameter. We prove that the new estimation method leads to a consistent (convergent) estimator of the parameters. For large noise sample sizes, the new estimator is furthermore shown to behave like the maximum likelihood estimator. In the estimation of unnormalized models, there is a trade-off between statistical and computational performance. We show that the new method strikes a competitive trade-off in comparison to other estimation methods for unnormalized models. As an application to real data, we estimate novel two-layer models of natural image statistics with spline nonlinearities.},
+	language = {en},
+	author = {Gutmann, Michael U and Hyvarinen, Aapo},
+	pages = {55},
+	file = {Gutmann and Hyvarinen - Noise-Contrastive Estimation of Unnormalized Stati.pdf:C\:\\Users\\fjsae\\Zotero\\storage\\A8NCV3NN\\Gutmann and Hyvarinen - Noise-Contrastive Estimation of Unnormalized Stati.pdf:application/pdf},
+}
+
+
+@article{chen_simple_2020,
+	title = {A {Simple} {Framework} for {Contrastive} {Learning} of {Visual} {Representations}},
+	url = {http://arxiv.org/abs/2002.05709},
+	abstract = {This paper presents SimCLR: a simple framework for contrastive learning of visual representations. We simplify recently proposed contrastive self-supervised learning algorithms without requiring specialized architectures or a memory bank. In order to understand what enables the contrastive prediction tasks to learn useful representations, we systematically study the major components of our framework. We show that (1) composition of data augmentations plays a critical role in defining effective predictive tasks, (2) introducing a learnable nonlinear transformation between the representation and the contrastive loss substantially improves the quality of the learned representations, and (3) contrastive learning benefits from larger batch sizes and more training steps compared to supervised learning. By combining these findings, we are able to considerably outperform previous methods for self-supervised and semi-supervised learning on ImageNet. A linear classifier trained on self-supervised representations learned by SimCLR achieves 76.5\% top-1 accuracy, which is a 7\% relative improvement over previous state-of-the-art, matching the performance of a supervised ResNet-50. When fine-tuned on only 1\% of the labels, we achieve 85.8\% top-5 accuracy, outperforming AlexNet with 100X fewer labels.},
+	language = {en},
+	urldate = {2021-05-05},
+	journal = {arXiv:2002.05709 [cs, stat]},
+	author = {Chen, Ting and Kornblith, Simon and Norouzi, Mohammad and Hinton, Geoffrey},
+	month = jun,
+	year = {2020},
+	note = {arXiv: 2002.05709},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Computer Science - Computer Vision and Pattern Recognition},
+	file = {Chen et al. - 2020 - A Simple Framework for Contrastive Learning of Vis.pdf:C\:\\Users\\fjsae\\Zotero\\storage\\VIM3N5A3\\Chen et al. - 2020 - A Simple Framework for Contrastive Learning of Vis.pdf:application/pdf},
+}
+
+@article{he_momentum_2020,
+	title = {Momentum {Contrast} for {Unsupervised} {Visual} {Representation} {Learning}},
+	url = {http://arxiv.org/abs/1911.05722},
+	abstract = {We present Momentum Contrast (MoCo) for unsupervised visual representation learning. From a perspective on contrastive learning [29] as dictionary look-up, we build a dynamic dictionary with a queue and a moving-averaged encoder. This enables building a large and consistent dictionary on-the-ﬂy that facilitates contrastive unsupervised learning. MoCo provides competitive results under the common linear protocol on ImageNet classiﬁcation. More importantly, the representations learned by MoCo transfer well to downstream tasks. MoCo can outperform its supervised pre-training counterpart in 7 detection/segmentation tasks on PASCAL VOC, COCO, and other datasets, sometimes surpassing it by large margins. This suggests that the gap between unsupervised and supervised representation learning has been largely closed in many vision tasks.},
+	language = {en},
+	urldate = {2021-05-05},
+	journal = {arXiv:1911.05722 [cs]},
+	author = {He, Kaiming and Fan, Haoqi and Wu, Yuxin and Xie, Saining and Girshick, Ross},
+	month = mar,
+	year = {2020},
+	note = {arXiv: 1911.05722},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition},
+	file = {He et al. - 2020 - Momentum Contrast for Unsupervised Visual Represen.pdf:C\:\\Users\\fjsae\\Zotero\\storage\\NU929CYR\\He et al. - 2020 - Momentum Contrast for Unsupervised Visual Represen.pdf:application/pdf},
+}

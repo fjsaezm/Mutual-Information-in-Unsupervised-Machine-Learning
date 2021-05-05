@@ -1,19 +1,2 @@
 // TODO - Introduce semi-supervised + self-supervised learning
 
-In contrastive learning, different ``views'' of the same input are created. These are sometimes also called \emph{positive samples}. Then, they are compared with \emph{negative samples}, which are views created from an input that does not share information with the input of the positive sample. The idea is to try and maximize the mutual information between positive samples and push appart the views taken from negative samples. 
-
-There are many ways of creating samples, both positive and negative, of an input. For instance:
-\begin{itemize}
-    \item Randomly cropping different parts of an image. These would be examples of positive examples.
-    \item Rotating or flipping images or crops of them would also be examples of positive samples.
-    
-    \item Taking different time-steps of a video would create positive samples.
-    \item Selecting different parts of the same text would also be a positive example.    
-    \item Negative samples are created by applying one of the previous techniques to images that have nothing in common with the positive input.
-\end{itemize}
-
-In fact, if $v_1,v_2$ are two views of an input, we can think of the positive pairs as points coming from a joint distribution over the views $p(v_1,v_2)$, and negative samples coming from the product of the marginals $p(v_1)p(v_2)$.
-%[https://arxiv.org/pdf/2005.10243.pdf]
-
-It is important to find a way to determine how much shared information between the views is needed, in order to make the representations obtained good enough for any downstream task. Here is where the \emph{InfoMin principle} is born. A good set of views are those that share the minimal information neccesary to perform well at the downstream task [https://arxiv.org/pdf/2005.10243.pdf]. 
-

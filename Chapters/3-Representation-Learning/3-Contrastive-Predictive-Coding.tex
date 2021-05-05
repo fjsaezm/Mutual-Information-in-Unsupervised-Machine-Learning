@@ -1,8 +1,8 @@
-// TODO - Change name to InfoNCE LOSS
+
 
 We are now ready to connnect the concepts of mutual information and generative models that we have presented. In unsupervised learning,
 it is a common strategy to predict future information and to try to find out if our predictions are correct.
-In \emph{natural language processing},for instance, representations are learned 
+In \emph{natural language processing}, for instance, representations are learned 
 using neighbouring words \citep{mikolov_efficient_2013}, and in images, some studies have been able to predict color from grey-scale \citep{doersch_unsupervised_2016}.
 
 When we talk about high-dimensional data, it is not useful to make use of an unimodal loss function to evaluate our model. If we did it like this, we would be assuming that there is only
@@ -10,6 +10,25 @@ one peak in the distribution function and that it is actually similar to a Gauss
 they will model the relationships in the data $x$. However,they ignore the context $c$ in which the data $x$ is involved. As an easy example of this, an image contains thousands of bits of information,
 while the label that classifies the image contains much less information , say, $10$ bits for $1024$ categories. Because of this, modeling $p(x|c)$ might not be the best way to proceed if we want
 to obtain the real distribution that generates our data. 
+
+During the last few years, the representation learning problem has been approached using different machine learning frameworks. The most competitive ones have been self-supervised contrastive representation learning \cite{oord_representation_2019,tian_what_2020,hjelm_learning_2019,gutmann_noise-contrastive_nodate,chen_simple_2020,he_momentum_2020} using \emph{contrastive losses}, and they have empirically outperformed other approaches.     
+
+In contrastive learning, different ``views'' of the same input are created. These are also called \emph{positive samples}. Then, they are compared with \emph{negative samples}, which are views created from an input that does not share information with the input of the positive sample. The idea is to try and maximize the mutual information between positive samples and push appart the views taken from negative samples. 
+
+There are many ways of creating samples, both positive and negative, of an input. For instance:
+\begin{itemize}
+    \item Randomly cropping different parts of an image. These would be examples of positive examples.
+    \item Rotating or flipping images or crops of them would also be examples of positive samples.
+    
+    \item Taking different time-steps of a video would create positive samples.
+    \item Selecting different parts of the same text would also be a positive example.    
+    \item Negative samples are created by applying one of the previous techniques to images that have nothing in common with the positive input.
+\end{itemize}
+
+In fact, if $v_1,v_2$ are two views of an input, we can think of the positive pairs as points coming from a joint distribution over the views $p(v_1,v_2)$, and negative samples coming from the product of the marginals $p(v_1)p(v_2)$, \citep{tian_what_2020}.
+
+It is important to find a way to determine how much shared information between the views is needed, in order to make the representations obtained good enough for any downstream task. Here is where the \emph{InfoMin principle} is born. A good set of views are those that share the minimal information neccesary to perform well at the downstream task. We will follow the argument presented in \cite{oord_representation_2019} to find a lower bound on mutual information.
+
 
 Our goal here will be to seek for a way of extracting shared information between the context and the data. Due to the differences in data dimensionality, if we want to predict the future $x$ using the context $c$, firstly we must
 encode our entry data $x$ into a representation which size is comparable to context size. Firstly, an \emph{encoder} is used. An encoder is a model that, given an input $x$, provides a feature map or vector that holds the information
@@ -77,7 +96,7 @@ p( d = i | X) & =   \frac{p(d=i,X)}{p(X)} \\
 $$
 
 Where, in $\left(\ast\right)$, we have used that since $p(X|d=i)$ reffers to the probability of the sample $X$ given that $d = i$ which means that $x_i$ has been extracted from $p(\xtk|c_t)$ and 
-$x_j$ for $j \neq i$ have been extracted from $p(\xtk)$ (noted $q$ in the formula to remark the difference), that means $p(X|d=i) = p(x_i)\prod_{j\neq i} q(x_j)$. Also, we can assume that $D$ is uniform because each $x_i$ with $i = 1,\dots,N$ 
+$x_j$ for $j \neq i$ have been extracted from $p(\xtk)$ (noted $q$ in the formula to remark the difference). That means $p(X|d=i) = p(x_i)\prod_{j\neq i} q(x_j)$. Also, we can assume that $D$ is uniform because each $x_i$ with $i = 1,\dots,N$ 
 has the same probability to have been chosen to be the positive sample in $X$.
 
 
