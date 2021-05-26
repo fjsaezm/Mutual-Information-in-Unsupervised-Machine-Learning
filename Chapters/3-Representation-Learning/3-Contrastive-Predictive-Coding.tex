@@ -60,7 +60,7 @@ might not be correct, since we would be ignoring the context. \\
 
 Let us see how we train the encoder $g_{enc}$ and the autoregressive model $g_{ar}$.\\
 
-Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain positive sample taken from the distribution $p(\xtk}|c_t)$ and $N-1$ negative
+Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain positive sample taken from the distribution $p( \xtk |c_t)$ and $N-1$ negative
 samples from the distribution propused $p(\xtk)$. With this set, we would like to optimize the following loss function:
 \begin{equation}\label{NCE:loss}
 \mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(\xtk,c_t)}{\sum_{x_j \in X} f_k(x_j,c_k)}\right].
