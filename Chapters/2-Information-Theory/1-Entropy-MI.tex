@@ -25,6 +25,31 @@ The \emph{entropy} can trivially be expressed as:
 $$
 H(X) = - \sum_{x \in \X}P_X (x)\log P_X(x).
 $$
+
+The simple example, found in (link), even though it is very simple, it is very illustrative for our definition:
+
+%http://www.cs.columbia.edu/~vh/courses/LexicalSemantics/Association/Cover&Thomas-Ch2.pdf
+\begin{nexample}
+    \label{example:entropy}
+Let $X \sim Bern(p)$. Then, the entropy of $X$ is:
+\[
+H(X) = -p \log p - (1-p) \log(1-p)) = H(p),
+\]
+since $H$ only depends on $p$. In Fig.\ref{fig:example:entropy} we can see a representation of this function. We appreciate that in this case, $H$ is concave and equals $0$ if $p \in \{0,1\}$, which are the values of $p$ that give us no uncertainty. The maximum uncertainty is obtained when $p=\frac{1}{2}$, where we do not know what to expect as an outcome from our random variable $X$.
+
+\begin{figure}[H]
+    \label{fig:example:entropy}
+    \begin{tikzpicture}
+        \draw[->] (-0.1, 0) -- (1.1, 0) node[right] {$p$};
+        \draw[->] (0, -0.1) -- (0, 1.1) node[above] {$H(p)$};
+        \draw[scale=0.5,domain = 0:1,smooth, variable= \p, red] plot (-{\p} {log{ {\p}} - (1-{\p}) log(1-{\p})));
+      \end{tikzpicture}
+      \caption{Representation of $H(p)$ in the example \ref{example:entropy}.}
+\end{figure}
+
+\end{nexample}
+
+
 There are some properties of the \emph{entropy} that must be remarked. 
 \begin{nprop}\label{entr:prop:1}
     Let $X$ be a random variable with image $\X$. If $|\X|$ is the cardinal of $\X$, then
@@ -78,7 +103,8 @@ The inequality on the left was proved on Proposition \ref{entr:prop:1}. The char
 Let us look at the inequality on the right. Note that restricting to the $(x,y)$ where $P_{XY}(x,y) > 0$ and using the definition of the conditional probability we have:
 \begin{align*}
 H(X|Y) = & \sum_{y \in \mathcal{Y}} P_Y(y) \sum_{x \in \X} P_{X|Y}(x|y)\log \frac{1}{P_{X|Y}(x|y)}\\
- = & \sum_{x \in \mathcal X,y \in \mathcal Y} P_Y(y) P_{X|Y}(x,y) \log \frac{P_Y(y)}{P_{XY}(x,y)} = \sum_{x \in \mathcal X,y \in \mathcal Y} P_{XY}(x,y)\log \frac{P_Y(y)}{P_{XY}(x,y)} ,
+ = & \sum_{x \in \mathcal X,y \in \mathcal Y} P_Y(y) P_{X|Y}(x,y) \log \frac{P_Y(y)}{P_{XY}(x,y)} \\
+  = & \sum_{x \in \mathcal X,y \in \mathcal Y} P_{XY}(x,y)\log \frac{P_Y(y)}{P_{XY}(x,y)} ,
 \end{align*}
 and 
 $$
@@ -132,6 +158,13 @@ and we have obtained an expression of the mutual information using the \emph{Kul
 \begin{enumerate}[label=$(\roman*)$]
 \item Mutual information is non-negative. That is : $I(X,Z) \geq 0$.
 \item If $X,Z$ are random variables, then its mutual information equals zero if, and only if, they are independent. 
-This easy to check since if $D_{KL}(P_{XZ} \ || \ P_X P_Z) = 0$, then $P_{XZ} = P_X P_Z$ almost everywhere so $X$ and $Z$ are independent.
+This easy to check since if $D_{KL}(P_{XZ} \ || \ P_X P_Z) = 0$, then $P_{XZ} = P_X P_Z$ almost everywhere so $X$ and $Z$ are independent.p
 \item Since $P_{XZ} = P_{ZX}$ and $P_X P_Z = P_Z P_X$, mutual information is symmetric. That is: $I(X,Z) = I(Z,X)$.
 \end{enumerate}
+
+\begin{remark} We can set a connection between the mutual information and sufficient statistics. Let $T(X)$ be a statistic. We say that $T(X)$  is sufficient for $\theta$ if its mutual information with $\theta$ equals the mutual information between $X$ and $\theta$, that is:
+$$
+I(\theta, X) = I (\theta, T(X)).
+$$
+This means that sufficient statistics preserve mutual information and conversely.
+\end{remark}

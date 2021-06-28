@@ -3,7 +3,7 @@ Statistical inference is the process of deducing properties of an underlying dis
 Inferential statistics are usually contrasted with descriptive statistics, which are only concerned with properties of the observed data. The difference between these two is that in inferential statistics, we assume that the data comes from a larger
 population that we would like to know.
 
-In \emph{machine learning}, subject that concerns us the most, the termi inference is sometimes used to mean \emph{make a prediction by evaluating an already trained model}, and in this context, inferring properties of the model is refered as \emph{training or learning}.
+In \emph{machine learning}, subject that concerns us the most, the term inference is sometimes used to mean \emph{make a prediction by evaluating an already trained model}, and in this context, inferring properties of the model is refered as \emph{training or learning}.
 
 \section{Parametric Modeling}
 
@@ -49,20 +49,20 @@ In parametric modeling, the goal was to determine the density function under a d
 \begin{ndef}
     A \emph{statistic} is a measurable function of the data. That is, if $T : \Omega \to \mathbb T$ is measurable, then $T(X)$ is a statistic.
 \end{ndef}
+\begin{remark}
+    A statistic is also a random variable.
+\end{remark}
 
 However, not all statistics will provide useful information for the statistical inference problem. We would like to find statistics that provide relevant information.
 
 \begin{ndef}
     Let $X \sim P_\theta$. Then, the statistic $T(X) = T : (\Omega, \Alg) \to (\mathbb T, \mathcal B)$, is sufficient for a family of parameters $\{P_\theta \ : \ \theta \in \Theta \}$ if the conditional distribution of $X$, given $T = t$, is indepentent of $\theta$.\\
-
-    Alternatively, we can say $T(X)$ is sufficient for $\theta$ if its mutual information with $\theta$ equals the mutual information between $X$ and $\theta$, that is:
-    $$
-    I(\theta, X) = I (\theta, T(X))
-    $$
 \end{ndef}
 
-The easiest example of a sufficient statistic is the mean $\mu$ of a gaussian distribution with known variance. Oppositely, the \emph{median} of an arbitrary distribution
+\begin{nexample}
+The simplest example of a sufficient statistic is the mean $\mu$ of a gaussian distribution with known variance. Oppositely, the \emph{median} of an arbitrary distribution
 is not sufficient for the mean since, even if the median of the sample is known, more information about the mean of the population can be obtained from the mean of the sample itself.
+\end{nexample}
 
 Although it will not be shown in this document, sufficient statistics are not unique. In fact, if $T$ is sufficient, $\psi(T)$ is sufficient for any bijective mapping $\psi$. It would be interesting to find a sufficient statistic $T$ that is \emph{the smallest} of them.
 
