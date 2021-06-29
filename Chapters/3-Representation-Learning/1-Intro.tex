@@ -16,7 +16,7 @@ Depending on how the data (\emph{or signal}) is given to the computer, the machi
     An example of supervised learning is image classification: giving a label to an image.
     \item \emph{Unsupervised learning}. In ths case, the data is unlabeled, so the approach is completely different. Usually, the goal here is to discover hidden patterns in data or to learn features from it.
     An example of this kind of learning is K means, which consistis in clustering the data in $k$ groups. It is also known as \emph{self-supervised} learning.
-    \item \emph{Reinforcement learning}. This is the area concerned with how intelligent agents take decisions in a specific environment in order to obtain the best reward in their objective. This kind of learning is used
+    \item \emph{Reinforcement learning}. This is the area concerned with how intelligent agents take decisions in a specific environment in order to obtain the best reward in their objective. It focuses on finding a balance between exploration of uncharted territory and explotation of the current knowledge.
 
 \end{enumerate}
 
@@ -31,7 +31,7 @@ contains the data's key qualities.  Here is where \emph{representation learning}
 Intuitively, if $x$ is a datapoint in a dataset $\D \subset \R^d$, a \emph{representation} of $x$ is a vector $r \in \R^n$ (usually, $n \leq d$), that shares information with the datapoint $x$. That is, if a machine learning model
 tries to make a posterior task, such as classification, the input $x$ must be transformed to a, usually lower dimensional, vector $r$ in order to perform the final label.
 
-\emph{Features} are parts or patterns of an datapoint $x \in \D$ that help to identify it. In fact, this attribute is shared by all independent units that represent the same object. For instance, if we consider an image of any square, we should be able to identify 4 corners and 4 edges. These could be features of a square.
+\emph{Features} are parts or patterns of an datapoint $x \in \D$ that help to identify it. In fact, it is desiderable that this attribute is shared by all independent units that represent the same object. For instance, if we consider an image of any square, we should be able to identify 4 corners and 4 edges. These could be features of a square.
 When we mention feature detection, we are adressing the methods for detecting these features of a datapoint.
 
 Representation learning is a set of techniques that allow a system to discover the representations needed for feature detection or classification. 
@@ -75,7 +75,7 @@ In a classification problem, each datapoint $x_i$ has a correct classification $
 \]
 
 
-In the context of machine learning, a \emph{model} is the result of running a maching learning algorithm in data. This model will represent what the computer has learned from the data using this algorithm. As an easy example, when we use the
+In the context of machine learning, a \emph{model} is the result of running a maching learning algorithm in data. This model will represent what the computer has learned from the data using this algorithm. As an easy example, when we use a
 linear regression algorithm, we obtain a model that is a vector of coefficients with specific values.
 
 In the following chapters, we will explain different kinds of neural networks and which kind of loss functions they use. 

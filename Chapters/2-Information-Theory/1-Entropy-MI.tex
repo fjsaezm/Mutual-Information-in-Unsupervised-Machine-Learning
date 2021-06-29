@@ -35,22 +35,20 @@ Let $X \sim Bern(p)$. Then, the entropy of $X$ is:
 \[
 H(X) = -p \log p - (1-p) \log(1-p)) = H(p),
 \]
-since $H$ only depends on $p$. In Fig.\ref{fig:example:entropy} we can see a representation of this function. We appreciate that in this case, $H$ is concave and equals $0$ if $p \in \{0,1\}$, which are the values of $p$ that give us no uncertainty. The maximum uncertainty is obtained when $p=\frac{1}{2}$, where we do not know what to expect as an outcome from our random variable $X$.
+since $H$ only depends on $p$. In Fig. \ref{fig:example:entropy} we can see a representation of this function. We appreciate that in this case, $H$ is concave and equals $0$ if $p \in \{0,1\}$, which are the values of $p$ that give us no uncertainty. The maximum uncertainty is obtained when $p=\frac{1}{2}$, where we do not know what to expect as an outcome from our random variable $X$.
 
 \begin{figure}[H]
     \label{fig:example:entropy}
-    \begin{tikzpicture}
-        \draw[->] (-0.1, 0) -- (1.1, 0) node[right] {$p$};
-        \draw[->] (0, -0.1) -- (0, 1.1) node[above] {$H(p)$};
-        \draw[scale=0.5,domain = 0:1,smooth, variable= \p, red] plot (-{\p} {log{ {\p}} - (1-{\p}) log(1-{\p})));
-      \end{tikzpicture}
+    \centering
+    \includegraphics[scale=0.4]{Entropy.pdf}
+
       \caption{Representation of $H(p)$ in the example \ref{example:entropy}.}
 \end{figure}
 
 \end{nexample}
 
 
-There are some properties of the \emph{entropy} that must be remarked. 
+It can also be proven that, in general, the entropy is concave. There are some properties of the \emph{entropy} that must be remarked. 
 \begin{nprop}\label{entr:prop:1}
     Let $X$ be a random variable with image $\X$. If $|\X|$ is the cardinal of $\X$, then
     $$
