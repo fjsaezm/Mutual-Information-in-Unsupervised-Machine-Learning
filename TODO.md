@@ -5,6 +5,7 @@
 - [x]  Explain statistics and sufficient statistics
 - [] Page 17 Graph refference not working
 - [] Fix (link) in file: 1-Entropy-MI.tex (add ref)
+- [] Ref at the end of generative models
 
 # Useful Links
 

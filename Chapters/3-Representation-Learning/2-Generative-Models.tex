@@ -1,4 +1,14 @@
 
+The vast majority of the problems in ML are usually of a discriminative nature, which is almost a synonym of supervised learning. However, there also exist problems that involve learning how to generate new examples of the data. More formally:
+
+\begin{ndef}
+\begin{enumerate}
+\item \emph{Discriminative models} estimate $p(y|x)$, the probability of a label $y$ given an observation $x$.
+\item \emph{Generative models} estimate $p(x)$, the probability of observing the datapoint $x$. If the dataset is labeled, a generative model can also estimate the distribution $p(x|y)$.
+\end{enumerate}
+
+\end{ndef}
+
 
 From now on, let $\D$ be any kind of observed data. This will always be a finite subset of samples taken from a probability distribution $\pd$. There are models that, given $\D$, try to approximate the 
 probability distribution that lies underneath it. These are called \emph{generative models (G.M.)}. 
@@ -56,10 +66,10 @@ Then, the number of parameters is reduced to $\sum_{i=1}^n \abs{\theta_i}$ so we
 We are now setting the limit of its expressiveness because we are setting the conditional distributions $p_{\theta_i}(x_i|\bm{x}_{<i})$ to be \emph{Bernoulli} random variables with the mean specified by a restricted class 
 of parametrized functions. 
 
-Let us see a very simple case first in order to understand it better and later we will generalize it. Let $\sigma$ be a \emph{sigmoid}\footnotemark non linear function and 
+Let us see a very simple case first in order to understand it better. Let $\sigma$ be a \emph{sigmoid}\footnotemark non linear function and 
 $\theta_i = \left\{\alpha_{0}^{(i)},\alpha_{1}^{(i)},\dots, \alpha_{i-1}^{(i)}\right\}$ the parameters of the mean function. Then, we can define our function $f_i$ as :
 $$
-f_i(x_1,\cdot, x_{i-1}) = \sigma(\alpha_{0}^{(i)} + \alpha_{1}^{(i)}x_1 + \dots + \alpha_{i-1}^{(i)}x_{i-1}).
+f_i(x_1,\dots, x_{i-1}) = \sigma(\alpha_{0}^{(i)} + \alpha_{1}^{(i)}x_1 + \dots + \alpha_{i-1}^{(i)}x_{i-1}).
 $$
 %------------- Footnotemark
 \footnotetext{A sigmoid function is a bounded,differentiable, real function which derivative is non-negative at each point and it has exactly one inflection point.}
@@ -80,3 +90,9 @@ $$
 f_i(\bm{x}_{<i}) = \sigma(\alpha^{(i)}h_i + b_i).
 $$
 In this case, the number of parameters will be $O(n^2 d)$.
+
+% Link NADE http://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf
+
+% LINK RNADE https://arxiv.org/pdf/1306.0186.pdf
+This is the simplest example. Currently, there are alternative parametrization models , such as the \emph{Neural Autoregressive Density Estimator} [REF HERE], that provide a more statistically and computationally efficient solution. In fact, the number of parameters is reduced from $O(n^2 d)$ to $O(nd)$. Also, \emph{RNADE} extends NADE to learn generative models over real-valued data, generalizing the case that we have just exposed. However, these models are out of the scope of this project so no further explanation will be given.
+
