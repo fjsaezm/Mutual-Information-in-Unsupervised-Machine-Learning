@@ -27,40 +27,24 @@ There are many ways of creating samples, both positive and negative, of an input
 
 In fact, if $v_1,v_2$ are two views of an input, we can think of the positive pairs as points coming from a joint distribution over the views $p(v_1,v_2)$, and negative samples coming from the product of the marginals $p(v_1)p(v_2)$, \citep{tian_what_2020}.
 
-It is important to find a way to determine how much shared information between the views is needed, in order to make the representations obtained good enough for any downstream task. Here is where the \emph{InfoMin principle} is born. A good set of views are those that share the minimal information neccesary to perform well at the downstream task. We will follow the argument presented in \cite{oord_representation_2019} to find a lower bound on mutual information.
+It is important to find a way to determine how much shared information between the views is needed, in order to make the representations obtained good enough for any downstream task. Here is where the \emph{InfoMin principle} is born. 
+
+\begin{ndef}[The InfoMin principle]
+    A good set of views are those that share the minimal information neccesary to perform well at the downstream task.
+\end{ndef} 
+We will follow the argument presented in \cite{oord_representation_2019} to find a lower bound on mutual information.
 
 
 Our goal here will be to seek for a way of extracting shared information between the context and the data. Due to the differences in data dimensionality, if we want to predict the future $x$ using the context $c$, firstly we must
-encode our entry data $x$ into a representation which size is comparable to context size. Firstly, an \emph{encoder} is used. An encoder is a model that, given an input $x$, provides a feature map or vector that holds the information
-that the input $x$ had. In fact, and here is where we link the mutual information with the current topic, we want our encoder to maximize
+encode our entry data $x$ into a representation which size is comparable to context size.  In fact, and here is where we link the mutual information with the current topic. Remember that the mutual information of two random variables, say $x$ and $c$ in this case, is:
 \begin{equation}\label{EQ:MI}
 I(x,c) = \sum_{x,c}p(x,c)\log\frac{p(x|c)}{p(x)}
 \end{equation}
-that is, the mutual information between the input $x$ and the context $c$.  Maximizing the mutual information between $x$ and $c$, we extract the latent variables
-that the inputs have in common.
+Maximizing the mutual information between $x$ and $c$, we extract the latent variables that the inputs have in common. 
 
-So, we will use an encoder $g_{enc}$ that transforms the input sequence of observations $x_t$ to a sequence of latent representations
-$$
-z_t = g_{enc}(x_t).
-$$
-After we have obtained $z_t$, we use it as input of an autoregressive model to produce a context latent representation:
-$$
-c_t = g_{ar}(z_{\leq t}).
-$$
-In this case, $c_t$ will summarize the information of $z_i$ for $i \leq t$. Following the argument that we gave before, predicting the future $\xtk$ using only a generative model (say $p_k(\xtk|c)$)
-might not be correct, since we would be ignoring the context. \\
+\section{Lower bound on Mutual Information using Contrastive Learning}
 
-\begin{figure}[H]
-    \centering 
-    \includegraphics[scale=0.4]{contrastive_repr4.pdf}
-    \caption{Image from \citep{oord_representation_2019}. Overview of Contrastive Predictive Coding framework using audio signal as input. }
-\end{figure}
-
-
-
-Let us see how we train the encoder $g_{enc}$ and the autoregressive model $g_{ar}$.\\
-
-Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain positive sample taken from the distribution $p( \xtk |c_t)$ and $N-1$ negative
+Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain a positive sample taken from the distribution $p( \xtk |c_t)$ and $N-1$ negative
 samples from the distribution propused $p(\xtk)$. With this set, we would like to optimize the following loss function:
 \begin{equation}\label{NCE:loss}
 \mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(\xtk,c_t)}{\sum_{x_j \in X} f_k(x_j,c_k)}\right].
@@ -131,3 +115,31 @@ If we observe that $E_{x_j} \left[ \frac{p(x_j|c_t)}{p(x_j)} \right] = \sum_{x_j
 E_X \log \left[ 1+ \frac{ (N-1) E_{x_j}  \left[ \frac{p(x_j|c_t)}{p(x_j)}\right]}{\frac{p(\xtk)}{p(\xtk|c_t)}} \right] =  & E_X \log \left[ 1 + \frac{N-1}{ \frac{p(\xtk|c_t)}{p(\xtk)}}\right]\\
  = & E_X \log \left[ 1+ (N-1)\frac{p(\xtk)}{p(\xtk|c_t)}\right]
 \end{align*}
+
+
+\section{Oord et Al Framework}
+
+
+Firstly, an \emph{encoder} is used. An encoder is a model that, given an input $x$, provides a feature map or vector that holds the information
+that the input $x$ had.
+
+So, we will use an encoder $g_{enc}$ that transforms the input sequence of observations $x_t$ to a sequence of latent representations
+$$
+z_t = g_{enc}(x_t).
+$$
+After we have obtained $z_t$, we use it as input of an autoregressive model to produce a context latent representation:
+$$
+c_t = g_{ar}(z_{\leq t}).
+$$
+In this case, $c_t$ will summarize the information of $z_i$ for $i \leq t$. Following the argument that we gave before, predicting the future $\xtk$ using only a generative model (say $p_k(\xtk|c)$)
+might not be correct, since we would be ignoring the context. \\
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[scale=0.4]{contrastive_repr4.pdf}
+    \caption{Image from \citep{oord_representation_2019}. Overview of Contrastive Predictive Coding framework using audio signal as input. }
+\end{figure}
+
+
+
+Let us see how we train the encoder $g_{enc}$ and the autoregressive model $g_{ar}$.\\
