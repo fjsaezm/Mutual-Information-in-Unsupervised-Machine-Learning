@@ -3,11 +3,11 @@
 We are now ready to connnect the concepts of mutual information and generative models that we have presented. In unsupervised learning,
 it is a common strategy to predict future information and to try to find out if our predictions are correct.
 In \emph{natural language processing}, for instance, representations are learned 
-using neighbouring words \citep{mikolov_efficient_2013}, and in images, some studies have been able to predict color from grey-scale \citep{doersch_unsupervised_2016}.
+using neighbouring words \citep{mikolov_efficient_2013}. In the field of computer vision, some studies have been able to predict color from grey-scale \citep{doersch_unsupervised_2016}.
 
-When we talk about high-dimensional data, it is not useful to make use of an unimodal loss function to evaluate our model. If we did it like this, we would be assuming that there is only
+When we work with high-dimensional data, it is not useful to make use of an unimodal loss function to evaluate our model. If we did it like this, we would be assuming that there is only
 one peak in the distribution function and that it is actually similar to a Gaussian.  This is not always true, so we can not assume it for our models. Generative models can be used for this purpose:
-they will model the relationships in the data $x$. However,they ignore the context $c$ in which the data $x$ is involved. As an easy example of this, an image contains thousands of bits of information,
+they will model the relationships in the data $x$. However, they ignore the context $c$ in which the data $x$ is involved. As an easy example of this, an image contains thousands of bits of information,
 while the label that classifies the image contains much less information , say, $10$ bits for $1024$ categories. Because of this, modeling $p(x|c)$ might not be the best way to proceed if we want
 to obtain the real distribution that generates our data. 
 

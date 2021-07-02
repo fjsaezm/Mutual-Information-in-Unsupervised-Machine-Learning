@@ -45,7 +45,6 @@ Again, let $\D$ be a set of $n-$dimensional datapoints $x$. We can assume that $
 \[
 p(x) = \prod_{i=1} ^n p(x_i | x_1,\dots,x_{i-1}) = \prod_{i = 1}^n p(x_i|\bm{x}_{<i}),
 \]
-
 where $\bm{x}_{<i} \in \R^{i-1}$ is a vector whose componentes are the previous $x_j$ for $j = 1,\dots, i-1$, that is: $\bm{x}_{<i}= [x_1,\dots, x_{i-1}]$. \\
 It is known that given a set of discrete and mutually dependent random variables, they can be displayed in a table of conditional probabilities. If $K_i$ is the number of states that each random variable can take
 then $\prod K_i$ is the number of cells that the table will have. If we represent $p(x_i|\bm{x}_{<i})$ for every $i$ in tabular form, we can represent
@@ -74,7 +73,6 @@ $$
 %------------- Footnotemark
 \footnotetext{A sigmoid function is a bounded,differentiable, real function which derivative is non-negative at each point and it has exactly one inflection point.}
 %----------------------
-
 In this case, the number of parameters would be $\sum_{i = 1}^n i = \frac{n(n+1)}{2}$, so using \emph{Big }$O$ notation, we would be in the case of $O(n^2)$. We will state now a more general and useful case,
 giving a more interesting parametrization for the mean function: \emph{multi layer perceptrons}\footnotemark (MLP).
 
@@ -94,5 +92,5 @@ In this case, the number of parameters will be $O(n^2 d)$.
 % Link NADE http://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf
 
 % LINK RNADE https://arxiv.org/pdf/1306.0186.pdf
-This is the simplest example. Currently, there are alternative parametrization models , such as the \emph{Neural Autoregressive Density Estimator} [REF HERE], that provide a more statistically and computationally efficient solution. In fact, the number of parameters is reduced from $O(n^2 d)$ to $O(nd)$. Also, \emph{RNADE} extends NADE to learn generative models over real-valued data, generalizing the case that we have just exposed. However, these models are out of the scope of this project so no further explanation will be given.
+This is the simplest example. Currently, there are alternative parametrization models , such as the \emph{Neural Autoregressive Density Estimator} \citep{larochelle_neural_nodate}, that provide a more statistically and computationally efficient solution. In fact, the number of parameters is reduced from $O(n^2 d)$ to $O(nd)$. Also, \emph{RNADE}\citep{uria_rnade_2014} extends NADE to learn generative models over real-valued data, generalizing the case that we have just exposed. However, these models are out of the scope of this project so no further explanation will be given.
 

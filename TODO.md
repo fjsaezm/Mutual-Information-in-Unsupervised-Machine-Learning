@@ -4,8 +4,10 @@
 - [x]  Change name to InfoNCE LOSS
 - [x]  Explain statistics and sufficient statistics
 - [] Page 17 Graph refference not working
-- [] Fix (link) in file: 1-Entropy-MI.tex (add ref)
-- [] Ref at the end of generative models
+- [x] Fix (link) in file: 1-Entropy-MI.tex (add ref)
+- [x] Ref at the end of generative models
+- [] Add mode and unimodal/multimodal definitions 
+- [] Page 30, revise "In fact..."
 
 # Useful Links
 
