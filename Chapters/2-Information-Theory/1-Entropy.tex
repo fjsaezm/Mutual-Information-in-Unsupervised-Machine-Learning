@@ -4,9 +4,6 @@ In this section, \emph{information theory} notions will be presented, in order t
 the notions explained later.
 
 
-
-\section{Entropy}
-
 The \emph{mutual information} concept is based on the \emph{Shannon entropy}, which we will introduce first, along with some basic properties of it. The Shannon entropy is a way of measuring the uncertainty in a random variable. 
 Given an event $\mathcal A \in \Alg$, $P$ a probability measure and $P[\A]$ the probability of $\mathcal A$, we can affirm that 
 $$
@@ -135,34 +132,3 @@ $$
 in the inequality of the left, equality holds if, and only if, $P_{XY}(x,y) = P_X(x) P_Y(y)$ for all $(x,y)$ with $P_{XY} (x,y) > 0$, as it is said in Jensen's inequality.
 For the inequality on the right, equality holds if and only if $P_{XY}(x,y) = 0$, which implies $P_X(x)P_Y(y) = 0$ for any $x\in \mathcal X$, $y \in \mathcal Y$. It follows that $H(X|Y) = H(X)$ if and only if $P_{XY}(x,y) = P_X(x)P_Y(y)$ for all $(x,y) \in \mathcal X \times \mathcal Y$
 
-
-\section{Mutual Information}
-
-Using the entropy of a random variable we can directly state the definition of \emph{mutual information} as follows:
-
-\begin{ndef}
-Let $X,Z$ be random variables. The \emph{mutual information (MI)} between $X$ and $Z$ is expressed as the difference between the entropy of $X$ and the conditional entropy of $X$ and $Z$, that is:
-$$
-I(X,Z) := H(X) - H(X|Z).
-$$
-\end{ndef}
-
-Since the entropy of the random variable $H(X)$ explains the uncertainty of $X$ occurring, the intuitive idea of the \emph{MI} is to determine the decrease of uncertainty of $X$ occurring when we already
-know that $Z$ has occurred. We also have to note that, using the definition of the \emph{entropy} and the expression obtained in Eq. \ref{eq:dif-expr-mi}, we can rewrite the \emph{MI}  it follows:
-\begin{align*}
-I(X,Z) & = \sum_{x \in \X}P_X(x) \log \frac{1}{P(x)} - \sum_{x \in \X, z \in \mathcal Z} P_{XZ}(x,z) \log \frac{P_Z(x)}{P_{XZ}(x,z)} \\  & = \sum_{x,z}P_{XZ}\log \frac{P_Z(z)P_X(x)}{P_{XZ}(x,z)} = D_{KL}(P_{XZ} \ || \ P_X P_Z)
-\end{align*}
-and we have obtained an expression of the mutual information using the \emph{Kullback-Leibler} divergence. This provides with the following immediate consequences:
-\begin{enumerate}[label=$(\roman*)$]
-\item Mutual information is non-negative. That is : $I(X,Z) \geq 0$.
-\item If $X,Z$ are random variables, then its mutual information equals zero if, and only if, they are independent. 
-This easy to check since if $D_{KL}(P_{XZ} \ || \ P_X P_Z) = 0$, then $P_{XZ} = P_X P_Z$ almost everywhere so $X$ and $Z$ are independent.p
-\item Since $P_{XZ} = P_{ZX}$ and $P_X P_Z = P_Z P_X$, mutual information is symmetric. That is: $I(X,Z) = I(Z,X)$.
-\end{enumerate}
-
-\begin{remark} We can set a connection between the mutual information and sufficient statistics. Let $T(X)$ be a statistic. We say that $T(X)$  is sufficient for $\theta$ if its mutual information with $\theta$ equals the mutual information between $X$ and $\theta$, that is:
-$$
-I(\theta, X) = I (\theta, T(X)).
-$$
-This means that sufficient statistics preserve mutual information and conversely.
-\end{remark}

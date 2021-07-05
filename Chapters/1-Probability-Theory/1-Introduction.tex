@@ -30,7 +30,7 @@ If $\Prob(\Omega) = 1$, $\Prob$ is a \emph{probability measure} or simply a \emp
 A \emph{measure space} is the tuple $(\Omega, \Alg,\Prob)$ where $\Prob$ is a \emph{measure} on $(\Omega, \Alg)$. If $\Prob$ is a \emph{probability measure} $(\Omega,\Alg,\Prob)$ will be called a \emph{probability space}.
 \end{ndef}
 
-Throughout this work, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces. Some notation for these measures must be introduced. Let $A$ and $B$ be two events.
+Throughout this work, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces and we will note $\Prob$ simply as $P$. Some notation for these measures must be introduced. Let $A$ and $B$ be two events.
 The notation $P(A,B)$ reffers to the probability of the intersection of the events $A$ and $B$, that is: $P(A,B) := P(A\cap B)$.
  It is clear that since $A \cap B = B \cap A$, then $P(A,B) = P(B,A)$. We remark the next definition since it will be important.
 
@@ -105,7 +105,7 @@ $$
 P_X(S) = P(X \in S) = P(\{a \in \Omega : X(a) \in S\}).
 $$
 
-A very simple example of random variable is the following:
+We use the notation $P_X$ to remark that $P$ is related to the distribution of $X$. Most of the times, when it is clear from the context, the subindex will be omitted and we will simply refer to it $p(x)$. A very simple example of random variable is the following:
 
 \begin{nexample}
   Consider tossing a coin. The possible outcomes of this experiment are \emph{Heads or Tails}. Those are our random events. We can give our random events a possible value. 
@@ -144,7 +144,7 @@ F_X(x) = \int_{\infty}^x f(t) dt,
 $$
 called the \emph{probability density function} of $X$.\\
 
-During this document, distributions $P(x)$ will be adressed many times. We will use $P(x)$ to denote the probability mass function of a discrete random variable or the probability density function of a continuous random variable.\\
+During this document, distributions $p(x)$ will be adressed many times. We will use $p(x)$ to denote the probability mass function of a discrete random variable or the probability density function of a continuous random variable. \\
 
 We are now ready to introduce the \emph{expectation} of a random variable. Imagine observing a wide number of outcomes from our random variable, and taking the average of these random values. The expectation is the value of this average when we 
 take \emph{infinite} outcomes of our random variable.

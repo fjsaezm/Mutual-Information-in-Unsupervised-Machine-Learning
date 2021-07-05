@@ -1,5 +1,33 @@
-We have introduced the concepts of \emph{random variable},  \emph{random vector} and its \emph{probability distribution}.
-Now, given two distributions, in the following chapters we will like to see how different they are from each other.
+We have introduced the concepts of \emph{random variable},  \emph{random vector} and its \emph{probability distribution}. We will explain some concepts related to the latter ones.
+
+\begin{ndef}
+    The \emph{mode} of a distribution is the value at which the probability mass function takes its maximum value. That is, the value that is most likely to be sampled.
+\end{ndef}
+
+Distributions can be \emph{unimodal}, when their distribution has a single peak, \emph{bimodal} when their distribution has two peaks, and \emph{multimodal} when the number of peaks is equal or greater to $2$. 
+
+\begin{nexample}
+We can simulate the two following distributions:
+\begin{enumerate}
+    \item The distribution of the marks obtained in a test by the students of certain class.
+    \item The distribution of the height of the plants from three different species.
+\end{enumerate}
+The result is the following:
+\begin{figure}[H]%!htb]
+    \minipage{0.45\textwidth}
+      \includegraphics[width=\linewidth]{media/bimodal.pdf}
+      \caption{Bimodal Distribution}\label{fig:linCM}
+    \endminipage\hfill
+    \minipage{0.45\textwidth}%
+      \includegraphics[width=\linewidth]{media/multimodal.pdf}
+      \caption{Plants' height}\label{fig:RFCM}
+    \endminipage
+    \caption{Examples of bimodal and multimodal distributions.}
+    \end{figure}
+\end{nexample}
+
+
+Now, given two distributions, we would like to determine how different they are from each other.
 In order to compare them, we enunciate the definition of the Kullback-Leibler divergence.
 
 \begin{ndef}

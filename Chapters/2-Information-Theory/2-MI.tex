@@ -1,0 +1,98 @@
+
+
+Using the entropy of a random variable we can directly state the definition of \emph{mutual information} as follows:
+
+\begin{ndef}
+Let $X,Z$ be random variables. The \emph{mutual information (MI)} between $X$ and $Z$ is expressed as the difference between the entropy of $X$ and the conditional entropy of $X$ and $Z$, that is:
+$$
+I(X,Z) := H(X) - H(X|Z).
+$$
+\end{ndef}
+
+Since the entropy of the random variable $H(X)$ explains the uncertainty of $X$ occurring, the intuitive idea of the \emph{MI} is to determine the decrease of uncertainty of $X$ occurring when we already
+know that $Z$ has occurred. We also have to note that, using the definition of the \emph{entropy} and the expression obtained in Eq. \ref{eq:dif-expr-mi}, we can rewrite the \emph{MI}  it follows:
+\begin{align*}
+I(X,Z) & = \sum_{x \in \X}P_X(x) \log \frac{1}{P(x)} - \sum_{x \in \X, z \in \mathcal Z} P_{XZ}(x,z) \log \frac{P_Z(x)}{P_{XZ}(x,z)} \\  & = \sum_{x,z}P_{XZ}\log \frac{P_Z(z)P_X(x)}{P_{XZ}(x,z)} = D_{KL}(P_{XZ} \ || \ P_X P_Z)
+\end{align*}
+and we have obtained an expression of the mutual information using the \emph{Kullback-Leibler} divergence. This provides with the following immediate consequences:
+\begin{enumerate}[label=$(\roman*)$]
+\item Mutual information is non-negative. That is : $I(X,Z) \geq 0$.
+\item If $X,Z$ are random variables, then its mutual information equals zero if, and only if, they are independent. 
+This easy to check since if $D_{KL}(P_{XZ} \ || \ P_X P_Z) = 0$, then $P_{XZ} = P_X P_Z$ almost everywhere so $X$ and $Z$ are independent.p
+\item Since $P_{XZ} = P_{ZX}$ and $P_X P_Z = P_Z P_X$, mutual information is symmetric. That is: $I(X,Z) = I(Z,X)$.
+\end{enumerate}
+
+\begin{remark} We can set a connection between the mutual information and sufficient statistics. Let $T(X)$ be a statistic. We say that $T(X)$  is sufficient for $\theta$ if its mutual information with $\theta$ equals the mutual information between $X$ and $\theta$, that is:
+$$
+I(\theta, X) = I (\theta, T(X)).
+$$
+This means that sufficient statistics preserve mutual information and conversely.
+\end{remark}
+
+\section{Lower bounds on Mutual Information}
+
+Although mutual information seems like a relatively intuitive concept, it is most of the times extremely hard to compute it in real life problems in which the distributions $P(x,z),P(x),P(z)$ are not known.
+
+\begin{nexample}
+Let $x$ represent an image of size $n \times m$ pixels. Then, the dimension of the single image is $n \cdot m \cdot 3$, for RGB color channels. In these cases, there is no easy way of calculating $P(x)$.
+\end{nexample}
+
+Due to this problem related to the \emph{Curse of Dimensionality}, we can try to compute lower bounds of it that are generally easier to calculate. We will now expose two general lower bounds, and we will focus on a third one that will be explained later in this work.
+
+\subsection*{Variational Lower Bound}
+
+
+
+Using the expression of the mutual information in terms of entropy, $I(x,z) = H(z) - H(z|x)$, we can give a lower bound on $I(x,z)$ as a function of a probability distribution $Q_\theta(z|x)$. 
+
+\begin{nprop}
+Let $X,Z$ be random variables and $Q_\theta(z|x)$ be an arbitrary probability distribution. Then,
+$$
+I(x,z) \geq H(z) + E_{P_X} \left[ E_{P_{X|Z}}\left[\log Q_\theta(z|x)\right]\right] 
+$$
+\end{nprop}
+
+\begin{proof}
+Recalling that
+$$
+H(z|x) = - E_{P_{XZ}} \left[ \log P(x,z) - \log P(x)\right],
+$$
+and that
+\begin{align*}
+E_{P(x,z)}\left[\log\frac{P(x,z)}{P(x)}\right] & =  \sum_{x,z} P(x,z) \log\frac{P(x,z)}{P(x)} \\ 
+& = \sum_{x,z} P(x)P(z|x) \log P(z|x) = \sum_{x,z} P(x) E_{P(z|x)}[\log P(z|x)]\\
+ & =  E_{P(x)}\left[E_{P(z|x)}[\log P(z|x)]\right],
+\end{align*}
+we only have to use the definition of the conditional probability to see that:
+\begin{align*}
+I(x,z) & =  H(z) - H(z|x) \\
+    & =  H(z) + E_{P(x,z)} = H(z) + E_{P(x,z)} \left[ \log \frac{P(x,z)}{P(x)}\right] \\
+    & =  H(z) + E_{P(x)} \left[ E_{P(x|z)}\left[\log P(z|x)\right]\right] \\
+    & = H(z) + E_{P(x)} \left[ E_{P(x|z)} \left[\log \frac{P(z|x)}{Q_\theta(z|x)}\right] + E_{P(z|x)}\left[\log Q_\theta(z|x)\right]\right] \\
+    & =  H(z) + E_{P(x)}\left[ \underbrace{D_{KL}(P(z|x)||Q_\theta(z|x))}_{\geq 0} + E_{P(z|x)}\left[\log Q_\theta(z|x)\right] \right]\\
+    & \geq H(z) + E_{P(x)}\left[E_{P(z|x)}\left[ \log Q_\theta(z|x)\right]\right].
+\end{align*}
+We have taken advantage of the non-negativity of the KL-Divergence.
+\end{proof}
+
+Using this bound, and combining this theoretical knowledge with machine learning methods, such as \emph{backpropagation}, we can make $Q_\theta$ be a neural network and maximize this lower bound.
+
+\subsection*{Donsker-Varadhan Representation}
+
+We can also give a lower bound on the mutual information using its KL-Divergence formulation. Firstly, we have to 
+
+\begin{nth}[Donsker-Varadhan]
+The KL divergence admits the following dual representation:
+\[
+D_{KL}(P || Q) = \sup_{T} E_P[T] - \log E_Q[e^T],
+\]
+where the supremum is taken over all functions $T:\Omega \to \R$ such that both expectations exist.
+\end{nth}
+\begin{proof}
+    TODO
+\end{proof}
+
+Using this representation, we reach this lower bound. Let $\mathcal F$ be any class of functions $T: \Omega \to \R$ satisfying the integrability constraints of the theorem. Then, 
+$$
+I(P,Q) = D_{KL}(P||Q) \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q[e^T].
+$$
