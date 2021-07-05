@@ -3,10 +3,10 @@
 - [x]  Change name ofto Contrastive Predictive coding
 - [x]  Change name to InfoNCE LOSS
 - [x]  Explain statistics and sufficient statistics
-- [] Page 17 Graph refference not working
+- [x] Page 17 Graph refference not working
 - [x] Fix (link) in file: 1-Entropy-MI.tex (add ref)
 - [x] Ref at the end of generative models
-- [] Add mode and unimodal/multimodal definitions 
+- [x] Add mode and unimodal/multimodal definitions 
 - [x] Page 30, revise "In fact..."
 - [] Donsker-Varadan representation Theorem
 
@@ -19,3 +19,5 @@
 https://generallyintelligent.ai/understanding-self-supervised-contrastive-learning.html
 
 - http://www.cs.columbia.edu/~vh/courses/LexicalSemantics/Association/Cover&Thomas-Ch2.pdf
+
+- Donsker varadhan : https://arxiv.org/pdf/1801.04062.pdf

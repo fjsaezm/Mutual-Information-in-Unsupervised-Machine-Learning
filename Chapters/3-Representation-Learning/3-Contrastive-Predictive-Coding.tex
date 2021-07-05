@@ -32,15 +32,13 @@ It is important to find a way to determine how much shared information between t
 \begin{ndef}[The InfoMin principle]
     A good set of views are those that share the minimal information neccesary to perform well at the downstream task.
 \end{ndef} 
-We will follow the argument presented in \cite{oord_representation_2019} to find a lower bound on mutual information.
 
 
-Our goal here will be to seek for a way of extracting shared information between the context and the data. Due to the differences in data dimensionality, if we want to predict the future $x$ using the context $c$, firstly we must
-encode our entry data $x$ into a representation which size is comparable to context size.  In fact, and here is where we link the mutual information with the current topic. Remember that the mutual information of two random variables, say $x$ and $c$ in this case, is:
+Our goal here will be to seek for a way of extracting shared information between the context $c$ and the data $x$. Here is where we link the mutual information with representation learning. Remember that the mutual information of two random variables, say $x$ and $c$ in this case, is:
 \begin{equation}\label{EQ:MI}
 I(x,c) = \sum_{x,c}p(x,c)\log\frac{p(x|c)}{p(x)}
 \end{equation}
-Maximizing the mutual information between $x$ and $c$, we extract the latent variables that the inputs have in common. 
+Maximizing the MI between $x$ and $c$, we extract the latent variables that the inputs have in common. 
 
 \section{Lower bound on Mutual Information using Contrastive Learning}
 
