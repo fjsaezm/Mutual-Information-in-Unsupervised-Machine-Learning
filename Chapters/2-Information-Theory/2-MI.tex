@@ -22,6 +22,24 @@ This easy to check since if $D_{KL}(P_{XZ} \ || \ P_X P_Z) = 0$, then $P_{XZ} = 
 \item Since $P_{XZ} = P_{ZX}$ and $P_X P_Z = P_Z P_X$, mutual information is symmetric. That is: $I(X,Z) = I(Z,X)$.
 \end{enumerate}
 
+Later in this document, we will have some sort of random variable $X$ and would like it to maintain the mutual information with itself after being applied a function. The following proposition will be useful:
+
+\begin{nprop}
+Let $X,Z$ be random variables. Then, $I(X,Z)$ is invariant under homeomorphism.
+\end{nprop}
+\begin{proof}
+Let $\phi(x)$ be an homeomorphism, i.e., a continuous, monotonic function with $\phi^{-1}(x)$ also continuous and monotonic. Let $X$ be a random variable and $Y$ another one such $y = \phi(x)$ if $x = X(\omega)$ for some $\omega \in \Omega$. Then, if $S$ is a particular subset we have 
+\[
+P(Y \in S) = \int_S P_Y(y) dy = \int_{\phi^{-1}(S)}P_X(x) dx \stackrel{(1)}{=} \int_S P_X(\phi^{-1}(y)) \abs{ \frac{d \phi^{-1}}{dy}}dy,
+\]
+where in $(1)$ we have changed from $x$ to $y$. Hence, 
+\[
+P_Y(y) = P_X(\phi^{-1}(y))\abs{\frac{d \phi^{-1}}{dy}}.
+\]
+As a consequence of this, $I(X,Z) = I(\phi(X),Z) $ for any homeomorphism $\phi$. By symmetry, the same holds for $Z$.
+
+\end{proof}
+
 \begin{remark} We can set a connection between the mutual information and sufficient statistics. Let $T(X)$ be a statistic. We say that $T(X)$  is sufficient for $\theta$ if its mutual information with $\theta$ equals the mutual information between $X$ and $\theta$, that is:
 $$
 I(\theta, X) = I (\theta, T(X)).

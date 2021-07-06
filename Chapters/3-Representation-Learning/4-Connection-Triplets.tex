@@ -1,0 +1,22 @@
+
+We have seen how the framework presented in \cite{oord_et_al} uses a generative approach as a part of the representation learning process. Let us set in the case of learning representations of images. In this case, generative models must \emph{generate} each pixel on the image. This can be extremely computationally expensive. 
+
+Until now, we had been trying to minimize the loss in \ref{NCE:loss}, which we proved that maximized a lower bound in the Mutual Information. However, some papers such as \cite{chen_simple_2020}, \cite{tschannen_mutual_2020}, suggest that it is unclear if the success of their methods is caused by the maximization of mutual information between the latent representations, or by the specific form that the constrastive loss has.
+
+In fact, in \cite{tschannen_mutual_2020} they provide empirical proof for the loose connection between the success of the methods that use MI maximization and the utility of the MI maximization in practice. They also proof empirically that the encoder architecture can be moder important than the estimator used to determine the MI.
+
+Even with the empirically proven disconnection between MI maximization and representation quality, recent works that have used the loss function \ref{NCE:loss} have obtained state-of-art results in practice. There is an explanation for this, connecting the recently mentioned loss with a popular triplet loss.
+
+\section{From deep metric learning to triplet losses}
+
+We will consider sets of triplets $(x,y,z)$ where:
+\begin{itemize}
+\item The element $x$ is an archor point,
+\item The element $y$ is a positive instance,
+\item The element $z$ is a negative instance.
+\end{itemize}
+The main idea is to learn a representation of $x$, say $g(x)$, such that 
+$$
+\norm{g(x) - g(y)}_2 \leq \norm{g(x) - g(z)}_2,
+$$
+for each triplet in the set.
