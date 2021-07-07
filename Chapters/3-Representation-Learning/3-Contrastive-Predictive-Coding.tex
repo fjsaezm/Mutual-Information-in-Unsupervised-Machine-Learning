@@ -42,8 +42,10 @@ Maximizing the MI between $x$ and $c$, we extract the latent variables that the 
 
 \section{Lower bound on Mutual Information using Contrastive Learning}
 
+In Chapter \ref{Chapter:NCE}, gave the notions of the general idea of Noise Contrastive Estimation. Now, we can apply those ideas to a particular case, in which one of the subsets, say $X$ only has one element, and the other one has $N-1$ elements. We combine both sets in $X$ for the following argument.
+
 Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain a positive sample taken from the distribution $P( \xtk |c_t)$ and $N-1$ negative
-samples from the distribution propused $P(\xtk)$. With this set, we would like to optimize the following loss function:
+samples from the distribution proposed $P(\xtk)$. With this set, we would like to optimize the following loss function, which is an alternative expression of \ref{log:likelihood:red}:
 \begin{equation}\label{NCE:loss}
 \mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(\xtk,c_t)}{\sum_{x_j \in X} f_k(x_j,c_k)}\right].
 \end{equation}
@@ -82,8 +84,9 @@ Where, in $\left(\ast\right)$, we have used that since $P(X|d=i)$ is the probabi
 \begin{enumerate}
 \item The element $x_i$ has been extracted from $P(\xtk|c_t)$.
 \item The elements $x_j$ for $j \neq i$ have been extracted from $P(\xtk)$ (noted as $Q$ in the formula to remark the difference).
+That means $P(X|d=i) = P(x_i)\prod_{j\neq i} Q(x_j)$.
 \end{enumerate}    
-That means $P(X|d=i) = P(x_i)\prod_{j\neq i} Q(x_j)$. Also, we can assume that $D$ is uniform because each $x_i$ with $i = 1,\dots,N$ has the same probability than the other to have been chosen as the positive sample in $X$.
+ Also, we can assume that $D$ is uniform because each $x_i$ with $i = 1,\dots,N$ has the same probability than the other to have been chosen as the positive sample in $X$.
 
 
 In fact, if we denote $f(\xtk,c_t)$  as the density ratio that preserves the mutual information between $\xtk$ and $c_t$ in the mutual information definition \eqref{EQ:MI}, we have just proved that if $k$ is a step in the experiments, then
