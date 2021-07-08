@@ -114,3 +114,16 @@ Using this representation, we reach this lower bound. Let $\mathcal F$ be any cl
 $$
 I(P,Q) = D_{KL}(P||Q) \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q[e^T].
 $$
+
+\subsection*{Contrastive Lower Bound}
+
+In chapter \ref{Chapter:NCE} we presented Noise Contrastive Estimation, that tried to discriminate between elements of two different sets. One was composed of data, $X$, and the other one was composed of noise, $Y$.
+
+Let $(x,z)$ be a data representation drawn from a distribution $P(x,z)$ and $x'$ be some other data drawn from the distribution $P(x)$. Using NCE, we should be able to say that $(x,z)$ was drawn from the distribution $P(x,z)$ while $(x',z)$ was drawn from the product of the marginal distributions $P(x)P(z)$. Let $h_\theta$ be a model that helps us to do this discrimination, with parameters $\theta$. 
+
+As we did before, we want to estimate the ratio of the different distributions, in this case the ratio would be $P(x,z)/P(x)P(z)$. Let $(x^*,z)$ be a pair drawn from $P(x,z)$ and $X = \{x^*, x_1,\cdots,x_{N-1} \}$, where the rest of the $N-1$ points form pairs $(x_j,z)$ drawn from $P(x)P(z)$ the product of the marginal distribution.We can rewrite the loss \ref{log:likelihood:red} in a simpler expression:
+\[
+l(\theta) = E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right]  .
+\]
+
+If we maximize this objective, $h_\theta$ learns to discriminate $(x^*,z)$ from $(x_j,z)$ for $ 1 \leq j < N$ and, thus, 

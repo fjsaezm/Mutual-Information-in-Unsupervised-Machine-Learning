@@ -27,7 +27,7 @@ to do intermediate steps before giving a label to the input example. Sometimes, 
 contains the data's key qualities.  Here is where \emph{representation learning} is born. 
 
 
-Intuitively, if $x$ is a datapoint in a dataset $\D \subset \R^d$, a \emph{representation} of $x$ is a vector $r \in \R^n$ (usually, $n \leq d$), that shares information with the datapoint $x$. That is, if a machine learning model
+Having a representation $\tilde{x}$ of a datapoint $x\in \R^d$, if a machine learning model
 tries to make a posterior task, such as classification, the input $x$ must be transformed to a, usually lower dimensional, vector $r$ in order to perform the final label.
 
 \emph{Features} are parts or patterns of an datapoint $x \in \D$ that help to identify it. In fact, it is desiderable that this attribute is shared by all independent units that represent the same object. For instance, if we consider an image of any square, we should be able to identify 4 corners and 4 edges. These could be features of a square.
