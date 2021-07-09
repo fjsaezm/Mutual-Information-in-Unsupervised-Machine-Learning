@@ -9,6 +9,7 @@
 - [x] Add mode and unimodal/multimodal definitions 
 - [x] Page 30, revise "In fact..."
 - [] Donsker-Varadan representation Theorem
+- [] Remove all the bound part in InfoNCE
 
 # Useful Links
 

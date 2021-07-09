@@ -1,7 +1,7 @@
 \label{Chapter:NCE}
 Our problem now is, to estimate the density function (p.d.f.) of some observed data.
 
-A sample $X = \{x_1,\dots,x_{T_d}\}$ of a random vector is observed. It follows an unknown pdf $P_d$. We assume that the data p.d.f. belongs to a parametrized family of functions, that is
+A sample $X = \{x_1,\dots,x_{T_d}\}$ of a random vector is observed. It follows an unknown p.d.f. $P_d$. We assume that the data p.d.f. belongs to a parametrized family of functions, that is
 \[
 P_d \in \{P_m(.;\theta)\}_\theta,
 \]
@@ -66,7 +66,9 @@ Using the same argument for $t$ such that $u_t \in Y$, we obtain the following f
 \end{equation}
 Now, optimizing $\ell(\theta)$ with respecto to $\theta$ leads to an estimate $G(.;\hat{\theta})$ of the log-ratio $\log (P_d/P_n)$, so we get an approximate description of $X$ relative to $Y$ by optimizing \ref{log:likelyhood:red}.
 
+\begin{remark}
 If we consider $-\ell(\theta)$, this is known as the \emph{cross entropy function}.
+\end{remark}
 
 \begin{remark}
     Here, we have achieved the estimation of a p.d.f. , which is an unsupervised (not labeled data) learning problem, logistic regression, which is supervised learning (labeled data).
