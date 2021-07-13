@@ -1,4 +1,5 @@
 
+\label{Chapter:Gen:Models}
 The vast majority of the problems in ML are usually of a discriminative nature, which is almost a synonym of supervised learning. However, there also exist problems that involve learning how to generate new examples of the data. More formally:
 
 \begin{ndef}
@@ -92,5 +93,5 @@ In this case, the number of parameters will be $O(n^2 d)$.
 % Link NADE http://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf
 
 % LINK RNADE https://arxiv.org/pdf/1306.0186.pdf
-This is the simplest example. Currently, there are alternative parametrization models , such as the \emph{Neural Autoregressive Density Estimator} \citep{larochelle_neural_nodate}, that provide a more statistically and computationally efficient solution. In fact, the number of parameters is reduced from $O(n^2 d)$ to $O(nd)$. Also, \emph{RNADE}\citep{uria_rnade_2014} extends NADE to learn generative models over real-valued data, generalizing the case that we have just exposed. However, these models are out of the scope of this project so no further explanation will be given.
+This is the simplest example. Currently, there are alternative parametrization models , such as the \emph{Neural Autoregressive Density Estimator} \citep{larochelle_neural_nodate}, that provide a more statistically and computationally efficient solution. In fact, the number of parameters is reduced from $O(n^2 d)$ to $O(nd)$. Also, \emph{RNADE} \citep{uria_rnade_2014} extends NADE to learn generative models over real-valued data, generalizing the case that we have just exposed. However, these models are out of the scope of this project so no further explanation will be given.
 

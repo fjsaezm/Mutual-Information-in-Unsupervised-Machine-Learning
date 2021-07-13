@@ -1,7 +1,4 @@
-
-
-
-Before continuing to present the mathematical notions that are neccesary for the topics that are treated in this work, it is interesting to present what we are trying to achieve.
+\label{Chapter:Intro:Rep:Learning}
 
 \emph{Machine learning} is the field of computer science that studies algorithms that improve automatically through experience from examples. 
 These algorithms allow computers to discover how to
@@ -36,16 +33,20 @@ When we mention feature detection, we are adressing the methods for detecting th
 Representation learning is a set of techniques that allow a system to discover the representations needed for feature detection or classification. 
 In contrast to manual feature engineering (which involves manually exploring the data and finding relationships in it), feature learning allows a machine to learn the features and to use them to perform a task.\\
 
-Feature learning can be supervised or unsupervised. In supervised feature learning, representations are learned using labeled data.
-Examples of this kind of feature learning are supervised neural networks and multilayer perceptron. In unsupervised learning, the features are learned using unlabeled data. 
-There are many examples of this, such as independent component analysis (ICP) and autoencoders. In this work, we will be working with unsupervised feature learning.\\
+Feature learning can be supervised or unsupervised. 
+\begin{itemize}
+    \item In supervised feature learning, representations are learned using labeled data.Examples of this kind of feature learning are supervised neural networks and multilayer perceptron. 
+    \item In unsupervised learning, the features are learned using unlabeled data. There are many examples of this, such as independent component analysis (ICP) and autoencoders.
+\end{itemize}
+ In this work, we will be working with unsupervised feature learning, so we will have unlabeled data that we would like to find a representation for.
+
 
 The performance of machine learning methods is heavily dependent on the choice of data features \citep{bengio_representation_2014}. This is why most of the current 
 effort in machine learning focuses on designing preprocessing and data transformation that lead to good quality representations. A representation will be of good quality when its features
 produce good results when we evaluate the \emph{accuracy} of our model.\\
 
-The main goal in representation learning is to obtain features of the data that are generally good for either of the supervised tasks. That is, we would like to obtain
-a representation that is either good for image classification (giving an image a label of what we can see in it) or image captioning (producing a text that describes the image).\\
+The main goal in representation learning is to obtain features of the data that are generally good for either of the supervised tasks. These tasks are usually called \emph{downstream tasks}. That is, we would like to obtain
+a representation that is either good for image classification (giving an image a label of what we can see in it) or image captioning (producing a text that describes the image).
 
 Data's features that are invariant through time are very useful for machine learning models. In \citep{wiskott_slow_2002}, \emph{slow features} are presented. Slow features are defined as features of a signal 
 (which can be the input of a model) that vary slowly during time. That means, if $\bm{X}$ is a \emph{time series}\footnotemark, we will try to find any number of features in $\bm{X}$ that vary the most slowly.
@@ -56,9 +57,10 @@ These kind of features are the most interesting ones when creating representatio
 \footnotetext{A time series is an ordered sequence of values of a random variable at, usually, equally spaced time intervals.}
 %----------------------
 
-Let us give an example: In computer vision, the value of the pixels in an image can vary fast. For instance, if we have a zebra on a video and the zebra is moving from one side of the image to the other, due 
+\begin{nexample} In computer vision, the value of the pixels in an image can vary fast. For instance, if we have a zebra on a video and the zebra is moving from one side of the image to the other, due 
 to the black stripes of this animal, the pixels will fast change from black to white and viceversa, so value of pixels is probably not a good feature to choose as an slow feature. However, there will always
-be a zebra on the image, so the feature that indicates that there is a zebra on the image will stay positive throughout all the video, so we can say that this is a slow feature.\\
+be a zebra on the image, so the feature that indicates that there is a zebra on the image will stay positive throughout all the video, so we can say that this is a slow feature.
+\end{nexample}
 
 We will be studying different models that try to learn representations from raw data without labels, as we have mentioned. We usually need a function that measures what is the penalty that the model gets for a choice of a parameter.
 This is called a \emph{loss function}, that we will want to optimize.
@@ -78,5 +80,3 @@ In the context of machine learning, a \emph{model} is the result of running a ma
 linear regression algorithm, we obtain a model that is a vector of coefficients with specific values.
 
 In the following chapters, we will explain different kinds of neural networks and which kind of loss functions they use. 
-
-

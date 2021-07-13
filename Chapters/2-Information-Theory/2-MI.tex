@@ -1,5 +1,5 @@
 
-
+\label{Chapter:MI}
 Using the entropy of a random variable we can directly state the definition of \emph{mutual information} as follows:
 
 \begin{ndef}
@@ -178,12 +178,16 @@ Lastly, using that if $k > 0$, then $- \log a(k+1) \geq -\log(1+ak)$, we obtain:
 \begin{align*}
 E_X\left[ -\log\left( 1+ \frac{ (N-1)}{\frac{P(x^*|z)} {P(x)}} \right)\right] &  =
 E_X\left[ \log \frac{1}{ 1+ \frac{P(x^*)}{P(x^*|z)}(N-1)}\right] \\
-\leq E_X\left[ \log\left(\frac{1}{\frac{P(x^*)}{P(x^*|z)}}\frac{1}{N}\right)\right]\\
+& \leq E_X\left[ \log\left(\frac{1}{\frac{P(x^*)}{P(x^*|z)}}\frac{1}{N}\right)\right]\\
 & = E_X\left[ \log\left(\frac{P(x^*|z)}{P(x^*)} \frac{1}{N}\right)\right]\\
 & = E_X \left[ \log\left(\frac{P(x^*|z)}{P(x^*)}\right)\right] - \log N \\
 & \stackrel{(1)}{=} E_X \left[ \log\left(\frac{P(x^*,z)}{P(x^*)P(z)}\right)\right] - \log N\\
 & \stackrel{(2)}{=} I(x,z) - \log N,
 \end{align*}
-where, in $(1)$, we have use Bayes' rule again and in $(2)$ we have used the definition of the MI that we found in equation \ref{MI:sum:xz}.
+where, in $(1)$, we have use Bayes' rule again and in $(2)$ we have used the definition of the MI that we found in equation \ref{MI:sum:xz}. Looking at the first and last equations used in this proof, and seeing that we have $\leq$ in the middle of the chain of equalities, we have proven
+\[
+    E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] = \ell (\theta) \leq I(x,z) - \log N \implies I(x,z) \geq \ell(\theta)+ \log N,
+\]
+as we wanted.   
 \end{proof}
 
