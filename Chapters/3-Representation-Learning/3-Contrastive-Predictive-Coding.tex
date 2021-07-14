@@ -29,7 +29,7 @@ In fact, if $v_1,v_2$ are two views of an input, we can think of the positive pa
 
 It is important to find a way to determine how much shared information between the views is needed, in order to make the representations obtained good enough for any downstream task. Here is where the \emph{InfoMin principle} is born. 
 
-\begin{ndef}[The InfoMin principle]
+\begin{ndef}[The InfoMin principle]\label{def:infomin}
     A good set of views are those that share the minimal information neccesary to perform well at the downstream task.
 \end{ndef} 
 
@@ -139,7 +139,15 @@ We have presented a framework in which a set $X = \{x_1,\cdots,x_n\}$ contains a
 
 The choice of the views affects the results in the downstream tasks \citep{tian_what_2020}. The views will affect on the training, hence, it will affect to the representations that are obtained. We would like to have some guarantees that the views that we are choosing provide us with good examples for our training. Let us formalize this idea.
 
-Given two random variables $v_1,v_2$, our goal was to learn a function to discriminate the samples from the joint distribution and the product of the marginal distributions, resulting on a mutual information estimator between $v_1$ and $v_2$. In practice, $v_1$ and $v_2$ are two views of the same input $x$, using one of the methods that we mentioned in the introduction.
+Given two random variables $v_1,v_2$, our goal was to learn a function to discriminate the samples from the joint distribution and the product of the marginal distributions, resulting on a mutual information estimator between $v_1$ and $v_2$. In practice, $v_1$ and $v_2$ are two views of the same input $x$, using one of the methods that we mentioned in the introduction. We would like to have that, if $y$ is a downstream task, the mutual information between both the inputs and the downstram task, is the same as the mutual information between the input $x$ and the downstream task, i.e.:
+\[
+I(v_1,y) = I(v_2,y) = I(x,y).  
+\]
+Also, we would like to remove the information that is not relevant for our downstream task. This is done by obtaining the pair of views $(v_1^*,v_2^*)$ such that the mutual information between them is the minimum of the mutual information between all the possible views $(v_i,v_j)$. Formally, that is obtaining
+\[
+(v_1^*, v_2^*) = \min_{v_1,v_2} I (v_1,v_2),    
+\]
+These two ideas form the \emph{InfoMin Principle} that we mentioned before in Definition \ref{def:infomin}.
 
 Usually, the views are encoded using an encoder $f$, not having it to be the same for both views. We can say that $z_i = f_i(v_i)$ for $i \in \{1,2\}$. If an encoder is sufficient, then it has to maintain the mutual information between the random variables after one of them has been encoded. More formally,
 
@@ -153,10 +161,27 @@ This usually means that no information was lost in the process of encoding. We w
 \begin{ndef}
 We say that a sufficient encoder $f_i$ of $v_i$ is \emph{minimal} if, and only if, the mutual information between $(f_i(v_i),v_j)$ is lesser than the mutual information between $(f(v_i),v_j)$ for any other sufficient encoder $f$. That is:
 \[
-I(f_i(v_i),v_j) \leq I(f(v_i),v_j) \quad \text{for all sufficient} f. 
+I(f_i(v_i),v_j) \leq I(f(v_i),v_j) \quad \text{for all sufficient}\ \ f. 
 \]
 \end{ndef}
 
+With these notions already presented, we would like to define what representations are good for a downstream task. We get to the following definition \citep{tian_what_2020}:
+\begin{ndef}
+For a task $\mathcal T$, whose goal is to predict a label $y$ from the input data $x$, the optimal representation $z^*$ encoded from $x$, that is $z^* = f(x)$ for some encoder $f$, is the minimal sufficient statistic with respect to $y$.
+\end{ndef}
+This means that if we use $z^*$ to make a prediction using a machine learning model, we are using the same information that we would be using the whole input $x$. What is more, since we are following the InfoMin principles and we are dismissing all the non relevant information, $z^*$ provides with the smallest complexity.
 
+\begin{nprop}\label{prop:optimal:views}
+Let $f_1,f_2$ be minimal sufficient encoders, and $\mathcal T$ be a downstream task with label $y$. Then, the optimal views $(v_1^*,v_2^*)$ from the data $x$ are the ones that have minimal mutual information
+\[
+    (v_1^*,v_2^*) = \argmin_{v_1,v_2} I(v_1,v_2),
+\]
+subjecto to $I(v_1,y) = I(v_2,y) = I(x,y)$.
+
+Given the optimal views $(v_1^*,v_2^*)$, the representation $z_1^*$ learned by contrastive learning is optimal for $\mathcal T$.
+\end{nprop}
+The proof of this proposition is out of the scope of this work so no further information will be provided. The last statement of the Proposition \ref{prop:optimal:views} is a consequence of the minimality and sufficency of $f_1$ and $f_2$. 
+
+This proposition carries the most important mathematical conclusion from this section. It will serve to prove sufficient conditions for views to be effective for contrastive learning, where effectiveness is measured as effectiveness in downstream tasks.
 
 

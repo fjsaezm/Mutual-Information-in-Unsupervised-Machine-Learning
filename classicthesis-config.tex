@@ -231,6 +231,56 @@
     }{\relax}
 \makeatother
 
+% ************************************************************ 
+% This needs to be done after classicthesis includes xcolor
+% and hyperref
+% ************************************************************
+
+\usepackage{amsthm}
+\usepackage{parskip}
+%\usepackage{pgfplots}
+%\pgfplotsset{compat=1.17}
+
+\usepackage[theorems, skins, breakable]{tcolorbox}
+\tcolorboxenvironment{ndef}{
+	blanker,
+	breakable,
+	left=12pt,
+	%before skip=12pt,
+	after skip=12pt,
+	borderline west={2pt}{0pt}{gray},
+	before upper={\parindent 12pt}
+}
+
+\tcolorboxenvironment{nprop}{
+	blanker,
+	breakable,
+	left=12pt,
+	%before skip=12pt,
+	after skip=12pt,
+	borderline west={2pt}{0pt}{gray},
+	before upper={\parindent 12pt}
+}
+
+\tcolorboxenvironment{corollary}{
+	blanker,
+	breakable,
+	left=12pt,
+	%before skip=12pt,
+	after skip=12pt,
+	borderline west={2pt}{0pt}{gray},
+	before upper={\parindent 12pt}
+}
+
+\tcolorboxenvironment{nth}{
+	blanker,
+	breakable,
+	left=12pt,
+	%before skip=12pt,
+	after skip=12pt,
+	borderline west={2pt}{0pt}{gray},
+	before upper={\parindent 12pt}
+}
 
 % ****************************************************************************************************
 % 7. Last calls before the bar closes

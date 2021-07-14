@@ -9,7 +9,10 @@
 - [x] Add mode and unimodal/multimodal definitions 
 - [x] Page 30, revise "In fact..."
 - [] Donsker-Varadan representation Theorem
-- [] Remove all the bound part in InfoNCE
+- [x] Remove all the bound part in InfoNCE
+- [] Distance metric learning https://www.nec-labs.com/uploads/images/Department-Images/MediaAnalytics/papers/nips16_npairmetriclearning.pdf
+- [] Check if color of propositions is the same as the others
+- [] Change the .0. numeration in defs/props etc
 
 # Useful Links
 
