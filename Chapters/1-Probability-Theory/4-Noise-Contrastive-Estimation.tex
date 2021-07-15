@@ -48,7 +48,7 @@ Also, let $r_\nu$ the logistic function parametrized by $\nu$, that is:
 \begin{equation}\label{log:func:nu}
 r_\nu(u) = \frac{1}{1 + \nu exp(-u)}.
 \end{equation}
-Using \ref{log:ratio:G} and \ref{log:func:nu}, we can write
+Using \eqref{log:ratio:G} and \eqref{log:func:nu}, we can write
 \[
 h(u;\theta) := P(C = 1|u ; \theta) =    r_\nu(G(u;\theta)) = \frac{1}{1+ \nu exp(\log \frac{P_m(u,\theta)}{P_n(u)})}. 
 \]
@@ -60,11 +60,11 @@ Now, in the $t$ such that $u_t$ in $X$,then  $u_t = x_t$ an we have that $P(C_t 
 \[
 1\cdot \log P(C_t = 1|u_t;\theta) = \log h(x_t;\theta).
 \]
-Using the same argument for $t$ such that $u_t \in Y$, we obtain the following form of the log-likelyhood in \ref{log:likelyhood:theta}:
+Using the same argument for $t$ such that $u_t \in Y$, we obtain the following form of the log-likelyhood in \eqref{log:likelyhood:theta}:
 \begin{equation}\label{log:likelihood:red}
 \ell(\theta) = \sum_{t = 1}^{T_d} \log [h(x_t;\theta)] + \sum_{t = 1}^{T_n} \log[1- h(y_t,\theta)].
 \end{equation}
-Now, optimizing $\ell(\theta)$ with respecto to $\theta$ leads to an estimate $G(.;\hat{\theta})$ of the log-ratio $\log (P_d/P_n)$, so we get an approximate description of $X$ relative to $Y$ by optimizing \ref{log:likelyhood:red}.
+Now, optimizing $\ell(\theta)$ with respecto to $\theta$ leads to an estimate $G(.;\hat{\theta})$ of the log-ratio $\log (P_d/P_n)$, so we get an approximate description of $X$ relative to $Y$ by optimizing \eqref{log:likelyhood:red}.
 
 \begin{remark}
 If we consider $-\ell(\theta)$, this is known as the \emph{cross entropy function}.
@@ -85,7 +85,7 @@ J_T(\theta) = \frac{1}{T_d}\{\sum_{t = 1}^{T_d} \log[h(x_t;\theta)] + \sum_{t=1}
 
 We have to remark that in this case, we have fixed $\nu$ before $T_n$, so $T_n$ will increase as $T_d$ increases. Now, using the weak law of large numbers, $J_T(\theta) \to J$ in probability, where
 \[
-J(\theta) = E\{\log[h(x;\theta)]\} + \nu E{\log[1-h(y;\theta)]}.
+J(\theta) = E\left[\log[h(x;\theta)]\right] + \nu E\left[\log[1-h(y;\theta)]\right].
 \]
 Let us rename some terms before announcing a theorem. We want to see $J$ as a function of $\log P_m(.;\theta)$ instead of only $\theta$. In order to do this, let $f_m(.) = \log P_m(.;\theta)$, and consider
 \[
