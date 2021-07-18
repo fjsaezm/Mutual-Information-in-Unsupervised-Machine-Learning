@@ -70,11 +70,18 @@ Let us see how we train the encoder $g_{enc}$ and the autoregressive model $g_{a
 In Chapter \ref{Chapter:NCE}, we gave the notions of the general idea of Noise Contrastive Estimation. Now, we can apply those ideas to a particular case, in which one of the subsets, say $X$ only has one element, and the other one has $N-1$ elements. We combine both sets in $X$ for the following argument.
 
 Let $X = \{x_1,\dots,x_N\}$ be a set of $N$ random samples. $X$ will contain a positive sample taken from the distribution $P( \xtk |c_t)$ and $N-1$ negative
-samples from the distribution proposed $P(\xtk)$. With this set, we would like to optimize the following loss function, which is an alternative expression of \ref{log:likelihood:red}:
+samples from the distribution proposed $P(\xtk)$. With this set, we would like to optimize the following loss function, which is an alternative expression of \eqref{log:likelihood:red}:
+\begin{ndef}
+The loss $\mathcal L_N$ defined as
 \begin{equation}\label{NCE:loss}
-\mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(\xtk,c_t)}{\sum_{x_j \in X} f_k(x_j,c_k)}\right].
+\mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(\xtk,c_t)}{\sum_{x_j \in X} f_k(x_j,c_k)}\right],
 \end{equation}
-This is known as the \emph{InfoNCE} (Information Noise Contrastive Estimation) loss, which is based in Noise Contrastive Estimation \citep{gutmann_noise-contrastive_nodate}.
+is known as the \emph{InfoNCE} (Information Noise Contrastive Estimation) loss.
+
+This loss also gives the bound in Proposition \ref{Prop:Bound:NCE} the name of \emph{InfoNCE Bound}.
+
+\end{ndef}
+It is clear that this loss is based in Noise Contrastive Estimation \citep{gutmann_noise-contrastive_nodate}.
 
 Let us have a look at the \emph{categorical cross-entropy} loss function:
 \[
@@ -82,7 +89,7 @@ Let us have a look at the \emph{categorical cross-entropy} loss function:
 \]
 where $C$ is the number of possible classes in a classification problem, $y_i$ are the groundtruth of each class and $s_i$ is the score of each class.
 
-We can say that $\mathcal L_N$ is no more than the categorical cross-entropy of classifying the positive sample of $X$ correctly, with the argument of the logarithm being the prediction
+As we remarked before, we can say that $\mathcal L_N$ is no more than the categorical cross-entropy of classifying the positive sample of $X$ correctly, with the argument of the logarithm being the prediction
 of the model. If we note with $[d = i]$ as an indicator of the sample $x_i$ being the positive sample in $X$, the optimal probability for this loss can be written as $P(d = i|X,c_t)$. 
 
 Now, the probability that $x_i$ was drawn from the conditional distribution $P(\xtk|c_t)$ that has the context in account, rather than the proposal distribution $P(\xtk)$ that does not have $c_t$ in account, leads us to the following expression:
@@ -135,7 +142,7 @@ It is clear how, using \eqref{NCE:loss} we are using exactly the same function t
 
 \section{Good views for Contrastive Learning}
 
-We have presented a framework in which a set $X = \{x_1,\cdots,x_n\}$ contains a sample from the distribution $P(\xtk,ct)$ and the rest are samples from the distribution $P(\xtk)$. This samples are different views of the data. 
+We have presented a framework in which a set $X = \{x_1,\cdots,x_n\}$ contains a sample from the distribution $P(\xtk,c_t)$ and the rest are samples from the distribution $P(\xtk)$. This samples are different views of the data. 
 
 The choice of the views affects the results in the downstream tasks \citep{tian_what_2020}. The views will affect on the training, hence, it will affect to the representations that are obtained. We would like to have some guarantees that the views that we are choosing provide us with good examples for our training. Let us formalize this idea.
 

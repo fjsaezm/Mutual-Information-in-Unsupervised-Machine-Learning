@@ -1,17 +1,16 @@
 \label{Chapter:connection:triplets}
-We have seen how the framework presented in \cite{oord_representation_2019} uses a generative approach as a part of the representation learning process. Let us set in the case of learning representations of images. In this case, generative models must \emph{generate} each pixel on the image. This can be extremely computationally expensive. 
 
-Until now, we had been trying to minimize the loss in Equation \eqref{NCE:loss}, which we proved that maximizes a lower bound in the mutual information. However, some papers such as \cite{chen_simple_2020}, \cite{tschannen_mutual_2020}, suggest that it is unclear if the success of their methods is caused by the maximization of mutual information between the latent representations, or by the specific form that the constrastive loss has.
+Contrastive learning exploits the idea of comparing the input $x$ with other different examples, either from the same class or from another class. It aims to produce closer representations for the examples of the same class and distant representations for elements of other classes.
 
-In fact, in \cite{tschannen_mutual_2020} they provide empirical proof for the loose connection between the success of the methods that use MI maximization and the utility of the MI maximization in practice. They also empirically proof  that the encoder architecture can be more important than the estimator used to determine the MI.
+We have been using the loss in Equation \eqref{NCE:loss}, which we built using noise contrastive estimation. However, this is not the only way of approaching this problem, and other types of losses have been used for similar purposes, forgetting the part of mutual information maximization and replacing it with \emph{geometrical distance} optimization.
 
-Even with the empirically proved disconnection between MI maximization and representation quality, recent works that have used the loss function \ref{NCE:loss} have obtained state-of-art results in practice. There is an explanation for this, connecting the recently mentioned loss with a popular triplet loss.
+In this section, we will present \emph{Triplet losses}, other kind of loss functions that also compare different views of the same input $x$.
 
 \section{From deep metric learning to triplet losses and its generalization}
 
-Distance metric learning aims to learn an embedding representation of an input data $x$ that preserves the distance between similar data points close and also makes de distance between different datapoints far on the embedding space \citep{Sohn2016ImprovedDM}.
+Distance metric learning also aims to learn an embedding representation of an input data $x$ that preserves the distance between similar data points close and also makes de distance between different datapoints far on the embedding space \citep{Sohn2016ImprovedDM}.
 
-We will consider sets of triplets $(x,\ps,\ns)$ where:
+Let us set the notation that we will use first. We will consider sets of triplets $(x,\ps,\ns)$ where:
 \begin{itemize}
 \item The element $x$ is an anchor point,
 \item The element $\ps$ is a positive instance,
@@ -75,7 +74,7 @@ Given a set of triplets, each containing an anchor, a positive example and a neg
 
 We use this loss to train models in order to improve the representations obtained.It would be interesting to present the model non-trivial metric to the learning algorithm. When the representation $g$ improves, this is harder to do, and this results in slow convergence and expensive data sampling methods.
 
-\subsection*{Generalization of triplet losses}
+\subsection*{Generalization of triplet losses and $N-$pairs loss}
 
 In a single evaluation of the loss function over a triplet during the learning process, we are comparing one positive sample to one negative sample. In practice, after looping over sufficiently many triplets, we expect the distance between positive examples and negative examples to be maximized. However, this will surely be a slow process if our dataset has many examples and also, in each step we will be separating the positive element from the specific negative element to which we are comparing it in that evaluation. Thus, the technique might be unstable \citep{Sohn2016ImprovedDM}.
 
@@ -93,23 +92,54 @@ If we consider the case $N=2$, we have
 \[
 \mathcal L_{(2+1)-\text{tuplet}}(x,\ps,\ns) = \log \left( 1+ \exp \left(g(x)^Tg(\ns) - g(x)^T g(\ps)\right)\right).
 \]
-This expression is very similar to the one in Equation \eqref{triplet:single:loss}. In fact, if the norm in Equation \eqref{triplet:single:loss} is unit, if $g$ minimizes $\mathcal L_{(2+1)-\text{tuplet}}$, then it minimizes $\ell^\alpha$, and hence both losses are equivalent.
+This expression is very similar to the one in Equation \eqref{triplet:single:loss}. In fact, if the norm in Equation \eqref{triplet:single:loss} is unit and $g$ minimizes $\mathcal L_{(2+1)-\text{tuplet}}$, then it minimizes $\ell^\alpha$, and hence both losses are equivalent.
 \end{remark}
+
+
 
 Applying the $(N+1)-$tuplet loss in deep metric learning is computationally expensive. Indeed, if we apply Stochastic Gradient Descent (SGD) with batch size $M$, then we have to evaluate $M \times (N+1)$ times our function $\ell^\alpha$ in each update. Because of this, if we increase $M$ and $N$, the number of evaluations grows quadratically. We would like to avoid this.
 
-Consider the set of $N$ pairs of examples, with the constraint of each pair belonging to a different class, i.e. $X = \{(x_1,\ps_1),\cdots,(x_N,\ps_N)\}$ with $y_i \neq y_j$ for all $i \neq j$. We now build $N$ tuplets where each tuplet has all the positive samples and the $i-th$ anchor, that is:
+Consider the set of $N$ \emph{pairs} of examples, with the constraint of each pair belonging to a different class, i.e. $X = \{(x_1,\ps_1),\cdots,(x_N,\ps_N)\}$ with $y_i \neq y_j$ for all $i \neq j$. We now build $N$ tuplets where each tuplet has all the positive samples and the $i-th$ anchor, that is:
 \[
 \{S_i\}_{i=1}^N, \quad \text{where} \quad S_i = \{x_i, \ps_1,\cdots,\ps_N\}.  
 \]
 We can consider that each tuplet has $x_i$ as anchor, $\ps_i$ as positive example and $\ps_j$ for $j \neq i$ as negative samples, since they were all from different classes.
 
+\begin{ndef}
+In the last conditions, we can define the \emph{multi class N-pair loss} as follows:
+\begin{align}
+\mathcal L_{N-pair-mc} & \left(\left\{(x_i,\ps_i)\right\}_{i=1}^N \right)  = \nonumber \\
+& \frac{1}{N} \sum_{i=1}^N \log \left(1+ \sum_{j\neq i} \exp\left(g(x_i)^T g(\ps_j) - g(x_i)^Tg(\ps_i)\right)\right) \label{N:Pair:loss}
+\end{align}
+\end{ndef}
+This way, we are combining the $(N+1)-$tuplet loss and the $N-$pair construction that we presented, enabling highly scalable training. This loss has empirically proved in to have advantages if we compare it to other variations of mini-batch methods \citep{Sohn2016ImprovedDM}.
 
+\subsection{InfoNCE Bound as a triplet loss}
 
-The InfoNCE loss on Equation \eqref{NCE:loss} has proved to be useful in representation learning. Let us consider a reformulation on it. Firstly, since $f_k$ was an exponential, we can also consider $e^f$ and remove the exponential from $f$, this is just notation. Now, we can rewrite the InfoNCE objective as follows
-\begin{align*}
-I_{NCE}  & = E\left[ \frac{1}{N} \sum_{i = 1}^N \log \frac{e^{f(x_i,y_i)}}{\frac{1}{N}\sum_{j=1}^N e^{f(x_i,y_j)}}\right]\\
-& = a\\
-& = \log N - E\left[ \frac{1}{N} \sum_{i=1}^N \log \left( 1+ \sum_{j\neq i}e^{f(x_i,y_j)- f(x_i,y_i)}\right)\right]
-\end{align*}
+The InfoNCE loss on Equation \eqref{NCE:loss} has proved to be useful in representation learning. Let us consider a reformulation on it. Firstly, since $f_k$ was an exponential, we can also consider $e^f$ and remove the exponential from $f$, this is just notation. Now, in \cite{poole_variational_2019} the InfoNCE bound in \eqref{Bound:NCE} is rewritten as follows:
+\[
+I(X,Y) \geq E\left[ \frac{1}{N} \sum_{i = 1}^N \log \frac{e^{f(x_i,y_i)}}{\frac{1}{N}\sum_{j=1}^N e^{f(x_i,y_j)}}\right] \triangleq  I_{NCE}(X,Y)
+\]
+where we have just named the right hand side of the inequality as $I_{NCE}(X,Y)$. Now, we can transform it in the following way:
+\begin{align}
+I_{NCE}  & = E\left[ \frac{1}{N} \sum_{i = 1}^N \log \frac{e^{f(x_i,y_i)}}{\frac{1}{N}\sum_{j=1}^N e^{f(x_i,y_j)}}\right]\nonumber \\
+& = E\left[ \frac{1}{N} \sum_{i = 1}^N \log \frac{1}{\frac{1}{N}\sum_{j=1}^N e^{f(x_i,y_j) - f(x_i,y_i)}}\right]\nonumber \\
+& = E\left[ -  \frac{1}{N} \sum_{i = 1}^N \log \frac{1}{N} \sum_{j=1}^N e^{f(x_i,y_j) - f(x_i,y_i)}\right] \label{last:eq:INCE}
+\end{align}
+And now, we only have to use the basic properties of the logarithm to see that
+\begin{align}
+\text{\eqref{last:eq:INCE}} & = E\left[-\frac{1}{N}\left(\sum_{i=1}^N \log \frac{1}{N} + \sum_{i=1}^N \log \sum_{j = 1}^N e^{f(x_i,y_j) - f(x_i,y_i)} \right)\right] \nonumber \\
+& = E\left[-\frac{1}{N}\left( N(\cancel{\log 1} - \log N ) + \sum_{i=1}^N \log \left( 1  + \sum_{j \neq i} e^{f(x_i,y_j) - f(x_i,y_i)} \right)\right)\right] \nonumber\\ 
+& = E\left[-\frac{1}{N}\left(-N\log N\right)\right] + E\left[-\frac{1}{N}\sum_{i=1}^N \log \left( 1  + \sum_{j \neq i} e^{f(x_i,y_j) - f(x_i,y_i)} \right)\right] \nonumber \\
+& = \log N - E\left[ \frac{1}{N} \sum_{i=1}^N \log \left( 1+ \sum_{j\neq i}e^{f(x_i,y_j)- f(x_i,y_i)}\right)\right] \label{final:form:INCE}
+\end{align}
+
+In the particular case where $X,Y$ take values in the same space and $f$ has the particular form 
+\[
+f(x,y) = \phi(x)^T \phi(y),  
+\]
+for some $\phi$, Equation \eqref{final:form:INCE} is the same (up to constants and change of sign) as the expectation of the multi-class $N-$pair loss in Equation \eqref{N:Pair:loss}.
+
+Hence, we have found an equivalence between representation learning by maximizing $I_{NCE}$ using a symmetric separable critic $f(x,y)$ and an encoder $g$ shared accross views and using a multi class $N-$pair loss, which is a generalization of a triplet loss.
+
 

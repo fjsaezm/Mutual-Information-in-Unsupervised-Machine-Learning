@@ -25,3 +25,5 @@ https://generallyintelligent.ai/understanding-self-supervised-contrastive-learni
 - http://www.cs.columbia.edu/~vh/courses/LexicalSemantics/Association/Cover&Thomas-Ch2.pdf
 
 - Donsker varadhan : https://arxiv.org/pdf/1801.04062.pdf
+
+- SimCLR v2 https://ryansaxe.com/simclrv2/

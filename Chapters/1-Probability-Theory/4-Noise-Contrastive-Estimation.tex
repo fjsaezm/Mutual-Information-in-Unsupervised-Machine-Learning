@@ -1,19 +1,17 @@
 \label{Chapter:NCE}
-Our problem now is, to estimate the density function (p.d.f.) of some observed data.
-
-A sample $X = \{x_1,\dots,x_{T_d}\}$ of a random vector is observed. It follows an unknown p.d.f. $P_d$. We assume that the data p.d.f. belongs to a parametrized family of functions, that is
+Our problem now is, to estimate the density function (p.d.f.) of some observed data. Consider that a sample $X = \{x_1,\dots,x_{T_d}\}$ of a random vector has been observed. It follows an unknown p.d.f. $P_d$, that we assume to belong to a parametrized family of functions, that is
 \[
 P_d \in \{P_m(.;\theta)\}_\theta,
 \]
-where $\theta$ is a vector of parameters. This means that, in fact,
+where $\theta$ is a vector of parameters. In other words
 $$
-P_d(.) = P_m(.;\theta^*) \quad \text{for some } \theta^*,
+P_d(.) = P_m(.;\theta^*) \quad \text{for some } \theta^*.
 $$
-so our problem is to find $\theta^*$. 
+Our problem now will be to find the $\theta^*$ that matches the distribution. 
 
-Any estimate $\hat{\theta}$ must meet the constraints that a normalized p.d.f. should satisfy, that is:
+Any estimate $\hat{\theta}$ must meet the constraints that a normalized p.d.f. should satisfy. Those are:
 $$
-\int P_m(u;\hat{\theta})du = 1, \quad \quad P_m(.;\hat{\theta})\geq 0.
+\int P_m(u;\hat{\theta})du = 1, \quad \text{and}\quad P_m(.;\hat{\theta})\geq 0.
 $$
 If the constraints are satisfied for any $\theta$ in the set of parameters, we say that the model is normalized, and then we can use the maximum likelihood principle to estimate $\theta$.
 
@@ -64,7 +62,7 @@ Using the same argument for $t$ such that $u_t \in Y$, we obtain the following f
 \begin{equation}\label{log:likelihood:red}
 \ell(\theta) = \sum_{t = 1}^{T_d} \log [h(x_t;\theta)] + \sum_{t = 1}^{T_n} \log[1- h(y_t,\theta)].
 \end{equation}
-Now, optimizing $\ell(\theta)$ with respecto to $\theta$ leads to an estimate $G(.;\hat{\theta})$ of the log-ratio $\log (P_d/P_n)$, so we get an approximate description of $X$ relative to $Y$ by optimizing \eqref{log:likelyhood:red}.
+Now, optimizing $\ell(\theta)$ with respecto to $\theta$ leads to an estimate $G(.;\hat{\theta})$ of the log-ratio $\log (P_d/P_n)$, so we get an approximate description of $X$ relative to $Y$ by optimizing \eqref{log:likelihood:red}.
 
 \begin{remark}
 If we consider $-\ell(\theta)$, this is known as the \emph{cross entropy function}.
@@ -80,7 +78,7 @@ Now, if we consider $P_m^0(.;\alpha)$ an unnormalized (doest not integrate $1$) 
 \]
 With this model, a new estimator is defined. Considering $X$ as before and $Y$ an artificially generated set with $T_n = \nu T_d$ independent obvservations extracted from $P_n$, known. as the argument $\hat{\theta}_T$ which maximizes
 \[
-J_T(\theta) = \frac{1}{T_d}\{\sum_{t = 1}^{T_d} \log[h(x_t;\theta)] + \sum_{t=1}^{T_n}\log[1-h(y_t;\theta)]\}.
+J_T(\theta) = \frac{1}{T_d}\left\{\sum_{t = 1}^{T_d} \log[h(x_t;\theta)] + \sum_{t=1}^{T_n}\log[1-h(y_t;\theta)]\right\}.
 \]
 
 We have to remark that in this case, we have fixed $\nu$ before $T_n$, so $T_n$ will increase as $T_d$ increases. Now, using the weak law of large numbers, $J_T(\theta) \to J$ in probability, where
@@ -89,7 +87,7 @@ J(\theta) = E\left[\log[h(x;\theta)]\right] + \nu E\left[\log[1-h(y;\theta)]\rig
 \]
 Let us rename some terms before announcing a theorem. We want to see $J$ as a function of $\log P_m(.;\theta)$ instead of only $\theta$. In order to do this, let $f_m(.) = \log P_m(.;\theta)$, and consider
 \[
-\tilde{J}(f_m) = E\{\log[r_\nu (f_m(x) - \log P_n(x))]\} + \nu E\{\log [1- r_\nu(f_m(y) - \log P_n(y))]\}.    
+\tilde{J}(f_m) = E\left\{\log[r_\nu (f_m(x) - \log P_n(x))]\right\} + \nu E\left\{\log [1- r_\nu(f_m(y) - \log P_n(y))]\right\}.    
 \]
 The following theorem states that the probability density function $P_d$ of the data can be found by maximizing $\tilde{J}$, that is, learning a nonparametric classifier in \emph{infinite data}.
 

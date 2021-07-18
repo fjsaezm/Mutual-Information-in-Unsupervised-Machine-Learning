@@ -141,16 +141,16 @@ Let $(x,z)$ be a data representation drawn from a distribution $P(x,z)$ and $x'$
 
 As we did before, we want to estimate the ratio $P_d/P_n$ of the different distributions, in this case the ratio would be $P(x,z)/P(x)P(z)$. Let $(x^*,z)$ be a pair drawn from $P(x,z)$ and $X = \{x^*, x_1,\cdots,x_{N-1} \}$, where the rest of the $N-1$ points form pairs $(x_j,z)$ drawn from $P(x)P(z)$ the product of the marginal distribution. We can rewrite the loss \ref{log:likelihood:red} in a simpler expression:
 \begin{equation}\label{log:likelihood:rewritten}
-l(\theta) = E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right]  .
+l(\theta) = - E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right]  .
 \end{equation}
 
 If we maximize this objective, $h_\theta$ learns to discriminate $(x^*,z)$ from $(x_j,z)$ for $ 1 \leq j < N$ and, thus, we are learning to estimate the ratio $P(x,z)/P(x)P(z)$. Let us see how maximizing $\ell(\theta)$ we are maximizing a lower bound for $I(x,z)$.
 
-\begin{nprop}
+\begin{nprop}\label{Prop:Bound:NCE}
 Let $X = \{x^*, x_1,\cdots,x_{N-1} \}$, where $x^* \sim P(x,z)$ and the rest of them were sampled from $P(x)P(z)$. Then,
-\[
-I(x,z) \geq \ell(\theta) + \log N
-\]
+\begin{equation}\label{Bound:NCE}
+I(x,z) \geq -  \ell(\theta) + \log N
+\end{equation}
 \end{nprop}
 \begin{proof}
 
@@ -158,7 +158,7 @@ Firstly, using Bayes' rule, $P(x^*,z) = P(x^*|z)P(z)$. Hence, since $h_\theta$ e
 \[
 \frac{P(x^*,z)}{P(x)P(z)} = \frac{P(x^*|z)P(z)}{P(x)P(z)} = \frac{P(x^*|z)}{P(x)}.
 \]
-Using the definition of the log-likelyhood that we see in \ref{log:likelihood:rewritten}, we see that
+Using the definition of the log-likelyhood that we see in \eqref{log:likelihood:rewritten}, forgetting the sign for the moment, we see that
 \begin{align*}
 E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] & =  E_X \left[ \log \frac{h_\theta(x^*,z)}{ h_\theta(x^*,z) + \sum_{j = 1}^{N-1} h_\theta(x_j,z)}\right] \\
 & \approx E_X \left[ \log \frac{\frac{P(x^*|z)}{P(x)}}{ \frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}\right].
@@ -186,7 +186,7 @@ E_X\left[ \log \frac{1}{ 1+ \frac{P(x^*)}{P(x^*|z)}(N-1)}\right] \\
 \end{align*}
 where, in $(1)$, we have use Bayes' rule again and in $(2)$ we have used the definition of the MI that we found in equation \ref{MI:sum:xz}. Looking at the first and last equations used in this proof, and seeing that we have $\leq$ in the middle of the chain of equalities, we have proven
 \[
-    E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] = \ell (\theta) \leq I(x,z) - \log N \implies I(x,z) \geq \ell(\theta)+ \log N,
+    E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] = - \ell (\theta) \leq I(x,z) - \log N \implies I(x,z) \geq -\ell(\theta)+ \log N,
 \]
 as we wanted.   
 \end{proof}
