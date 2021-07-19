@@ -1,4 +1,4 @@
-\label{Chapter:SimCLR}
+\label{Chapter:SimCLR-BYOL}
 Until this point of the work, we have been presenting the theoretical basis of representation learning using contrastive learning. Previous approaches, such as  the framework presented in \cite{oord_representation_2019}, use a generative approach as a part of the representation learning process. Although this can be benefitial at some points and, in fact, achieved the \emph{state-of-art}\footnotemark empirical results, we have to consider that generative models have some drawbacks. 
 
 %------------- Footnotemark
@@ -12,13 +12,13 @@ Until now, we had been trying to minimize the loss in Equation \eqref{NCE:loss},
 
 In fact, in \cite{tschannen_mutual_2020} they provide empirical proof for the loose connection between the success of the methods that use MI maximization and the utility of the MI maximization in practice. They also empirically proof  that the encoder architecture can be more important than the estimator used to determine the MI.
 
-Even with the empirically proved disconnection between MI maximization and representation quality, recent works that have used the loss function \eqref{NCE:loss} have obtained state-of-art results in practice. 
+Even with the empirically proved disconnection between MI maximization and representation quality, recent works that have used the loss function defined in Equation \eqref{NCE:loss} have obtained state-of-art results in practice. 
 
 \section{SimCLR}
 
 \emph{SimCLR} \citep{chen_simple_2020} presents a framework that achieved state-of-art results when it was presented in July 2020. It also makes use of contrastive learning, focusing in the study of the following findings:
 \begin{itemize}
-\item In Machine Learning, \emph{data augmentation} reffers to the process of artificially creating new examples of the data by applying transformations to the data that we already have available. In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
+\item In machine learning, \emph{data augmentation} reffers to the process of artificially creating new examples of the data by applying transformations to the data that we already have available. In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
 
 \item The introduction of a nonlinear transformation that it can be learnt during the learning process. This linear transformation is between the representation and the contrastive loss, so before evaluating the loss function, the representation is applied the nonlinear function.
 
@@ -27,4 +27,89 @@ Even with the empirically proved disconnection between MI maximization and repre
 \item This loss also benefits from larger batch sizes and longer training, as well as from deeper and wider networks.
 \end{itemize}
 
-This framework learns representations by maximizing agreement between examples of the same input obtained by using data augmentation on tha input example and a contrastive loss in the latent space.
+This framework learns representations by maximizing agreement between examples of the same input obtained by using data augmentation on the input example and a contrastive loss in the latent space. The framework that is presented follows a linear structure. We will present the steps in a general way and later we will remark the specific considerations that were used in the implementation of the framework for the experiments. 
+
+The steps followed are:
+\begin{enumerate}
+\item Firstly, using the input $x$ and two augmentation functions $t,t' \in \mathcal T$, two different views $\tilde x_i,\tilde x_j$ are obtained using data augmentation. They are both sampled from the same family of data augmentations $\mathcal T$. They are \emph{both} considered as positive views.
+\item Secondly, a NN base encoder $f(\cdot)$ is used to extract representations for the two different views, obtaining $h_i = f(\tilde{x_i})$, where $h_i \in \R^d$.  
+
+\item Then, a \emph{small} neural network projection $g(\cdot)$ is used. This neural network maps the representations $h_i$ to the space where contrastive loss is applied. Hence, we obtain $z_i = g(h_i) = W^{(2)}\sigma(W^{(1)}h_i)$, where $\sigma$ is a nonlinear function and $W^{(i)}$ are the weight matrix.
+
+\item Lastly, the contrastive loss is used for a contrastive prediction task. Using a set $\{\tilde x_k \}$ that includes a pair of positive examples $\tilde x_i,\tilde x_j$, the contrastive loss will (as we have already been doing theoretically) try to identify $\tilde x_j$ in the set for a given $\tilde x_i$. It is important to remark how the contrastive loss is used in this framework:
+\begin{enumerate}
+\item A minibatch of $N$ samples is randomly taken from the training set. 
+\item Using the $N$ samples, we augment each pair to obtain $2N$ data points. The idea is, given a positive pair, use the other $2(N-1)$ as negative examples.
+\item We define
+\[
+sim(u,v) = \frac{u^T v}{\norm{u}\norm{v}},    
+\]
+the normalized dot product between $u$ and $v$. Then, the loss function for a positive pair of examples takes the form:
+\begin{equation}\label{c:loss:simclr:ind}
+\ell_{i,j} = -\log \frac{exp(sim(z_i,z_j)/\tau)}{\sum_{k=1}^{2N} \mathbb{1}_{k \neq i} exp(sim(z_i,z_k)/\tau)},    
+\end{equation}
+where $\mathbb{1}_{k \neq i} \in \{0,1\}$ produces $0$ if $k = i$ and $1$ elsewhere. $\tau$ is the temperature parameter that we have mentioned before.
+\item The final loss is computed across all the positive pairs, both $(i,j)$ and $(j,i)$ in the minibatch.
+\begin{equation}\label{c:loss:simclr}
+\mathcal L = \frac{1}{2N} \sum_{k=1}^{2N} \left(\ell(2k-1,2k) + \ell(2k,2k-1)\right).
+\end{equation}
+\end{enumerate}
+\end{enumerate}
+\begin{remark}
+The loss in Equation \eqref{c:loss:simclr} is just another formulation of the one in Equation \eqref{NCE:loss}, applied to this particular way of obtaining positive and negative views.
+\end{remark}
+
+Considerations:
+\begin{enumerate}
+\item In SimCLR, the data augmentation is applied secuentially, and using three techniques of image data augmentation that are very simple and common:
+\begin{enumerate}
+\item Random cropping followed by resize to original size: If an image is sized $n\times m$ with $n,m \in \mathbb N$, this method consists in selecting a rectangle of size $n'\times m'$ with $n' \leq n, m' \leq m$ of the original image and then resizing it back via upsampling\footnotemark.
+\item Random color distortions, consisting in changing the value of certain amount of pixels randomly.
+\item Random Gaussian Blur: Gaussian Blur consists in convolving an image with a \emph{Gaussian function}. Convolution is the process of adding each element of the image to its local neighbours, weighted by a kernel:
+\[
+g(x,y) = \omega \star f(x,y) = \sum_{dx = -a}^a \sum_{dy = -b}^b \omega(dx,dy)f(x+dx,y+dy),    
+\]
+where $g(x,y)$ is the pixel $(x,y)$ of the filtered image, $f(x,y)$ is the same pixel in the original image, and $\omega$ is the filter kernel. Depending on the filter kernel, the result will be different. If we want to produce noise reduction in an image, we use Gaussian Blur, which kernel is calculated by a Gaussian function like the one in Equation \ref{gaussian:function}. For instance, a $3\times 3 $ gaussian kernel would approximately be:
+\[
+\frac{1}{16}\begin{bmatrix}
+    1 & 2 & 1\\
+    2 & 4 & 2\\
+    1 & 2 & 1
+\end{bmatrix}.
+\]
+
+\end{enumerate}
+
+\item For the base encoder $f(\cdot)$, a \emph{ResNet} network is used because of its simplicity.
+\item For the projection head $g(\cdot)$, a MLP with one hidden layer is used, and \emph{ReLU} is used as the activation function $\sigma$.
+\end{enumerate}
+
+%------------- Footnotemark
+\footnotetext{Upsampling is increasing the size of an image by inserting new rows and columns in the image matrix and interpolating the values of the introduced pixels using the pixels that we already had in the image.}
+%----------------------
+
+\begin{figure}[H]
+    \small
+        \centering
+    \begin{tikzpicture}
+        \node at (0,1.8) (h) {$\longleftarrow\,$Representation$\,\longrightarrow$};
+        \node[draw, circle] at (0,-1) (x) {$\,~\bm{x}~\,$};
+        \node[draw, circle] at (-2.5,0) (x1) {$\tilde{\bm{x}}_i$};
+        \node[draw, circle] at (2.5,0) (x2) {$\tilde{\bm{x}}_j$};
+        \node at (-2.5,1.8) (h) {$\bm h_i$};
+        \node at (2.5,1.8) (c) {$\bm h_j$};
+        \node at (-2.5,3) (hh) {$\bm z_i$};
+        \node at (2.5,3) (cc) {$\bm z_j$};
+        \path[->] 
+            (x)  edge [>=latex] node[below,rotate=-25] {$t\sim\mathcal{T}$} (x1)
+            (x)  edge [>=latex] node[below,rotate=25] {$t'\sim \mathcal{T}$} (x2)
+            (x1)  edge [>=latex] node[left,rotate=0] {$f(\cdot)$} (h)
+            (x2)  edge [>=latex] node[right,rotate=0] {$f(\cdot)$} (c)
+            (h)  edge [>=latex] node[left,rotate=0] {$g(\cdot)$} (hh)
+            (c)  edge [>=latex] node[right,rotate=0] {$g(\cdot)$} (cc);
+        \path[<->]
+            (hh)  edge [>=latex] node[above,rotate=0] {Maximize agreement} (cc);
+        \end{tikzpicture}
+        \caption{Figure obtained from \cite{chen_simple_2020}. A simple framework for contrastive learning of visual representations.}
+        \label{fig:framework}
+    \end{figure}

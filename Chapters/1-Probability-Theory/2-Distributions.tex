@@ -97,9 +97,9 @@ a random variable with finite mean and variance is a random variable whose distr
 \begin{ndef}
 We say that the real valued random variable $X$ follows a \emph{normal distribution} of parameters $\mu,\sigma\in \R$ if, and only if,
 its probability density function exists and it is determined by
-\[
+\begin{equation}\label{gaussian:function}
 f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}\left( \frac{x - \mu}{\sigma}\right)^2},
-\]
+\end{equation}
 where $\mu$ is the mean and $\sigma$ is its standard deviation. We denote this normal distribution as $X \sim \mathcal N (\mu,\sigma)$.
 \end{ndef}
 
@@ -117,9 +117,9 @@ random distribution.
 \begin{ndef}
 We say that a random vector $\bm{X} = (X_1,\dots,X_n)$ follows a multivariate normal distributions of parameters
 $\mu \in \R^n$, $\Sigma \in \mathcal M_N(\R)$ if, and only if, its probabity density function is:
-\[
+\begin{equation*}\label{gaussian:function}
 f(x) = \frac{1}{\sqrt{\det(2\pi \Sigma)}}e^{-\frac{1}{2}(x - \mu )^T \Sigma^{-1} (x-\mu)}.
-\]
+\end{equation*}
 It is denoted $X \sim \mathcal N(\mu, \Sigma)$.
 In this case, $\mu$ is the mean vector of the distribution and $\Sigma$ denotes the covariance matrix.  
 \end{ndef}
