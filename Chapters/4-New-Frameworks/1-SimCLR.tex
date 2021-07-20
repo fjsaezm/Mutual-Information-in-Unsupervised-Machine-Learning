@@ -16,18 +16,13 @@ Even with the empirically proved disconnection between MI maximization and repre
 
 \section{SimCLR}
 
-\emph{SimCLR} \citep{chen_simple_2020} presents a framework that achieved state-of-art results when it was presented in July 2020. It also makes use of contrastive learning, focusing in the study of the following findings:
-\begin{itemize}
-\item In machine learning, \emph{data augmentation} reffers to the process of artificially creating new examples of the data by applying transformations to the data that we already have available. In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
+\emph{SimCLR} \citep{chen_simple_2020} presents a framework that achieved state-of-art results when it was presented in July 2020. It also uses contrastive learning in an specific way that we will present later. 
 
-\item The introduction of a nonlinear transformation that it can be learnt during the learning process. This linear transformation is between the representation and the contrastive loss, so before evaluating the loss function, the representation is applied the nonlinear function.
+This framework learns representations by maximizing agreement between examples of the same input obtained by using data augmentation on the input example and a contrastive loss in the latent space. 
 
-\item The contrastive loss benefits from normalized embeddings and also from a temperature parameter that has to be adjusted.
+% Figure
 
-\item This loss also benefits from larger batch sizes and longer training, as well as from deeper and wider networks.
-\end{itemize}
-
-This framework learns representations by maximizing agreement between examples of the same input obtained by using data augmentation on the input example and a contrastive loss in the latent space. The framework that is presented follows a linear structure. We will present the steps in a general way and later we will remark the specific considerations that were used in the implementation of the framework for the experiments. 
+The framework that is presented follows a linear structure. We will present the steps in a general way and later we will remark the specific considerations that were used in the implementation of the framework for the experiments. 
 
 The steps followed are:
 \begin{enumerate}
@@ -58,6 +53,37 @@ where $\mathbb{1}_{k \neq i} \in \{0,1\}$ produces $0$ if $k = i$ and $1$ elsewh
 \begin{remark}
 The loss in Equation \eqref{c:loss:simclr} is just another formulation of the one in Equation \eqref{NCE:loss}, applied to this particular way of obtaining positive and negative views.
 \end{remark}
+
+We can summarize all this steps in the following algorithm:
+\begin{figure}[H]
+\begin{algorithm}[H]
+    \caption{\label{alg:main} SimCLR's learning algorithm.}
+    \begin{algorithmic}
+        \STATE \textbf{input:} batch size $N$, temperature $\tau$, structure of $f$, $g$, $\mathcal{T}$.
+        \FOR{sampled minibatch $\{\bm x_k\}_{k=1}^N$}
+        \STATE \textbf{for all} $k\in \{1, \ldots, N\}$ \textbf{do}
+            \STATE $~~~~$draw two augmentation functions $t \!\sim\! \mathcal{T}$, $t' \!\sim\! \mathcal{T}$
+            \STATE $~~~~$\textcolor{gray}{\# use agumentations} 
+            \STATE $~~~~$$\tilde{\bm x}_{2k-1} = t(\bm x_k)$
+            \STATE $~~~~$$\tilde{\bm x}_{2k} = t'(\bm x_k)$
+            \STATE $~~~~$\textcolor{gray}{\# use $f$} 
+            \STATE $~~~~$$\bm h_{2k-1} = f(\tilde{\bm x}_{2k-1})$  \textcolor{gray}{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\# representation}
+            \STATE $~~~~$$\bm h_{2k} = f(\tilde{\bm x}_{2k})$      \textcolor{gray}{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\# representation}
+            \STATE $~~~~$\textcolor{gray}{\# use $g$} 
+            \STATE $~~~~$$\bm z_{2k-1} = g({\bm h}_{2k-1})$  \textcolor{gray}{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\# projection}
+            \STATE $~~~~$$\bm z_{2k} = g({\bm h}_{2k})$      \textcolor{gray}{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\# projection}
+        \STATE \textbf{end for}
+        \STATE \textbf{for all} $i\in\{1, \ldots, 2N\}$ and $j\in\{1, \dots, 2N\}$ \textbf{do}
+        \STATE $~~~~$ $s_{i,j} = \bm z_i^\top \bm z_j / (\lVert\bm z_i\rVert \lVert\bm z_j\rVert)$ \textcolor{gray}{~~~~~~~~\# compute similarity}\\
+        \STATE \textbf{end for}
+        \STATE update networks $f$ and $g$ to minimize $\mathcal{L}$ defined in Eq. \eqref{c:loss:simclr}
+        \ENDFOR
+        \STATE \textbf{return} encoder network $f(\cdot)$, and throw away $g(\cdot)$
+    \end{algorithmic}
+    \end{algorithm}
+    
+    \caption{Algorithm that summarizes the learning process that SimCLR follows.}
+\end{figure}
 
 Considerations:
 \begin{enumerate}
@@ -113,3 +139,16 @@ where $g(x,y)$ is the pixel $(x,y)$ of the filtered image, $f(x,y)$ is the same 
         \caption{Figure obtained from \cite{chen_simple_2020}. A simple framework for contrastive learning of visual representations.}
         \label{fig:framework}
     \end{figure}
+
+    \subsection*{Findings}
+
+    Using the algorithm structure that we have presented, the experiments focused on finding what made the biggest impact on the representation learning task. A few of the most relevant findings using SimCLR are: 
+    \begin{itemize}
+    \item In machine learning, \emph{data augmentation} reffers to the process of artificially creating new examples of the data by applying transformations to the data that we already have available. In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
+    
+    \item The introduction of a nonlinear transformation that it can be learnt during the learning process. This linear transformation is between the representation and the contrastive loss, so before evaluating the loss function, the representation is applied the nonlinear function.
+    
+    \item The contrastive loss benefits from normalized embeddings and also from a temperature parameter that has to be adjusted.
+    
+    \item This loss also benefits from larger batch sizes and longer training, as well as from deeper and wider networks.
+    \end{itemize}
