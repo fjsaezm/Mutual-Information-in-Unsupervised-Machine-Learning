@@ -74,7 +74,7 @@ Given a set of triplets, each containing an anchor, a positive example and a neg
 
 We use this loss to train models in order to improve the representations obtained.It would be interesting to present the model non-trivial metric to the learning algorithm. When the representation $g$ improves, this is harder to do, and this results in slow convergence and expensive data sampling methods.
 
-\subsection*{Generalization of triplet losses and $N-$pairs loss}
+\section{Generalization of triplet losses and $N-$pairs loss}
 
 In a single evaluation of the loss function over a triplet during the learning process, we are comparing one positive sample to one negative sample. In practice, after looping over sufficiently many triplets, we expect the distance between positive examples and negative examples to be maximized. However, this will surely be a slow process if our dataset has many examples and also, in each step we will be separating the positive element from the specific negative element to which we are comparing it in that evaluation. Thus, the technique might be unstable \citep{Sohn2016ImprovedDM}.
 

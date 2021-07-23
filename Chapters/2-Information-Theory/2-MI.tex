@@ -75,7 +75,7 @@ Let $x$ represent an image of size $n \times m$ pixels. Then, the dimension of t
 
 Due to this problem related to the \emph{Curse of Dimensionality}, we can try to compute lower bounds of it that are generally easier to calculate. We will now expose two general lower bounds, and we will focus on a third one that will be explained later in this work.
 
-\subsection*{Variational Lower Bound}
+\subsection{Variational Lower Bound}
 
 
 
@@ -113,7 +113,7 @@ We have taken advantage of the non-negativity of the KL-Divergence.
 
 Using this bound, and combining this theoretical knowledge with machine learning methods, such as \emph{backpropagation}, we can make $Q_\theta$ be a neural network and maximize this lower bound.
 
-\subsection*{Donsker-Varadhan Representation}
+\subsection{Donsker-Varadhan Representation}
 
 We can also give a lower bound on the mutual information using its KL-Divergence formulation. Firstly, we have to 
 
@@ -133,7 +133,7 @@ $$
 I(P,Q) = D_{KL}(P||Q) \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q[e^T].
 $$
 
-\subsection*{Contrastive Lower Bound}
+\subsection{Contrastive Lower Bound}
 
 In chapter \ref{Chapter:NCE} we presented Noise Contrastive Estimation, that tried to discriminate between elements of two different sets. One was composed of data, $X$, and the other one was composed of noise, $Y$.
 
