@@ -45,6 +45,29 @@
 }{classicthesis}
 
 
+%\newcommand*{\Chapter}[1]{%
+%
+%	\chapter{}%[#1: \textit{#2}]{#1}%
+%    \begingroup
+%    \raggedright\Large
+%    \spacedallcaps{#1}\par
+%    \endgroup
+%    \nobreak\vspace{\glueexpr \bigskipamount*3 \relax}%
+%    % Adjust this factor as needed ..........^
+%}
+
+\renewcommand\formatchapter[1]{%
+    \setbox0\hbox{\chapterNumber\thechapter\hspace{10pt}\ \\ }%
+    \begin{minipage}[t]{\dimexpr\linewidth-\wd0\relax}%
+    \raggedright\spacedallcaps{#1}%
+    \end{minipage}%
+}
+
+
+
+
+
+
 % Available options for classicthesis.sty 
 % (see ClassicThesis.pdf for more information):
 % drafting

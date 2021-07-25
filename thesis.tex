@@ -57,6 +57,17 @@
 \usepackage{bm}
 \usepackage{witharrows}
 \usepackage{algorithmic}
+\usepackage{ upgreek }
+
+
+%License
+
+% License
+\usepackage[
+    type={CC},
+    modifier={by-sa},
+    version={4.0},
+]{doclicense}
 
 %% ---------------------------------
 
@@ -117,12 +128,15 @@ manychapters,pdfspacing]{classicthesis}
 \ThisULCornerWallPaper{1}{media/ugrA4.pdf}
 \maketitle
 
-\chapter*{License Page}
-\newpage
+
+\vspace*{\fill}
+\doclicenseThis
+The source code of this text and developed programs are available in the Github repository \href{https://github.com/fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning}{fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning}
+
 \chapter*{Abstract}
-\newpage
+Abstract goes here
 \chapter*{Resumen}
-\newpage
+El resumen en español va aquí
 \chapter*{Introduction}
 \section*{Main Goals and Results Achieved}
 \newpage
@@ -200,6 +214,8 @@ manychapters,pdfspacing]{classicthesis}
 \part{New Frameworks for Representation Learning}
 \chapter{SimCLR}
 \input{Chapters/4-New-Frameworks/1-SimCLR}
+\chapter{Boostrap Your Own Latent}
+\input{Chapters/4-New-Frameworks/2-BYOL}
 
 
 \ctparttext{

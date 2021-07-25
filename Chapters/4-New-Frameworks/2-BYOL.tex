@@ -1,5 +1,41 @@
 \label{Chapter:BYOL}
 
+\section{Motivation}
+
 We have shown how contrastive methods rely on comparing different views of the same image with views of other images, considering the ones from the same image as positive and the rest as negative samples. This is why they are called \emph{self-supervised} methods.
 
-Some papers (e.g. \cite{caron2019deep}) have already raised the following question: \emph{ Is the use of negative samples neccesary? }.
+Self-supervised methods build upon the cross-view prediction framework, i.e., learning representations by predicting different views (or data augmentations) of the same image. This could lead the frameworks to collapsed representations, such as a constant representation for any view of the image can easily help us to identify objects, but it is useless for downstream tasks.
+
+The methods presented earlier  use contrastive learning, avoid this problem since they are trying to discriminate between positive and negative views, as we have already presented.
+
+However, some papers (e.g. \cite{caron2019deep}) have already raised the following question: \emph{ Is the use of negative samples neccesary to avoid collapsing? }. This question is studied in \cite{grill2020bootstrap}, paper that presents an algorithm that we will be deeply explaining.
+
+The first solution that comes to mind to prevent the collapsing problem would be to use a randomly initialized network to produce the targets of the predictions. As it was probably expected due to its randomness, it does not produce good representations for downstream tasks. Nonetheless, the representations obtained were empirically much better than initial fixed representation, so it could be interesting to refine this representation in order to make it better for the later tasks. This is the intuitive idea behind \emph{Boostrap your own latent (BYOL)}.
+
+\section{BYOL Algorithm}
+
+BYOL's algorithm has certain similitudes with the SimCLR framework that we presented in Chapter \ref{Chapter:SimCLR}. The goal of this framework is to learn a representation for an input. In this case, the representation will be noted as $y_\theta$. 
+
+For this purpose, two neural networks are used:
+\begin{itemize}
+\item An \emph{online} network defined by a set of weights $\theta$.
+
+\item A \emph{target} network, defined by a different set of weights $\upxi$.
+\end{itemize}
+
+They both have the same structure, composed of three stages:
+\begin{enumerate}
+\item An encoder $f_\gamma$,
+\item A projector $g_\gamma$,
+\item A predictor $q_\gamma$,
+\end{enumerate}
+where $\gamma \in \{\theta,\upxi\}$.
+
+The \emph{difference} between them is that the target network provides the regression targets to train the online network, and its parameters $\upxi$ are an exponential moving average\footnotemark of the online parameters $\theta$. Mathematically, given a rate decay $\tau \in [0,1]$, after each training step $\upxi$ is updated as follows:
+\[
+\upxi \leftarrow \tau \upxi + (1-\tau)\theta    
+\]
+
+%------------- Footnotemark
+\footnotetext{A moving average is a calculation to analyze data points by creating a series of averages in different subsets of the data. }
+%----------------------
