@@ -1,0 +1,33 @@
+In this chapter, we will explain the fundamentals and technologies that have been used for the experimentation. We will focus on three main aspects:
+\begin{enumerate}
+\item The used dataset.
+\item The used libraries for the development of the code.
+\item Analysis of the code itself.
+\item The used metrics to evaluate the obtained results.
+\end{enumerate}
+
+The idea of the experimentation part is to test and compare the frameworks that we have presented in Chapters \ref{Chapter:SimCLR} and \ref{Chapter:BYOL}. Their architectures have already been explained, and the original code for both backbones has not been done by me. 
+
+This work will focus on testing how changing the training hyperparameters of the model affects the final results, since the original papers \cite{chen_simple_2020,grill2020bootstrap} already mention that using their structure, the results are affected by those hyperparameters, such as batch size, network depth or network width.
+
+The implementations that have been used can be found in:
+\begin{itemize}
+\item SimCLR implementation: Official implementation from Google in \url{https://github.com/google-research/simclr/tree/master/tf2}
+
+\item BYOL implementation: not official, found in \url{https://github.com/garder14/byol-tensorflow2}. 
+\end{itemize}
+
+The non-oficial implementation of BYOL has been chosen because it uses \emph{Tensorflow}, which makes the implementations easier to understand. Also, the idea is to make use of \emph{Tensorboard}, a Tensorflow utility that helps with visualization and graph generation of the training and final results.
+
+
+\section{The dataset: CIFAR10}
+
+The computational resources that we have for the experiment are limited. Due to this, we must fix a dataset that, having enough and representative examples, allows us to achieve feasible training time and successful results.
+
+One of the ever most used dataset, that was also used in both SimCLR and BYOL papers, is CIFAR10 \citep{krizhevsky_learning_nodate}. This dataset will be used to test the overall performance of our representation learning methods.
+
+CIFAR10 contains $60.000$ images divided in $10$ classes, where each class contains $10.000$ images. The size of the images is $32\times 32\times 3$, so the size of the images is not very large. This helps us to have faster trainings.
+
+This dataset has $50.000$ samples for training and $10.000$ for test. The test batch contains the same number of examples of each of the $10.000$ classes in the dataset, that is, it contains $1.000$ examples of each class. 
+
+It is important to remark that the classes are \emph{completely mutually exclusive}. That means that there is no overlap between the classes even if they have similar images, such as \emph{Cars} and \emph{Truck}, which are two of the classes of the dataset.
