@@ -1,0 +1,44 @@
+\label{Chapter:Introduction:DL}
+
+In order to be able to understand the chapters that will come later in this work, it is important to make a brief introduction of what \emph{Deep Learning}(DL) reffers to. Deep learning is included in the field of Machine Learning, which is also included in the field of general Artificial Intelligence.
+
+In Chapter \ref{Chapter:Context}, an intuitive definition of what Machine Learning is was given. We said that ML studies the algorithms that improve from experience. Tom M. Mitchell \citep{mitchell_machine_1997} provided a more formal definition of what \emph{learning from experience} means:
+
+\begin{ndef}
+A computer program is said to \emph{learn} from experience $E$ with respect some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.
+\end{ndef}
+
+We would also like to have a DL definition. In \cite{deng_deep_2014}, multiple similar definitions are given. We present here the simplest of them:
+
+\begin{ndef}
+\emph{Deep Learning} is a class of ML learning techniques that exploit many layers of non-linear information processing for supervised or unsupervised feature extraction and transformation, and for pattern analysis and classification.
+\end{ndef}
+
+Usually, these techniques are based on the biologically inspired \emph{neural networks}(NNs), which consists in several connected units: the \emph{neurons}. Each neuron is basically a Perceptron, which is a is a weighted sum followed by a non-linear function, called an \emph{activator} in the ML context. Formally, the output of each neuron is 
+\[
+y = \phi(\sum_{i = 1}^N w_i x_i  + w_0) .   
+\]
+There are many activation functions, but the following examples must be remarked:
+\begin{itemize}
+\item Sigmoid 
+\end{itemize}
+
+Using neurons and activation functions, we can formally define NNs. A NN with $L$ hidden layers is a deterministic non-linear function $f$, parametrized by a set of matrices $W = \{W_0,\cdots,W_L\}$ and non-linear activation functions $\{\phi_0,\cdots,\phi_L\}$. Given an input $x$, the output $y$ of the network is calculated as follows:
+\[
+h_0 = \phi_0(W_0^Tx), \cdots, h_l = \phi_l(W_l^T h_{l-1}),\cdots, y = \phi_L(W_L^T h_{L-1}).
+\]
+Having a NN, we consider it \emph{deep} when the number of hidden layers (and, consequently, the number of matrices) is considered high. 
+
+Neural networks use loss functions, which define how well the output returned by the network matches the real output, reducing the learning problem to an optimization problem. The problem is finding $W^{\operatorname{opt}}$, such that
+\[
+W^{\operatorname{opt}}   = \argmin_{w} \sum_{n = 1}^N l(y_n, f_w(x_n)),
+\]
+where $\mathcal D = \{(x_n,y_n)\}$ is a dataset.
+
+This problem is solved using a variant of \emph{stochastic gradient descent (SGD)}. This algorithm involves the computation of the loss function derivatives respect to the network parameters, and updates the parameters using this derivatives. Specifically, the parameters are updated as follows:
+\[
+W_{t+1} = W_t + \eta \nabla f(W_t),
+\]
+where $\eta \in \R^+$ is a small constant called the \emph{learning rate}. This algorithm guarantees convergence to local minimums of $f$ and, if $f$ is convex, the algorithm converges to a global minimum.
+
+The last comment about neural networks is that the
