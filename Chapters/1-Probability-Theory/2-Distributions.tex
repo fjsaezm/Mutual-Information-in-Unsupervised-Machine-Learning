@@ -2,9 +2,9 @@
 
 We have introduced the concepts of \emph{random variable},  \emph{random vector} and its \emph{probability distribution}. We will explain some concepts related to the latter ones.
 
-\begin{ndef}
+\begin{ndefC}
     The \emph{mode} of a distribution is the value at which the probability mass function takes its maximum value. That is, the value that is most likely to be sampled.
-\end{ndef}
+\end{ndefC}
 
 Distributions can be \emph{unimodal}, when their distribution has a single peak, \emph{bimodal} when their distribution has two peaks, and \emph{multimodal} when the number of peaks is equal or greater to $2$. 
 
@@ -32,12 +32,12 @@ The result is the following:
 Now, given two distributions, we would like to determine how different they are from each other.
 In order to compare them, we enunciate the definition of the Kullback-Leibler divergence.
 
-\begin{ndef}
+\begin{ndefC}
 Let $P$ and $Q$ be probability distributions over the same probability space $\Omega$. Then, the Kullback-Leibler divergence is defined as:
 $$
 D_{KL}(P \ || \ Q) = E_P\left[\log{\frac{P(x)}{Q(x)}}\right].
 $$
-\end{ndef}
+\end{ndefC}
 It is defined if, and only if, $P$ is \emph{absolutely continuous with respect to} $Q$, that is, if $P(A) = 0$ for any $A$ subset of $\Omega$ where $Q(A) = 0$.
  There are some properties of this definition that must be stated. 
 

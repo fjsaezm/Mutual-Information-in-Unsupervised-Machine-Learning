@@ -1,31 +1,69 @@
 \label{Chapter:Introduction:DL}
 
-In order to be able to understand the chapters that will come later in this work, it is important to make a brief introduction of what \emph{Deep Learning}(DL) reffers to. Deep learning is included in the field of Machine Learning, which is also included in the field of general Artificial Intelligence.
+In order to be able to understand the chapters that will come later in this document, it is important to make a brief introduction of what \emph{Deep Learning}(DL) reffers to. Deep learning is included in the field of Machine Learning, which is also included in the field of general Artificial Intelligence.
 
-In Chapter \ref{Chapter:Context}, an intuitive definition of what Machine Learning is was given. We said that ML studies the algorithms that improve from experience. Tom M. Mitchell \citep{mitchell_machine_1997} provided a more formal definition of what \emph{learning from experience} means:
+In Chapter \ref{Chapter:Intro:Rep:Learning}, an intuitive definition of what Machine Learning is was given. We said that ML studies the algorithms that improve from experience. Tom M. Mitchell \citep{mitchell_machine_1997} provided a more formal definition of what \emph{learning from experience} means:
 
-\begin{ndef}
+\begin{ndefC}
 A computer program is said to \emph{learn} from experience $E$ with respect some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.
-\end{ndef}
+\end{ndefC}
 
 We would also like to have a DL definition. In \cite{deng_deep_2014}, multiple similar definitions are given. We present here the simplest of them:
 
-\begin{ndef}
+\begin{ndefC}
 \emph{Deep Learning} is a class of ML learning techniques that exploit many layers of non-linear information processing for supervised or unsupervised feature extraction and transformation, and for pattern analysis and classification.
-\end{ndef}
+\end{ndefC}
 
 Usually, these techniques are based on the biologically inspired \emph{neural networks}(NNs), which consists in several connected units: the \emph{neurons}. Each neuron is basically a Perceptron, which is a is a weighted sum followed by a non-linear function, called an \emph{activator} in the ML context. Formally, the output of each neuron is 
 \[
-y = \phi(\sum_{i = 1}^N w_i x_i  + w_0) .   
+y = \phi\left(w_0 +\sum_{i = 1}^N w_i x_i \right) .   
 \]
 There are many activation functions, but the following examples must be remarked:
 \begin{itemize}
-\item Sigmoid 
+\item Sigmoid. The sigmoid function is defined as follows:
+\[
+\phi(x) = \frac{1}{1+ e^{-x}}.
+\]
+This is one of the most common used activation functions. It is differentiable, monotonic and smooth. One of its main disadvantages is that at the right part of the function, the change in the values that the function takes converges to zero, so we get to the \emph{vanishing gradient} problem and the learning is minimal.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{sigmoid}
+    \caption{Sigmoid. Image from \href{https://xzz201920.medium.com/activation-functions-linear-non-linear-in-deep-learning-relu-sigmoid-softmax-swish-leaky-relu-a6333be712ea}{this Medium article}. } \label{fig:sigmoid}
+\end{figure}
+
+\item Hyperbolic Tangent. This function is defined as follows:
+\[
+\phi(x) = \operatorname{tanh}(x) =  \frac{e^x - e^{-x}}{e^x + e^{-x}}.    
+\]
+This activation function has a small advantage over the sigmoid: its derivative is more steep, which means it can get more value and the learning can be more efficient.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{tanh}
+    \caption{Hyperbolic Tangent. Image from \href{https://xzz201920.medium.com/activation-functions-linear-non-linear-in-deep-learning-relu-sigmoid-softmax-swish-leaky-relu-a6333be712ea}{this Medium article}. } \label{fig:tanh}
+\end{figure}
+
+\item Rectified Linear Unit (ReLU). This function takes the following form:
+\[
+\phi(x) = \max\left(0,x\right).    
+\]
+ReLu is highly computationally efficient and non-linear. Its main problem is that when the inputs approach zero or are negative, the network can not perform back propagation and can not learn.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{relu}
+    \caption{ReLU. Image from \href{https://xzz201920.medium.com/activation-functions-linear-non-linear-in-deep-learning-relu-sigmoid-softmax-swish-leaky-relu-a6333be712ea}{this Medium article}. } \label{fig:relu}
+\end{figure}
 \end{itemize}
+
+
+
+\section{Neural Networks}
 
 Using neurons and activation functions, we can formally define NNs. A NN with $L$ hidden layers is a deterministic non-linear function $f$, parametrized by a set of matrices $W = \{W_0,\cdots,W_L\}$ and non-linear activation functions $\{\phi_0,\cdots,\phi_L\}$. Given an input $x$, the output $y$ of the network is calculated as follows:
 \[
-h_0 = \phi_0(W_0^Tx), \cdots, h_l = \phi_l(W_l^T h_{l-1}),\cdots, y = \phi_L(W_L^T h_{L-1}).
+h_0 = \phi_0\left(W_0^Tx\right), \cdots, h_l = \phi_l\left(W_l^T h_{l-1}\right),\cdots, y = \phi_L\left(W_L^T h_{L-1}\right).
 \]
 Having a NN, we consider it \emph{deep} when the number of hidden layers (and, consequently, the number of matrices) is considered high. 
 
@@ -41,4 +79,6 @@ W_{t+1} = W_t + \eta \nabla f(W_t),
 \]
 where $\eta \in \R^+$ is a small constant called the \emph{learning rate}. This algorithm guarantees convergence to local minimums of $f$ and, if $f$ is convex, the algorithm converges to a global minimum.
 
-The last comment about neural networks is that the
+The last comment about neural networks is that, since the weights $W = \{W_0,\cdots,W_L\}$ are constantly updated, the derivatives have to be computed repeatedly. The computational cost of this is quite high. \emph{Backpropagation} was born to calculate the derivatives of the weights much faster. The intuitive idea is that the gradient of the layer $l$ is computed using the gradient of the layer $l+1$ using the chain rule.
+
+Understanding both SGD and Backpropagation is crucial for understanding how NNs  work. However, in the experimentation part of this work we will focus on researching how a few hyperparameters affect the results of the proposed frameworks, so no further explanation on these important concepts will be provided.

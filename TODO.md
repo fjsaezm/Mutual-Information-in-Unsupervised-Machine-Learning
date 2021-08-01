@@ -12,7 +12,7 @@
 [x] Remove all the bound part in InfoNCE
 [x] Distance metric learning https://www.nec-labs.com/uploads/images/Department-Images/MediaAnalytics/papers/nips16_npairmetriclearning.pdf
 [x] Check if color of propositions is the same as the others
-[] Change the .0. numeration in defs/props etc
+[x] Change the .0. numeration in defs/props etc
 [] Neural networks introduction (resnet, data augmentation (give examples of data augmentations))
 [] Change `with tf.summary.record_if(should_record)` to TRUE for testing purposes.
 [] Test batch size = 512

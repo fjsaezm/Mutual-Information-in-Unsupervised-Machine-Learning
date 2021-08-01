@@ -29,9 +29,9 @@ In fact, if $v_1,v_2$ are two views of an input, we can think of the positive pa
 
 It is important to find a way to determine how much shared information between the views is needed, in order to make the representations obtained good enough for any downstream task. Here is where the \emph{InfoMin principle} is born. 
 
-\begin{ndef}[The InfoMin principle]\label{def:infomin}
+\begin{ndefC}[The InfoMin principle]\label{def:infomin}
     A good set of views are those that share the minimal information neccesary to perform well at the downstream task.
-\end{ndef} 
+\end{ndefC} 
 
 
 Our goal here will be to seek for a way of extracting shared information between the context $c$ and the data $x$. Here is where we link the mutual information with representation learning. Remember that the mutual information of two random variables, say $x$ and $c$ in this case, is:

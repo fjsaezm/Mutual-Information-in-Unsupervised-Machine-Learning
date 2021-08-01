@@ -17,17 +17,25 @@
 %------------------------
 \theoremstyle{plain}
 \newtheorem{nth}{Theorem}[section]
+% For theorems not in sections
+\newtheorem{nthC}{Theorem}[chapter]
+
 \newtheorem{nprop}{Proposition}
 \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}{Corollary}
 \theoremstyle{definition}
 \newtheorem{ndef}{Definition}[section]
+% For definitions not in sections
+\newtheorem{ndefC}{Definition}[chapter]
+
 \newtheorem{nproof}{Proof}
+
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 \newtheorem{nexample}{Example}
 
-\begingroup\makeatletter\@for\theoremstyle:=definition,remark,plain\do{\expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{\addtolength\thm@preskip\parskip}}\endgroup
+
+\begingroup\makeatletter\@for\theoremstyle:=definition,ndefC,remark,plain\do{\expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{\addtolength\thm@preskip\parskip}}\endgroup
 
 %------------------------
 % Macros
