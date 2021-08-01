@@ -158,7 +158,7 @@ Firstly, using Bayes' rule, $P(x^*,z) = P(x^*|z)P(z)$. Hence, since $h_\theta$ e
 \[
 \frac{P(x^*,z)}{P(x)P(z)} = \frac{P(x^*|z)P(z)}{P(x)P(z)} = \frac{P(x^*|z)}{P(x)}.
 \]
-Using the definition of the log-likelyhood that we see in \eqref{log:likelihood:rewritten}, forgetting the sign for the moment, we see that
+Using the definition of the log-likelihood that we see in \eqref{log:likelihood:rewritten}, forgetting the sign for the moment, we see that
 \begin{align*}
 E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] & =  E_X \left[ \log \frac{h_\theta(x^*,z)}{ h_\theta(x^*,z) + \sum_{j = 1}^{N-1} h_\theta(x_j,z)}\right] \\
 & \approx E_X \left[ \log \frac{\frac{P(x^*|z)}{P(x)}}{ \frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}\right].

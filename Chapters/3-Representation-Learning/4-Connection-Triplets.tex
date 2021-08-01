@@ -50,7 +50,7 @@ for each triplet in the set.
 %----------------------
 
 
-Support-vector machines (SVMs) are supervised learning models used for classification or regression problems. They are one of the most robust predicion methods. They search for a hyperplane $h$ in high or infinite dimensional space that separates the data as much as possible, making use of \emph{support vectors}, the datapoints that are closest to the hyperplane. If the data is linearly separable, we can select two hyperplanes $h_1,h_2$ that are parallel to $h$ and making the distance from them to $h$ as large as possible. That region is called the \emph{margin}.
+Support-vector machines (SVMs) are supervised learning models used for classification or regression problems. They are one of the most robust prediction methods. They search for a hyperplane $h$ in high or infinite dimensional space that separates the data as much as possible, making use of \emph{support vectors}, the datapoints that are closest to the hyperplane. If the data is linearly separable, we can select two hyperplanes $h_1,h_2$ that are parallel to $h$ and making the distance from them to $h$ as large as possible. That region is called the \emph{margin}.
 
 Coming back to our triplets problem, we also want to introduce a margin between the distances of the elements of the triplets, in order to separate positive examples from negative examples as much as possible. This way, we introduce a \emph{margin} term $\alpha$, rewriting our last equation as follows:
 \[
@@ -140,6 +140,6 @@ f(x,y) = \phi(x)^T \phi(y),
 \]
 for some $\phi$, Equation \eqref{final:form:INCE} is the same (up to constants and change of sign) as the expectation of the multi-class $N-$pair loss in Equation \eqref{N:Pair:loss}.
 
-Hence, we have found an equivalence between representation learning by maximizing $I_{NCE}$ using a symmetric separable critic $f(x,y)$ and an encoder $g$ shared accross views and using a multi class $N-$pair loss, which is a generalization of a triplet loss.
+Hence, we have found an equivalence between representation learning by maximizing $I_{NCE}$ using a symmetric separable critic $f(x,y)$ and an encoder $g$ shared across views and using a multi class $N-$pair loss, which is a generalization of a triplet loss.
 
 

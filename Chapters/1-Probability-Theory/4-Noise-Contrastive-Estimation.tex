@@ -50,7 +50,7 @@ Using \eqref{log:ratio:G} and \eqref{log:func:nu}, we can write
 \[
 h(u;\theta) := P(C = 1|u ; \theta) =    r_\nu(G(u;\theta)) = \frac{1}{1+ \nu exp(\log \frac{P_m(u,\theta)}{P_n(u)})}. 
 \]
-Since the class labels $C_t$ are assumed Bernoulli distributed and independent, the conditional log-likelyhood has the form:
+Since the class labels $C_t$ are assumed Bernoulli distributed and independent, the conditional log-likelihood has the form:
 \begin{equation}\label{log:likelihood:theta}
 \ell(\theta)  = \sum_{t = 1}^{T_d + T_n} C_t \log P(C_t = 1|u_t; \theta) + (1-C_t) \log P(C_t = 0|u_t;\theta).
 \end{equation}
@@ -58,11 +58,11 @@ Now, in the $t$ such that $u_t$ in $X$,then  $u_t = x_t$ an we have that $P(C_t 
 \[
 1\cdot \log P(C_t = 1|u_t;\theta) = \log h(x_t;\theta).
 \]
-Using the same argument for $t$ such that $u_t \in Y$, we obtain the following form of the log-likelyhood in \eqref{log:likelihood:theta}:
+Using the same argument for $t$ such that $u_t \in Y$, we obtain the following form of the log-likelihood in \eqref{log:likelihood:theta}:
 \begin{equation}\label{log:likelihood:red}
 \ell(\theta) = \sum_{t = 1}^{T_d} \log [h(x_t;\theta)] + \sum_{t = 1}^{T_n} \log[1- h(y_t,\theta)].
 \end{equation}
-Now, optimizing $\ell(\theta)$ with respecto to $\theta$ leads to an estimate $G(.;\hat{\theta})$ of the log-ratio $\log (P_d/P_n)$, so we get an approximate description of $X$ relative to $Y$ by optimizing \eqref{log:likelihood:red}.
+Now, optimizing $\ell(\theta)$ with respect to $\theta$ leads to an estimate $G(.;\hat{\theta})$ of the log-ratio $\log (P_d/P_n)$, so we get an approximate description of $X$ relative to $Y$ by optimizing \eqref{log:likelihood:red}.
 
 \begin{remark}
 If we consider $-\ell(\theta)$, this is known as the \emph{cross entropy function}.
@@ -76,7 +76,7 @@ Now, if we consider $P_m^0(.;\alpha)$ an unnormalized (doest not integrate $1$) 
 \[
 \log P_m(.;\theta) = \log P_m^0(.;\alpha ) + c  , \quad \quad \text{with } \theta=(\alpha,c).
 \]
-With this model, a new estimator is defined. Considering $X$ as before and $Y$ an artificially generated set with $T_n = \nu T_d$ independent obvservations extracted from $P_n$, known. as the argument $\hat{\theta}_T$ which maximizes
+With this model, a new estimator is defined. Considering $X$ as before and $Y$ an artificially generated set with $T_n = \nu T_d$ independent observations extracted from $P_n$, known. as the argument $\hat{\theta}_T$ which maximizes
 \[
 J_T(\theta) = \frac{1}{T_d}\left\{\sum_{t = 1}^{T_d} \log[h(x_t;\theta)] + \sum_{t=1}^{T_n}\log[1-h(y_t;\theta)]\right\}.
 \]

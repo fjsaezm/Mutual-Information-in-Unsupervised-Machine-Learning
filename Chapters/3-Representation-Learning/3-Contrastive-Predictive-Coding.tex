@@ -1,6 +1,6 @@
 
 \label{Chapter:CPC}
-We are now ready to connnect the concepts of mutual information and generative models that we have presented. In unsupervised learning,
+We are now ready to connect the concepts of mutual information and generative models that we have presented. In unsupervised learning,
 it is a common strategy to predict future information and to try to find out if our predictions are correct.
 In \emph{natural language processing}, for instance, representations are learned 
 using neighbouring words \citep{mikolov_efficient_2013}. In the field of computer vision, some studies have been able to predict color from grey-scale \citep{doersch_unsupervised_2016}.
@@ -13,7 +13,7 @@ to obtain the real distribution that generates our data.
 
 During the last few years, the representation learning problem has been approached using different machine learning frameworks. The most competitive ones have been self-supervised contrastive representation learning \cite{oord_representation_2019,tian_what_2020,hjelm_learning_2019,gutmann_noise-contrastive_nodate,chen_simple_2020,he_momentum_2020} using \emph{contrastive losses}, and they have empirically outperformed other approaches.     
 
-In contrastive learning, different ``views'' of the same input are created. These are also called \emph{positive samples}. Then, they are compared with \emph{negative samples}, which are views created from an input that does not share information with the input of the positive sample. A very interesting idea would be to try and maximize the mutual information between positive samples and push appart the views taken from negative samples. 
+In contrastive learning, different ``views'' of the same input are created. These are also called \emph{positive samples}. Then, they are compared with \emph{negative samples}, which are views created from an input that does not share information with the input of the positive sample. A very interesting idea would be to try and maximize the mutual information between positive samples and push apart the views taken from negative samples. 
 
 There are many ways of creating samples, both positive and negative, of an input. For instance:
 \begin{itemize}
@@ -30,7 +30,7 @@ In fact, if $v_1,v_2$ are two views of an input, we can think of the positive pa
 It is important to find a way to determine how much shared information between the views is needed, in order to make the representations obtained good enough for any downstream task. Here is where the \emph{InfoMin principle} is born. 
 
 \begin{ndefC}[The InfoMin principle]\label{def:infomin}
-    A good set of views are those that share the minimal information neccesary to perform well at the downstream task.
+    A good set of views are those that share the minimal information necessary to perform well at the downstream task.
 \end{ndefC} 
 
 
@@ -146,7 +146,7 @@ We have presented a framework in which a set $X = \{x_1,\cdots,x_n\}$ contains a
 
 The choice of the views affects the results in the downstream tasks \citep{tian_what_2020}. The views will affect on the training, hence, it will affect to the representations that are obtained. We would like to have some guarantees that the views that we are choosing provide us with good examples for our training. Let us formalize this idea.
 
-Given two random variables $v_1,v_2$, our goal was to learn a function to discriminate the samples from the joint distribution and the product of the marginal distributions, resulting on a mutual information estimator between $v_1$ and $v_2$. In practice, $v_1$ and $v_2$ are two views of the same input $x$, using one of the methods that we mentioned in the introduction. We would like to have that, if $y$ is a downstream task, the mutual information between both the inputs and the downstram task, is the same as the mutual information between the input $x$ and the downstream task, i.e.:
+Given two random variables $v_1,v_2$, our goal was to learn a function to discriminate the samples from the joint distribution and the product of the marginal distributions, resulting on a mutual information estimator between $v_1$ and $v_2$. In practice, $v_1$ and $v_2$ are two views of the same input $x$, using one of the methods that we mentioned in the introduction. We would like to have that, if $y$ is a downstream task, the mutual information between both the inputs and the downstream task, is the same as the mutual information between the input $x$ and the downstream task, i.e.:
 \[
 I(v_1,y) = I(v_2,y) = I(x,y).  
 \]
@@ -183,11 +183,11 @@ Let $f_1,f_2$ be minimal sufficient encoders, and $\mathcal T$ be a downstream t
 \[
     (v_1^*,v_2^*) = \argmin_{v_1,v_2} I(v_1,v_2),
 \]
-subjecto to $I(v_1,y) = I(v_2,y) = I(x,y)$.
+subjec to to $I(v_1,y) = I(v_2,y) = I(x,y)$.
 
 Given the optimal views $(v_1^*,v_2^*)$, the representation $z_1^*$ learned by contrastive learning is optimal for $\mathcal T$.
 \end{nprop}
-The proof of this proposition is out of the scope of this work so no further information will be provided. The last statement of the Proposition \ref{prop:optimal:views} is a consequence of the minimality and sufficency of $f_1$ and $f_2$. 
+The proof of this proposition is out of the scope of this work so no further information will be provided. The last statement of the Proposition \ref{prop:optimal:views} is a consequence of the minimality and sufficiency of $f_1$ and $f_2$. 
 
 This proposition carries the most important mathematical conclusion from this section. It will serve to prove sufficient conditions for views to be effective for contrastive learning, where effectiveness is measured as effectiveness in downstream tasks.
 

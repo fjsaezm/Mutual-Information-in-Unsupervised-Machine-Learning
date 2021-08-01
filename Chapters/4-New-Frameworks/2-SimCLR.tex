@@ -1,10 +1,10 @@
 \label{Chapter:SimCLR}
 \section{Introduction}
 
-Until this point of the work, we have been presenting the theoretical basis of representation learning using contrastive learning. Previous approaches, such as  the framework presented in \cite{oord_representation_2019}, use a generative approach as a part of the representation learning process. Although this can be benefitial at some points and, in fact, achieved the \emph{state-of-art}\footnotemark empirical results, we have to consider that generative models have some drawbacks. 
+Until this point of the work, we have been presenting the theoretical basis of representation learning using contrastive learning. Previous approaches, such as  the framework presented in \cite{oord_representation_2019}, use a generative approach as a part of the representation learning process. Although this can be beneficial at some points and, in fact, achieved the \emph{state-of-art}\footnotemark empirical results, we have to consider that generative models have some drawbacks. 
 
 %------------- Footnotemark
-\footnotetext{\emph{State-of-art} reffers to the best results that have been achieved at some point of time.}
+\footnotetext{\emph{State-of-art} refers to the best results that have been achieved at some point of time.}
 %----------------------
 
 
@@ -94,7 +94,7 @@ We can summarize all this steps in the following algorithm:
         \FOR{sampled minibatch $\{\bm x_k\}_{k=1}^N$}
         \STATE \textbf{for all} $k\in \{1, \ldots, N\}$ \textbf{do}
             \STATE $~~~~$draw two augmentation functions $t \!\sim\! \mathcal{T}$, $t' \!\sim\! \mathcal{T}$
-            \STATE $~~~~$\textcolor{gray}{\# use agumentations} 
+            \STATE $~~~~$\textcolor{gray}{\# use augmentations} 
             \STATE $~~~~$$\tilde{\bm x}_{2k-1} = t(\bm x_k)$
             \STATE $~~~~$$\tilde{\bm x}_{2k} = t'(\bm x_k)$
             \STATE $~~~~$\textcolor{gray}{\# use $f$} 
@@ -118,23 +118,11 @@ We can summarize all this steps in the following algorithm:
 
 Considerations:
 \begin{enumerate}
-\item In SimCLR, the data augmentation is applied secuentially, and using three techniques of image data augmentation that are very simple and common:
+\item In SimCLR, the data augmentation is applied sequentially, and using three techniques of image data augmentation that are very simple and common:
 \begin{enumerate}
 \item Random cropping followed by resize to original size: If an image is sized $n\times m$ with $n,m \in \mathbb N$, this method consists in selecting a rectangle of size $n'\times m'$ with $n' \leq n, m' \leq m$ of the original image and then resizing it back via upsampling\footnotemark.
 \item Random color distortions, consisting in changing the value of certain amount of pixels randomly.
-\item Random Gaussian Blur: Gaussian Blur consists in convolving an image with a \emph{Gaussian function}. Convolution is the process of adding each element of the image to its local neighbours, weighted by a kernel:
-\[
-g(x,y) = \omega \star f(x,y) = \sum_{dx = -a}^a \sum_{dy = -b}^b \omega(dx,dy)f(x+dx,y+dy),    
-\]
-where $g(x,y)$ is the pixel $(x,y)$ of the filtered image, $f(x,y)$ is the same pixel in the original image, and $\omega$ is the filter kernel. Depending on the filter kernel, the result will be different. If we want to produce noise reduction in an image, we use Gaussian Blur, which kernel is calculated by a Gaussian function like the one in Equation \ref{gaussian:function}. For instance, a $3\times 3 $ gaussian kernel would approximately be:
-\[
-\frac{1}{16}\begin{bmatrix}
-    1 & 2 & 1\\
-    2 & 4 & 2\\
-    1 & 2 & 1
-\end{bmatrix}.
-\]
-
+\item Random Gaussian Blur: Gaussian Blur consists in convolving an image with a \emph{Gaussian function}.
 \end{enumerate}
 
 \item For the base encoder $f(\cdot)$, a \emph{ResNet} network is used because of its simplicity.
@@ -149,7 +137,7 @@ where $g(x,y)$ is the pixel $(x,y)$ of the filtered image, $f(x,y)$ is the same 
 
     Using the algorithm structure that we have presented, the experiments focused on finding what made the biggest impact on the representation learning task. A few of the most relevant findings using SimCLR are: 
     \begin{itemize}
-    \item In machine learning, \emph{data augmentation} reffers to the process of artificially creating new examples of the data by applying transformations to the data that we already have available. In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
+    \item In machine learning, \emph{data augmentation} refers to the process of artificially creating new examples of the data by applying transformations to the data that we already have available. In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
     
     \item The introduction of a nonlinear transformation that it can be learnt during the learning process. This linear transformation is between the representation and the contrastive loss, so before evaluating the loss function, the representation is applied the nonlinear function.
     
@@ -163,5 +151,5 @@ Later, \emph{SimCLRv2} was presented \citep{chen2020big}, achieving a new state-
 
 In the self-supervised part, the images are used without its labels, so that the representations of them that are obtained by the framework are not related to an specific task. Using this technique, \cite{chen2020big} shows how using deeper and wider neural networks for both self-supervised pretraining and fine-tuning improves accuracy greatly. Also, the importance of the projection head $g(\cdot)$ is remarked in this new framework.
 %------------- Footnotemark
-\footnotetext{\emph{Fine-Tuning} reffers to the process of re-training certain parts of an already trained NN so that it focuses its learn on specific examples, such as a different dataset.}
+\footnotetext{\emph{Fine-Tuning} refers to the process of re-training certain parts of an already trained NN so that it focuses its learn on specific examples, such as a different dataset.}
 %----------------------

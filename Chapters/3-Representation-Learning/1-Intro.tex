@@ -4,7 +4,7 @@
 These algorithms allow computers to discover how to
 perform tasks without being explicitly programmed to do them. For the computers to learn, it is mandatory that a finite set of data (or dataset) $\D$ is available. 
 
-Whenever a computer is providen with data, the data can be \emph{labeled} or \emph{unlabeled}. Labeled data is the one that, each point $x_i \in \D$ is related to a tag $y_i \in Y$, where $Y$ is a set of classes.
+Whenever a computer is provided with data, the data can be \emph{labeled} or \emph{unlabeled}. Labeled data is the one that, each point $x_i \in \D$ is related to a tag $y_i \in Y$, where $Y$ is a set of classes.
 Unlabeled data is the kind of data that does not have a label or class associated to it, so it is just $x_i \in \R^d$. 
 
 Depending on how the data (\emph{or signal}) is given to the computer, the machine learning approaches can be divided into three broad categories:
@@ -12,7 +12,7 @@ Depending on how the data (\emph{or signal}) is given to the computer, the machi
     \item \emph{Supervised learning}. In this category the goal is to use the labeled data in order to find a function that maps the dataset to the set of classes. That is a function $g:\D \to Y$. 
     An example of supervised learning is image classification: giving a label to an image.
     \item \emph{Unsupervised learning}. In ths case, the data is unlabeled, so the approach is completely different. Usually, the goal here is to discover hidden patterns in data or to learn features from it.
-    An example of this kind of learning is K means, which consistis in clustering the data in $k$ groups. It is also known as \emph{self-supervised} learning.
+    An example of this kind of learning is K means, which consists in clustering the data in $k$ groups. It is also known as \emph{self-supervised} learning.
     \item \emph{Reinforcement learning}. This is the area concerned with how intelligent agents take decisions in a specific environment in order to obtain the best reward in their objective. It focuses on finding a balance between exploration of uncharted territory and explotation of the current knowledge.
 
 \end{enumerate}
@@ -27,15 +27,15 @@ contains the data's key qualities.  Here is where \emph{representation learning}
 Having a representation $\tilde{x}$ of a datapoint $x\in \R^d$, if a machine learning model
 tries to make a posterior task, such as classification, the input $x$ must be transformed to a, usually lower dimensional, vector $r$ in order to perform the final label.
 
-\emph{Features} are parts or patterns of an datapoint $x \in \D$ that help to identify it. In fact, it is desiderable that this attribute is shared by all independent units that represent the same object. For instance, if we consider an image of any square, we should be able to identify 4 corners and 4 edges. These could be features of a square.
-When we mention feature detection, we are adressing the methods for detecting these features of a datapoint.
+\emph{Features} are parts or patterns of an datapoint $x \in \D$ that help to identify it. In fact, it is desirable that this attribute is shared by all independent units that represent the same object. For instance, if we consider an image of any square, we should be able to identify 4 corners and 4 edges. These could be features of a square.
+When we mention feature detection, we are addressing the methods for detecting these features of a datapoint.
 
 Representation learning is a set of techniques that allow a system to discover the representations needed for feature detection or classification. 
 In contrast to manual feature engineering (which involves manually exploring the data and finding relationships in it), feature learning allows a machine to learn the features and to use them to perform a task.\\
 
 Feature learning can be supervised or unsupervised. 
 \begin{itemize}
-    \item In supervised feature learning, representations are learned using labeled data.Examples of this kind of feature learning are supervised neural networks and multilayer perceptron. 
+    \item In supervised feature learning, representations are learned using labeled data.Examples of this kind of feature learning are supervised Neural Networks and Multilayer Perceptron. 
     \item In unsupervised learning, the features are learned using unlabeled data. There are many examples of this, such as independent component analysis (ICP) and autoencoders.
 \end{itemize}
  In this work, we will be working with unsupervised feature learning, so we will have unlabeled data that we would like to find a representation for.
@@ -58,7 +58,7 @@ These kind of features are the most interesting ones when creating representatio
 %----------------------
 
 \begin{nexample} In computer vision, the value of the pixels in an image can vary fast. For instance, if we have a zebra on a video and the zebra is moving from one side of the image to the other, due 
-to the black stripes of this animal, the pixels will fast change from black to white and viceversa, so value of pixels is probably not a good feature to choose as an slow feature. However, there will always
+to the black stripes of this animal, the pixels will fast change from black to white and vice versa, so value of pixels is probably not a good feature to choose as an slow feature. However, there will always
 be a zebra on the image, so the feature that indicates that there is a zebra on the image will stay positive throughout all the video, so we can say that this is a slow feature.
 \end{nexample}
 
@@ -76,7 +76,7 @@ In a classification problem, each datapoint $x_i$ has a correct classification $
 \]
 
 
-In the context of machine learning, a \emph{model} is the result of running a maching learning algorithm in data. This model will represent what the computer has learned from the data using this algorithm. As an easy example, when we use a
+In the context of machine learning, a \emph{model} is the result of running a machine learning algorithm in data. This model will represent what the computer has learned from the data using this algorithm. As an easy example, when we use a
 linear regression algorithm, we obtain a model that is a vector of coefficients with specific values.
 
 In the following chapters, we will explain different kinds of neural networks and which kind of loss functions they use. 

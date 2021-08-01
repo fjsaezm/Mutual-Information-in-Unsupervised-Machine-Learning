@@ -8,13 +8,13 @@ Self-supervised methods build upon the cross-view prediction framework, i.e., le
 
 The methods presented earlier  use contrastive learning, avoid this problem since they are trying to discriminate between positive and negative views, as we have already presented.
 
-However, some papers (e.g. \cite{caron2019deep}) have already raised the following question: \emph{ Is the use of negative samples neccesary to avoid collapsing? }. This question is studied in \cite{grill2020bootstrap}, paper that presents an algorithm that we will be deeply explaining.
+However, some papers (e.g. \cite{caron2019deep}) have already raised the following question: \emph{ Is the use of negative samples necessary to avoid collapsing? }. This question is studied in \cite{grill2020bootstrap}, paper that presents an algorithm that we will be deeply explaining.
 
 The first solution that comes to mind to prevent the collapsing problem would be to use a randomly initialized network to produce the targets of the predictions. As it was probably expected due to its randomness, it does not produce good representations for downstream tasks. Nonetheless, the representations obtained were empirically much better than initial fixed representation, so it could be interesting to refine this representation in order to make it better for the later tasks. This is the intuitive idea behind \emph{Boostrap your own latent (BYOL)}.
 
 \section{BYOL Algorithm}
 
-BYOL's algorithm has certain similitudes with the SimCLR framework that we presented in Chapter \ref{Chapter:SimCLR}. The goal of this framework is to learn a representation for an input. In this case, the representation will be noted as $y_\theta$. 
+BYOL's algorithm has certain similarities with the SimCLR framework that we presented in Chapter \ref{Chapter:SimCLR}. The goal of this framework is to learn a representation for an input. In this case, the representation will be noted as $y_\theta$. 
 
 For this purpose, two neural networks are used:
 \begin{itemize}
@@ -80,7 +80,7 @@ where, again, $f_\upxi,g_\upxi$ are the ones mentioned before.
 \end{equation}
 \end{enumerate}
 
-The loss in Equation \eqref{Loss:BYOL} is the one that must be optimized stochastically. Furthermore, since we have expresed $\upxi$ depends on $\theta$, if $\eta$ is the learning rate that we want to apply, the optimization problem can be expressed as follows:
+The loss in Equation \eqref{Loss:BYOL} is the one that must be optimized stochastically. Furthermore, since we have expressed $\upxi$ depends on $\theta$, if $\eta$ is the learning rate that we want to apply, the optimization problem can be expressed as follows:
 \[
 \begin{cases}
     \theta \gets \operatorname{optimizer}\left(\theta,\nabla_\theta \mathcal L_{\theta,\upxi}^{\operatorname{BYOL}},\eta \right), \\
@@ -92,7 +92,7 @@ The framework can be summarized in the following figure:
 \begin{figure}[H]
     \centering 
     \includegraphics[scale=0.8]{Archi-BYOL.pdf}
-    \caption{Image from \citep{grill2020bootstrap}. Overview of Boostrap Your Own Latent Framework. }
+    \caption{Image from \citep{grill2020bootstrap}. Overview of Bootstrap Your Own Latent Framework. }
 \end{figure}
 
 The \emph{sg (stop gradient)} indicates that, at that point, the gradient is not propagated back. 
