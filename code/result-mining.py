@@ -34,6 +34,4 @@ for dir in dirs:
 
 
 print(df)
-res = df.to_json(orient="split")
-with open("results.json",'w') as outfile:
-  json.dump(res,outfile)
+res = df.to_json("results.json")
