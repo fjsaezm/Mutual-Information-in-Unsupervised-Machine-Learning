@@ -10,3 +10,5 @@ Elementos exportados.bib
 code/SimCLR/__pycache__
 code/SimCLR/models
 .directory
+_minted-thesis/
+build/

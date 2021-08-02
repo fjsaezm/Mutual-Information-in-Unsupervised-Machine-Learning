@@ -77,17 +77,39 @@ Tensorboard is a Tensorflow's visualization kit. It provides the visualization a
 
 Also, it is very easy to integrate with tensorflow.  Actually, in most of the cases it is as simple as adding the following \emph{callback} when we fit the model:
 
-\begin{lstlisting}[language=python, caption=Integrating Tensorboard with Tensorflow.]
-
+\begin{minted}{python}
     tensorboard_callback = tf.keras.callbacks.TensorBoard
                         (log_dir=log_dir, histogram_freq=1)
-    model.fit(x=x_train, 
-              y=y_train, 
+    model.fit(x=x_train, y=y_train, 
               epochs=5, 
-              validation_data=(x_test, y_test), 
+              validation_data=(x_test, y_test),
+              # The added callback produces the magic! 
               callbacks=[tensorboard_callback])  
+\end{minted}
 
-\end{lstlisting}
+In our case, i
+
+\section{Metrics}
+
+As we have seen, firstly, our models create a representation of the input image and then this representation is evaluated using a supervised linear head. We need to present the measures that we will use to measure how good the representations that we are producing are.
+
+\begin{notation}
+We will address the \emph{true positives} (the positive samples of a class classified correctly) as $TP$, the \emph{true negatives} (the negative samples classified correctly) as $TN$, the \emph{false positives} (the negative samples classified as positive ones, which is a mistake of our model) as $FP$ and the false negatives (the positive samples classified incorrectly as negative samples) as $FN$.
+\end{notation}
+
+Using this notation, the measures that we will be using are the following:
+
+\begin{itemize}
+\item \emph{Accuracy}. The classic measure for models. It measures the number of successes our network has obtained producing the correct label for the representation created during the unsupervised part of the network. Formally,
+\[
+\operatorname{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}  .  
+\] 
+In SimCLR, we wil use two kinds of accuracies:
+\begin{enumerate}
+\item \emph{Top1} accuracy, which is the ordinary accuracy.
+\item \emph{Top5} accuracy, which measures if any of the 5 highest probability answers matches the true label.
+\end{enumerate}
+\end{itemize}
 
 
 

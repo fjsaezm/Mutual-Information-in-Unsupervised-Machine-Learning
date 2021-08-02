@@ -14,9 +14,12 @@
 [x] Check if color of propositions is the same as the others
 [x] Change the .0. numeration in defs/props etc
 [] Neural networks introduction (resnet, data augmentation (give examples of data augmentations))
-[] Change `with tf.summary.record_if(should_record)` to TRUE for testing purposes.
-[] Test batch size = 512
+[x] Change `with tf.summary.record_if(should_record)` to TRUE for testing purposes. (didnt change)
+[] Test batch size = 512/1024 more
 [] Change to continuous val evaluation 
+[] redo table
+[] Say where we are executing (nvidia)
+[] End Tensorboard explanation
 
 
 # Useful Links
