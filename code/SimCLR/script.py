@@ -1,17 +1,18 @@
+import os,sys
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 from tqdm import tqdm
-import os
 import itertools
 from operator import add
 import subprocess
 
 COMMAND = """
-python simclr/tf2/run.py --mode=train_then_eval  \
---train_epochs=100 --learning_rate=1.0   \
---dataset=cifar10 --image_size=32 --eval_split=test  \
---use_blur=False   \
---use_tpu=False
-"""
+python run.py --mode=train_then_eval --train_epochs=100 --learning_rate=1.0 --dataset=cifar10 --image_size=32 --eval_split=test --use_blur=False --use_tpu=False """
 
+
+def separator():
+    print("-----------------------------------------")
+    print("-----------------------------------------")
+    print("-----------------------------------------")
 
 "--model_dir=simclr/tf2/models/bs64",
 
@@ -21,13 +22,13 @@ headers = ["--train_batch_size=",
             "--weight_decay=",
             "--color_jitter_strength=",
             "--resnet_depth=",
-            "--model_dir="]
+            "--model_dir=models/"]
 
-batch_sizes = [256]
-temperatures = [0.5,0.75,1]
+batch_sizes = [512,1024]
+temperatures = [0.25,0.5,0.75,1]
 weight_decays = [1e-4]
-color_jitter_strenghts = [0.5,0.75,1]
-resnet_depths = [18,50]
+color_jitter_strenghts = [0.25,0.5,0.75,1]
+resnet_depths = [18]
 
 all = [batch_sizes,temperatures,weight_decays,color_jitter_strenghts,resnet_depths]
 
@@ -43,8 +44,10 @@ for el in tqdm(list(itertools.product(*all))):
     # Create a string with the command that will be executed
     # In this iteration
     COMMAND_ITERATION = COMMAND + ' '.join(to_add)
-    #print(COMMAND_ITERATION)
-    #os.system(COMMAND_ITERATION)
+    separator()
+    print(COMMAND_ITERATION)
+    os.system(COMMAND_ITERATION)
+    
 
 
     

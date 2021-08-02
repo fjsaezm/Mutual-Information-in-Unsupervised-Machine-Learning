@@ -7,3 +7,6 @@
 Elementos exportados.bib
 *.lof
 *.lot
+code/SimCLR/__pycache__
+code/SimCLR/models
+.directory
