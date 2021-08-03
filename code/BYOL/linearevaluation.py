@@ -28,6 +28,24 @@ def compute_test_accuracy(data, f_net, c_net):
     return tf.cast(num_correct_predictions / data.num_test_images, tf.float32)
 
 
+def compute_top5_test_accuracy(data,f_net,c_net):
+    batch_size = 500
+    num_batches = data.num_test_images // batch_size
+
+    num_correct_predictions = 0
+    for batch_id in range(num_batches):
+        x, y = data.get_batch_testing(batch_id, batch_size)
+        h = f_net(x, training=False)
+        y_pred_logits = c_net(h)
+        for y_pred in y_pred_logits:
+            y_pred.sort(reverse = True)
+            if y in y_pred[0:5]
+                num_correct_predictions +=1
+
+    return tf.cast(num_correct_predictions / data.num_test_images, tf.float32)
+
+
+
 def main(args):
 
     # Load CIFAR-10 dataset
@@ -88,6 +106,7 @@ def main(args):
     
     # Compute classification accuracy on test set
     test_accuracy = compute_test_accuracy(data, f_net, c_net)
+    test_top5_accuracy = compute_top5_test_accuracy(data,f_net,c_net)
     print('Test Accuracy: {:.4f}'.format(test_accuracy))
     
 
