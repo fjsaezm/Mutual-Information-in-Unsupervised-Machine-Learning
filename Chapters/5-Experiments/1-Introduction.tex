@@ -91,7 +91,9 @@ In our case, i
 
 \section{Metrics}
 
-As we have seen, firstly, our models create a representation of the input image and then this representation is evaluated using a supervised linear head. We need to present the measures that we will use to measure how good the representations that we are producing are.
+As we have seen, firstly, our models create a representation of the input image and then this representation is evaluated using a supervised linear head. This is the most interesting part, since we can see if the representation obtained was really useful for the classification task. We need to present the measures that we will use to measure how good the representations that we are producing are.
+
+
 
 \begin{notation}
 We will address the \emph{true positives} (the positive samples of a class classified correctly) as $TP$, the \emph{true negatives} (the negative samples classified correctly) as $TN$, the \emph{false positives} (the negative samples classified as positive ones, which is a mistake of our model) as $FP$ and the false negatives (the positive samples classified incorrectly as negative samples) as $FN$.
