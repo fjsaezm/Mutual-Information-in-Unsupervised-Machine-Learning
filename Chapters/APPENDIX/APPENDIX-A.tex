@@ -12,14 +12,14 @@ This appendix will be used to set forth some theoretical results that might not 
 
 In Chapter \ref{Chapter:connection:triplets}, the norm $\norm{\cdot}_2$ is mentioned. Norm theory is a very extense field, so we will only mention the definition and the norm that we will use in the text.
 
-\begin{ndef}\label{def:norm}
+\begin{ndefC}\label{def:norm}
 Given a vector space $X$ over a subfield $F$ of the complex numbers $\mathbb C$, a \emph{norm} is a real valued function $\norm{\cdot}:X \to \R$ with the following properties:
 \begin{enumerate}
 \item Triangle inequality, that is: $\norm{x+y} \leq \norm{x} + \norm{y}$ for all $x,y \in X$.
 \item Absolute homogeinity, that is: $\norm{sx} = \abs{s}\norm{x}$ for all $x\in X$ and any scalar $s$.
 \item Positive definiteness, that is $\norm{x} \geq 0 $ for all $x \in X$ and $\norm{x} = 0$ if, and only if, $x = 0$.
 \end{enumerate}
-\end{ndef}
+\end{ndefC}
 In particular, the $\norm{\cdot}_2$ that we used in the euclidean space $\R^n$, is defined as follows:
 \[
 \norm{x}_2 := \left(\sum_{i = 1}^n x_i^2\right)^{\frac{1}{2}}, \quad \quad \forall x \in \R^n.     

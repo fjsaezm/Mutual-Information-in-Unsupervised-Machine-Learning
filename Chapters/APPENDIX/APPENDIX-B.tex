@@ -1,6 +1,17 @@
+
+\label{APPENDIX:B}
+In this appendix we will insert some experimental results that have been obtained during this work, but have not been presented before since not all of them are completely relevant.
+The most relevant ones have already been presented, so this section is not needed for complete understanding of this work.
+\section{SimCLR Experiments}
+
+The results obtained for the first experiment, which was presented in Section \ref{experiments:simclr:first}, are the following:
+
 \begin{table}[H]
+    \label{table:experiment:first:simclr}
+\centering
+\resizebox{\columnwidth}{!}{
 \begin{tabular}{rrrrrrr}
-batch\_size   & temperature   & color\_jitter & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & steps         \\ \hline
+batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_accuracy & top\_5\_accuracy & steps         \\ \hline
 \textbf{512}  & \textbf{0.25} & \textbf{0.25} & \textbf{0.0093}      & \textbf{0.833}          & \textbf{0.994}          & \textbf{9800} \\
               &               & 0.5           & 0.0089               & 0.832                   & 0.993                   & 9800          \\
               &               & 0.75          & 0.0086               & 0.831                   & 0.994                   & 9800          \\
@@ -17,7 +28,7 @@ batch\_size   & temperature   & color\_jitter & regularization\_loss & label\_to
               &               & 0.5           & 0.0163               & 0.797                   & 0.99                    & 9800          \\
               &               & 0.75          & 0.016                & 0.793                   & 0.99                    & 9800          \\
               &               & 1.0           & 0.0155               & 0.782                   & 0.989                   & 9800          \\
-\textbf{1024} & 0.25          & 0.25          & 0.0103               & 0.836                   & 0.993                   & 4900          \\
+\textbf{1024} & \textbf{0.25}          & 0.25          & 0.0103               & 0.836                   & 0.993                   & 4900          \\
               &               & 0.5           & 0.0097               & 0.839                   & 0.995                   & 4900          \\
               &               & \textbf{0.75} & \textbf{0.0093}      & \textbf{0.841}          & \textbf{0.995}          & \textbf{4900} \\
               &               & 1.0           & 0.009                & 0.835                   & 0.993                   & 4900          \\
@@ -34,5 +45,7 @@ batch\_size   & temperature   & color\_jitter & regularization\_loss & label\_to
               &               & 0.75          & 0.017                & 0.794                   & 0.99                    & 4900          \\
               &               & 1.0           & 0.0164               & 0.79                    & 0.989                   & 4900         
 \end{tabular}
-\caption{All results for first experiment.}
+}
+
+\caption{All results for first experiment using SimCLR.}
 \end{table}
