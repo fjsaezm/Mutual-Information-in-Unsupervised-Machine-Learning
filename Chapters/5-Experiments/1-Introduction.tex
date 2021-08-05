@@ -56,9 +56,40 @@ Tensorflow\footnotemark is an open source library for developing machine learnin
 
 It can be used for many tasks, but it focuses on training and inference of deep neural networks. It is used for both research and production at \emph{Google}, since it was also developed by the \emph{Google Brain} team for internal use. However, it was later released as open source.
 
-The creation of new models is very simple, offering multiple abstraction levels. This is why it is suitable for our experiments. Also, the code is very easily understandable.
+The creation of new models is very simple, offering multiple abstraction levels. This is why it is suitable for our experiments. Also, the code is most of the times easily understandable.
 
-There are other libraries that are widely used in machine learning algorithm development, such as \emph{Pytorch} or \emph{Jax}. However, Tensorflow has been chosen because of its simplicity and how common it is. 
+There are other libraries that are widely used in machine learning algorithm development, such as \emph{Pytorch} or \emph{Jax}. However, Tensorflow has been chosen because I was a little bit more familiarized than with the other and because of its simplicity and how common it is. 
+
+There are a few ways to define a NN or a framework using tensorflow. The most classic one is defining a sequential model using \lstinline{Keras}, a tensorflow API that defines layers of a neural network and helps with the implementation of simple NN structures. Let us see how to implement a very simple example of a NN with three \emph{Dense} layers: 
+
+\begin{minted}[mathescape,linenos]{python}
+model = keras.Sequential(
+    [
+        layers.Dense(2, activation="relu", name="layer1"),
+        layers.Dense(3, activation="relu", name="layer2"),
+        layers.Dense(4, name="layer3"),
+    ]
+)
+\end{minted}
+
+Another way of creating models using tensorflow is by defining a single step of training using \lstinline{tf.GradientTape()} and then executing the single step multiple times in a loop. Using GradientTape , tensorflow performs automatic differentiation, which is needed for the minimization process. Let us see the simplest example, consider the function $f(x) = x^2$, and imagine that we want to obtain $f'(3)$. We can obtain it using \lstinline{tf.GradientTape()} as follows:
+
+\begin{minted}[mathescape,linenos]{python}
+x = tf.constant(3.0)
+with tf.GradientTape() as g:
+  g.watch(x)
+  y = x * x
+dy_dx = g.gradient(y, x)
+\end{minted}
+
+In our case, the gradient is obtained and the applied to the optimzer by using:
+
+\begin{minted}[mathescape,linenos]{python}
+with tf.GradientTape() as tape:
+    grads = tape.gradient(loss, model.trainable_variables)
+    optimizer.apply_gradients(zip(grads, model.trainable_variables))
+\end{minted}
+
 
 \subsection{Tensorboard}
 
@@ -77,7 +108,7 @@ Tensorboard is a Tensorflow's visualization kit. It provides the visualization a
 
 Also, it is very easy to integrate with tensorflow.  Actually, in most of the cases it is as simple as adding the following \emph{callback} when we fit the model:
 
-\begin{minted}{python}
+\begin{minted}[mathescape,linenos]{python}
     tensorboard_callback = tf.keras.callbacks.TensorBoard
                         (log_dir=log_dir, histogram_freq=1)
     model.fit(x=x_train, y=y_train, 
@@ -87,7 +118,7 @@ Also, it is very easy to integrate with tensorflow.  Actually, in most of the ca
               callbacks=[tensorboard_callback])  
 \end{minted}
 
-In our case, i
+In our case, there are some differences, since we are not using the 
 
 \section{Metrics}
 
