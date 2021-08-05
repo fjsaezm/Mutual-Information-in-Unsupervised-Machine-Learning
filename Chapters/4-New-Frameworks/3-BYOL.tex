@@ -6,11 +6,17 @@ We have shown how contrastive methods rely on comparing different views of the s
 
 Self-supervised methods build upon the cross-view prediction framework, i.e., learning representations by predicting different views (or data augmentations) of the same image. This could lead the frameworks to collapsed representations, such as a constant representation for any view of the image can easily help us to identify objects, but it is useless for downstream tasks.
 
-The methods presented earlier  use contrastive learning, avoid this problem since they are trying to discriminate between positive and negative views, as we have already presented.
+The methods presented earlier, which use contrastive learning, avoid this problem by trying to discriminate between positive and negative views, as we have already explained.
 
-However, some papers (e.g. \cite{caron2019deep}) have already raised the following question: \emph{ Is the use of negative samples necessary to avoid collapsing? }. This question is studied in \cite{grill2020bootstrap}, paper that presents an algorithm that we will be deeply explaining.
+However, some papers (e.g. \cite{caron2019deep}) have already raised the following question:
 
-The first solution that comes to mind to prevent the collapsing problem would be to use a randomly initialized network to produce the targets of the predictions. As it was probably expected due to its randomness, it does not produce good representations for downstream tasks. Nonetheless, the representations obtained were empirically much better than initial fixed representation, so it could be interesting to refine this representation in order to make it better for the later tasks. This is the intuitive idea behind \emph{Boostrap your own latent (BYOL)}.
+\begin{quote}
+    \centering
+\emph{ Is the use of negative samples necessary to avoid collapsing? }. 
+\end{quote}
+This question is studied in \cite{grill2020bootstrap}, paper that presents an algorithm that we will be deeply explaining.
+
+The first solution that comes to mind to prevent the collapsing problem would be to use a randomly initialized network to produce the targets of the predictions. As it is probably expected, due to its randomness, it does not produce good representations for downstream tasks. Nonetheless, the representations obtained were empirically much better than initial fixed representation, so it could be interesting to refine this representation in order to make it better for the later tasks. This is the intuitive idea behind \emph{Boostrap your own latent (BYOL)} \citep{grill2020bootstrap}.
 
 \section{BYOL Algorithm}
 
@@ -98,3 +104,16 @@ The framework can be summarized in the following figure:
 The \emph{sg (stop gradient)} indicates that, at that point, the gradient is not propagated back. 
 
 After the whole model has been fully trained, both the projection $g_\theta$  and the prediction $q_\theta$ are discarded, since what it is interesting for us is the representation of the input, and it is what it will be used in downstream tasks.
+
+Some considerations have to be made about this framework:
+\begin{enumerate}
+    \item About data augmentation: In BYOL,it is not important if the model learns about the histogram of the image, since we want ot keep any information captured by the target representatoin into its online network. In the original paper, it is empirically shown how BYOL is more robust to the choice of the image augmentations than SimCLR.
+
+    \item Since the weights of the target network $\upxi$ depend on the weights of the online network $\theta$ by a parameter $\tau$, the first mentioned weights $\upxi$ represent a delayed and stable version of $\theta$. Actually, if the decay rate $\tau$ is $1$, we never update $\upxi$, and if $\tau = 0 $, then the weights of the target network are always being updated. This way, a trade-off is tablished between updating $\upxi$ too often or too slowly. Empirically, it has been shown that the most adequate values that yield to more stable results are $\tau \in [0.9,0.999]$.
+\end{enumerate}
+
+\section{Results obtained by this framework}
+
+In this framework, the impact of the batch size varies respect to the importance that it had in SimCLR. In contrast with BYOL's framework, in SimCLR we were using negative samples in our network to learn how to produce the representations. Because of this, BYOL's is expected to eb more robust to smaller batch sizes. 
+
+BYOL achieved the state of art 

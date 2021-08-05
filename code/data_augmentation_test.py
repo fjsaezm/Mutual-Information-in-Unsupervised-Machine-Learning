@@ -20,7 +20,7 @@ image, label = next(iter(train_ds))
 image_cp = np.copy(image)
 plt.imshow(image)
 plt.title(get_label_name(label))
-plt.imsave("../media/tulips.pdf",image)
+#plt.imsave("../media/tulips.pdf",image)
 plt.show()
 
 # Add the image to a batch for data augmentation
@@ -34,7 +34,7 @@ data_augmentation = tf.keras.Sequential([
 augmented = data_augmentation(image)
 
 plt.imshow(augmented[0])
-plt.imsave("../media/tulips-rot1.pdf",augmented[0])
+#plt.imsave("../media/tulips-rot1.pdf",augmented[0])
 plt.show()
 
 
@@ -84,7 +84,7 @@ augmented_2 = random_crop_and_resize(image_cp)
 augmented_2 = cv2.resize(augmented_2,(orig.shape[1],orig.shape[0]))
 
 plt.imshow(augmented_2)
-plt.imsave("../media/tulips-randomcrop.pdf",augmented_2)
+#plt.imsave("../media/tulips-randomcrop.pdf",augmented_2)
 plt.show()
 
 
@@ -96,13 +96,13 @@ histr2 = cv2.calcHist([augmented_2],[0],None,[256],[0,256])
 plt.plot(histr1,label="original")
 plt.plot(histr2,label="random-crop")
 plt.legend(loc="upper left")
-plt.savefig("../media/tulips-histogram.pdf")
+#plt.savefig("../media/tulips-histogram.pdf")
 plt.show()
 
 # Histograms of cropped vs jittered cropped
 histr3 = cv2.calcHist([np.array(new)],[0],None,[256],[0,256])
 plt.plot(histr2,label="cropped")
 plt.plot(histr3,label="color-jitter")
-plt.legend(loc="upper left")
-plt.savefig("../media/histogram-croppedvsjitter.pdf")
+plt.legend(loc="upper right")
+#plt.savefig("../media/histogram-croppedvsjitter.pdf")
 plt.show()

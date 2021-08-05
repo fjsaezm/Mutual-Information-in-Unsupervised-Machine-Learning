@@ -74,7 +74,7 @@ the normalized dot product between $u$ and $v$. This function is also known as t
 \begin{equation}\label{c:loss:simclr:ind}
 \ell_{i,j} = -\log \frac{exp(sim(z_i,z_j)/\tau)}{\sum_{k=1}^{2N} \mathbb{1}_{k \neq i} exp(sim(z_i,z_k)/\tau)},    
 \end{equation}
-where $\mathbb{1}_{k \neq i} \in \{0,1\}$ produces $0$ if $k = i$ and $1$ elsewhere. $\tau$ is the temperature parameter that we have mentioned before.
+where $\mathbb{1}_{k \neq i} \in \{0,1\}$ produces $0$ if $k = i$ and $1$ elsewhere. $\tau$ is a temperature parameter that has to be adjusted.
 \item The final loss is computed across all the positive pairs, both $(i,j)$ and $(j,i)$ in the minibatch.
 \begin{equation}\label{c:loss:simclr}
 \mathcal L = \frac{1}{2N} \sum_{k=1}^{2N} \left(\ell(2k-1,2k) + \ell(2k,2k-1)\right).
@@ -120,8 +120,8 @@ Considerations:
 \begin{enumerate}
 \item In SimCLR, the data augmentation is applied sequentially, and using three techniques of image data augmentation that are very simple and common:
 \begin{enumerate}
-\item Random cropping followed by resize to original size: If an image is sized $n\times m$ with $n,m \in \mathbb N$, this method consists in selecting a rectangle of size $n'\times m'$ with $n' \leq n, m' \leq m$ of the original image and then resizing it back via upsampling\footnotemark.
-\item Random color distortions, consisting in changing the value of certain amount of pixels randomly.
+\item Random cropping followed by resize to original size,
+\item Random color distortions, consisting in changing the value of certain amount of pixels randomly, like color jittering or changing from colored images to black and white images.
 \item Random Gaussian Blur: Gaussian Blur consists in convolving an image with a \emph{Gaussian function}.
 \end{enumerate}
 
@@ -129,15 +129,18 @@ Considerations:
 \item For the projection head $g(\cdot)$, a MLP with one hidden layer is used, and \emph{ReLU} is used as the activation function $\sigma$.
 \end{enumerate}
 
-%------------- Footnotemark
-\footnotetext{Upsampling is increasing the size of an image by inserting new rows and columns in the image matrix and interpolating the values of the introduced pixels using the pixels that we already had in the image.}
-%----------------------
+
 
 \section{Findings of SimCLR}
 
-    Using the algorithm structure that we have presented, the experiments focused on finding what made the biggest impact on the representation learning task. A few of the most relevant findings using SimCLR are: 
+    Using the algorithm structure that we have presented, the experiments focused on finding what made the biggest impact on the representation learning task. 
+    
+    Intuitively, since we are comparing $2N$ images, either positive or negative, the batch size that we will use for the experiment should be as big as possible. Comparing a positive sample and trying to push it apart from as much negative samples as possible in the same iteration sounds like a good idea for the quality of our representations.
+    
+    
+    A few of the most relevant findings using SimCLR are: 
     \begin{itemize}
-    \item In machine learning, \emph{data augmentation} refers to the process of artificially creating new examples of the data by applying transformations to the data that we already have available. In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
+    \item In the SimCLR framework, multiple data augmentations are used and it is empirically shown that this improves the contrastive prediction tasks that yield effective representations.
     
     \item The introduction of a nonlinear transformation that it can be learnt during the learning process. This linear transformation is between the representation and the contrastive loss, so before evaluating the loss function, the representation is applied the nonlinear function.
     
@@ -146,10 +149,10 @@ Considerations:
     \item This loss also benefits from larger batch sizes and longer training, as well as from deeper and wider networks.
 \end{itemize}
 
-Later, \emph{SimCLRv2} was presented \citep{chen2020big}, achieving a new state-of-art in semi-supervised learning on the ImageNet dataset. In this new framework, semi-supervised learning is used. This approach involves unsupervised learning followed by supervised fine-tuning\footnotemark.
+Later, \emph{SimCLRv2} was presented \citep{chen2020big}, achieving a new state-of-art in semi-supervised learning on the ImageNet dataset. In this new framework, semi-supervised learning is use . This approach involves unsupervised learning followed by supervised fine-tuning\footnotemark. After this stages that are similar to SimCLR,  a final stage is added. It consists in \emph{distillation} with unlabeled examples for refining the task-specific knowledge.
 
 
-In the self-supervised part, the images are used without its labels, so that the representations of them that are obtained by the framework are not related to an specific task. Using this technique, \cite{chen2020big} shows how using deeper and wider neural networks for both self-supervised pretraining and fine-tuning improves accuracy greatly. Also, the importance of the projection head $g(\cdot)$ is remarked in this new framework.
+In the self-supervised (or unsupervised) part, the images are used without its labels, so that the representations of them that are obtained by the framework are not related to an specific task. Using this technique, \cite{chen2020big} shows how using deeper and wider neural networks for both self-supervised pretraining and fine-tuning improves accuracy greatly. Also, the importance of the projection head $g(\cdot)$ is remarked in this new framework.
 %------------- Footnotemark
 \footnotetext{\emph{Fine-Tuning} refers to the process of re-training certain parts of an already trained NN so that it focuses its learn on specific examples, such as a different dataset.}
 %----------------------

@@ -189,6 +189,13 @@ This rotation can be composed (or not) with a \emph{flip} operation. That operat
 
 Another type of example generation is taking a crop randomly out of the image, making sure that the whole crop stays inside the image, and then resizing it back to the original image size. 
 
+If an image is sized $n\times m$ with $n,m \in \mathbb N$, this method consists in selecting a rectangle of size $n'\times m'$ with $n' \leq n, m' \leq m$ of the original image and then resizing it back via upsampling\footnotemark.
+
+%------------- Footnotemark
+\footnotetext{Upsampling is increasing the size of an image by inserting new rows and columns in the image matrix and interpolating the values of the introduced pixels using the pixels that we already had in the image.}
+%----------------------
+
+
 \begin{figure}[htp] 
     \centering
     \subfloat[Tulips]{%
@@ -226,6 +233,14 @@ This kind of data augmentation is not always used, but it is very interesting in
         \caption{Color jitter applied to tulips image.}
 \end{figure}
 
-We would like to see if there is a difference between the histograms of the 
+We would like to see if there is a difference between the histograms of the cropped image compared with the color jittered image. The result is the following:
 
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.5\textwidth]{histogram-croppedvsjitter}%
+        \label{fig:color:jitter}%
+        \caption{Histograms of the color jitter image in orange and cropped image in blue.}
+\end{figure}
+
+As we can see, since in the color jittered image most of the pixels turn white, the histograms get a big difference this time specially in the left side. This way, if we use both augmentation composed, we will avoid our model to learn only from the data histogram of our images.
 
