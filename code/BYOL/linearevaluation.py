@@ -6,6 +6,7 @@ import tensorflow as tf
 
 from datasets import CIFAR10
 from models import ResNet18, ResNet34, ClassificationHead
+from sklearn.metrics import top_k_accuracy_score
 
 
 
@@ -37,10 +38,8 @@ def compute_top5_test_accuracy(data,f_net,c_net):
         x, y = data.get_batch_testing(batch_id, batch_size)
         h = f_net(x, training=False)
         y_pred_logits = c_net(h)
-        for y_pred in y_pred_logits:
-            y_pred.sort(reverse = True)
-            if y in y_pred[0:5]
-                num_correct_predictions +=1
+        num_correct_predictions += top_k_accuracy_score(y,y_pred_logits,k=5,normalize = False)
+
 
     return tf.cast(num_correct_predictions / data.num_test_images, tf.float32)
 

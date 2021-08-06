@@ -15,6 +15,70 @@ from linearevaluation import compute_test_accuracy
 encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
 
 
+def perform_evaluation(args, weights)
+
+# Load CIFAR-10 dataset
+    data = CIFAR10()
+
+    # Define hyperparameters
+    num_epochs = 50
+    batch_size = 512
+
+    # Instantiate networks f and c
+    f_net = encoders[args.encoder]()
+    c_net = ClassificationHead()
+
+    # Initialize the weights of f and c
+    x, y = data.get_batch_finetuning(batch_id=0, batch_size=batch_size)
+    h = f_net(x, training=False)
+    print('Shape of h:', h.shape)
+    s = c_net(h)
+    print('Shape of s:', s.shape)
+
+    # Load the weights of f from pretraining
+    f_net.set_weights(np.copy(weights))
+    print('Weights of f loaded.')
+
+
+    # Define optimizer
+    batches_per_epoch = data.num_train_images // batch_size
+    total_update_steps = num_epochs * batches_per_epoch
+    lr_schedule = tf.keras.optimizers.schedules.PolynomialDecay(5e-2, total_update_steps, 5e-4, power=2)
+    opt = tf.keras.optimizers.Adam(learning_rate=lr_schedule)
+
+    
+    @tf.function
+    def train_step_evaluation(x, y):  # (bs, 32, 32, 3), (bs)
+
+        # Forward pass
+        with tf.GradientTape() as tape:
+            h = f_net(x, training=False)  # (bs, 512)
+            y_pred_logits = c_net(h)  # (bs, 10)
+            loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=y_pred_logits))
+        
+        # Backward pass
+        grads = tape.gradient(loss, c_net.trainable_variables)
+        opt.apply_gradients(zip(grads, c_net.trainable_variables))
+
+        return loss
+
+
+    # Fine Tune linear head for current weights
+    for epoch_id in range(num_epochs):
+        data.shuffle_training_data()
+        
+        for batch_id in range(batches_per_epoch):
+            x, y = data.get_batch_finetuning(batch_id, batch_size)
+            loss = train_step_evaluation(x, y)
+            if (batch_id + 1) % log_every == 0:
+    
+    # Compute classification accuracy on test set
+    test_accuracy = compute_test_accuracy(data, f_net, c_net)
+    test_top5_accuracy = compute_top5_test_accuracy(data,f_net,c_net)
+
+    return test_accuracy,test_top5_accuracy
+
+
 def main(args):
 
     # Load CIFAR-10 dataset
@@ -97,6 +161,7 @@ def main(args):
     save_every = 100  # epochs
 
     losses = []
+    f_target_weights = []
     for epoch_id in range(args.num_epochs):
         data.shuffle_training_data()
         
@@ -105,13 +170,6 @@ def main(args):
             loss = train_step_pretraining(x1, x2)
             losses.append(float(loss))
             
-            # Add tensorflow saving
-            train_summary_writer = tf.summary.create_file_writer(args.log_dir)
-            with train_summary_writer.as_default():
-                tf.summary.scalar('loss', float(loss), step=epoch)
-
-            
-
             # Update target networks (exponential moving average of online networks)
             beta = 0.99
 
@@ -134,7 +192,17 @@ def main(args):
             f_online.save_weights('f_online_{}.h5'.format(epoch_id + 1))
             print('Weights of f saved.')
 
+
         # Evaluate in epoch 
+        acc,top_5_acc = perform_evaluation(args.encoder,f_target_weights)
+        
+        # Add tensorflow saving
+        train_summary_writer = tf.summary.create_file_writer(args.log_dir)
+        with train_summary_writer.as_default():
+            tf.summary.scalar('loss', float(losses[-1]), step=epoch)
+            tf.summary.scalar('top_1_acc',float(acc),step=epoch)
+            tf.summary.scalar('top_5_acc',float(top_5_acc),step=epoch)
+
 
         
     
