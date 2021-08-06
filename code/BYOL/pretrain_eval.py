@@ -70,8 +70,8 @@ def perform_evaluation(args, weights):
       data.shuffle_training_data()
         
       for batch_id in range(batches_per_epoch):
-	x, y = data.get_batch_finetuning(batch_id, batch_size)
-	loss = train_step_evaluation(x, y)
+	    x, y = data.get_batch_finetuning(batch_id, batch_size)
+	    loss = train_step_evaluation(x, y)
             #if (batch_id + 1) % log_every == 0:
     
     # Compute classification accuracy on test set
