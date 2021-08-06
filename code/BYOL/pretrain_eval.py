@@ -17,8 +17,7 @@ encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
 
 
 def perform_evaluation(args, weights):
-
-# Load CIFAR-10 dataset
+    # Load CIFAR-10 dataset
     data = CIFAR10()
 
     # Define hyperparameters
@@ -66,12 +65,12 @@ def perform_evaluation(args, weights):
 
     # Fine Tune linear head for current weights
     for epoch_id in range(num_epochs):
-      print("Epoch {}...".format(epoch_id))
-      data.shuffle_training_data()
+        print("Epoch {}...".format(epoch_id))
+        data.shuffle_training_data()
         
-      for batch_id in range(batches_per_epoch):
-	    x, y = data.get_batch_finetuning(batch_id, batch_size)
-	    loss = train_step_evaluation(x, y)
+        for batch_id in range(batches_per_epoch):
+	        x, y = data.get_batch_finetuning(batch_id, batch_size)
+	        loss = train_step_evaluation(x, y)
             #if (batch_id + 1) % log_every == 0:
     
     # Compute classification accuracy on test set
