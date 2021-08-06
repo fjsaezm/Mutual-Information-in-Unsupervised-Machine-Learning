@@ -6,7 +6,7 @@ import pandas as pd
 
 
 # Path to look for models
-path = "SimCLR/models/"
+path = "SimCLR/models/comparison/"
 # Obtain all the directories of the models
 dirs = [d for d in listdir(path) if isdir(path+d)]
 index = [i for i in range(len(dirs))]
@@ -34,4 +34,4 @@ for dir in dirs:
 
 
 print(df)
-res = df.to_json("results.json")
+res = df.to_json("results-batch-comparison.json")

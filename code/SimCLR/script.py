@@ -24,10 +24,10 @@ headers = ["--train_batch_size=",
             "--resnet_depth=",
             "--model_dir=models/"]
 
-batch_sizes = [512,1024]
-temperatures = [0.25,0.5,0.75,1]
+batch_sizes = [16,32,64,128,256]
+temperatures = [0.75]
 weight_decays = [1e-4]
-color_jitter_strenghts = [0.25,0.5,0.75,1]
+color_jitter_strenghts = [0.75]
 resnet_depths = [18]
 
 all = [batch_sizes,temperatures,weight_decays,color_jitter_strenghts,resnet_depths]

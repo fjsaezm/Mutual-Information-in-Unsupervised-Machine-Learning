@@ -1,5 +1,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 import argparse
 import numpy as np
@@ -15,7 +16,7 @@ from linearevaluation import compute_test_accuracy
 encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
 
 
-def perform_evaluation(args, weights)
+def perform_evaluation(args, weights):
 
 # Load CIFAR-10 dataset
     data = CIFAR10()
@@ -65,12 +66,13 @@ def perform_evaluation(args, weights)
 
     # Fine Tune linear head for current weights
     for epoch_id in range(num_epochs):
-        data.shuffle_training_data()
+      print("Epoch {}...".format(epoch_id))
+      data.shuffle_training_data()
         
-        for batch_id in range(batches_per_epoch):
-            x, y = data.get_batch_finetuning(batch_id, batch_size)
-            loss = train_step_evaluation(x, y)
-            if (batch_id + 1) % log_every == 0:
+      for batch_id in range(batches_per_epoch):
+	x, y = data.get_batch_finetuning(batch_id, batch_size)
+	loss = train_step_evaluation(x, y)
+            #if (batch_id + 1) % log_every == 0:
     
     # Compute classification accuracy on test set
     test_accuracy = compute_test_accuracy(data, f_net, c_net)
