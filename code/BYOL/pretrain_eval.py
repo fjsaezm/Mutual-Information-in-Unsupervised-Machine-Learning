@@ -196,18 +196,17 @@ def main(args):
             if (batch_id + 1) % log_every == 0:
                 print('[Epoch {}/{} Batch {}/{}] Loss={:.5f}.'.format(epoch_id+1, args.num_epochs, batch_id+1, batches_per_epoch, loss))
 
-	# Every 10 epochs compute test
+	    # Every 10 epochs compute test
         if (epoch_id + 1) % save_every == 0:
-	    f_online.save_weights('f_online_{}.h5'.format(epoch_id + 1))
-	    print('Weights of f saved.')
-	    # Evaluate in epoch 
-	    acc,top_5_acc = perform_evaluation(args,f_target_weights)
-        
-	    # Add tensorflow saving
-	    train_summary_writer = tf.summary.create_file_writer(args.log_dir)
-	    with train_summary_writer.as_default():
-		tf.summary.scalar('top_1_acc',float(acc),step=epoch)
-		tf.summary.scalar('top_5_acc',float(top_5_acc),step=epoch)
+            f_online.save_weights('f_online_{}.h5'.format(epoch_id + 1))
+            print('Weights of f saved.')
+	        # Evaluate in epoch 
+            acc,top_5_acc = perform_evaluation(args,f_target_weights)
+            # Add tensorflow saving
+            train_summary_writer = tf.summary.create_file_writer(args.log_dir)
+            with train_summary_writer.as_default():
+                tf.summary.scalar('top_1_acc',float(acc),step=epoch)
+                tf.summary.scalar('top_5_acc',float(top_5_acc),step=epoch)
 
         
         # Add tensorflow saving for loss in each epoch
