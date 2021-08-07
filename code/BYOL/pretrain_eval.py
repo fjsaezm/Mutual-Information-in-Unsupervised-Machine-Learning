@@ -1,5 +1,5 @@
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 import argparse
@@ -11,6 +11,10 @@ from models import ResNet18, ResNet34, ProjectionHead
 from losses import byol_loss
 from linearevaluation import compute_test_accuracy
 
+from models import ResNet18, ResNet34, ClassificationHead
+from sklearn.metrics import top_k_accuracy_score
+
+
 
 
 encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
@@ -21,8 +25,8 @@ def perform_evaluation(args, weights):
     data = CIFAR10()
 
     # Define hyperparameters
-    num_epochs = 50
-    batch_size = 512
+    num_epochs = 10
+    batch_size = args.batch_size
 
     # Instantiate networks f and c
     f_net = encoders[args.encoder]()
@@ -63,9 +67,10 @@ def perform_evaluation(args, weights):
         return loss
 
 
+    print("Finetuning linear head")
     # Fine Tune linear head for current weights
     for epoch_id in range(num_epochs):
-        print("Epoch {}...".format(epoch_id))
+        print("Epoch {}/10...".format(epoch_id))
         data.shuffle_training_data()
         
         for batch_id in range(batches_per_epoch):
@@ -82,9 +87,11 @@ def perform_evaluation(args, weights):
 
 def main(args):
 
+    print('Going to load dataset')
     # Load CIFAR-10 dataset
     data = CIFAR10()
 
+    print('Loaded')
     # Instantiate networks
     f_online = encoders[args.encoder]()
     g_online = ProjectionHead()
@@ -189,20 +196,25 @@ def main(args):
             if (batch_id + 1) % log_every == 0:
                 print('[Epoch {}/{} Batch {}/{}] Loss={:.5f}.'.format(epoch_id+1, args.num_epochs, batch_id+1, batches_per_epoch, loss))
 
+	# Every 10 epochs compute test
         if (epoch_id + 1) % save_every == 0:
-            f_online.save_weights('f_online_{}.h5'.format(epoch_id + 1))
-            print('Weights of f saved.')
-
-
-        # Evaluate in epoch 
-        acc,top_5_acc = perform_evaluation(args.encoder,f_target_weights)
+	    f_online.save_weights('f_online_{}.h5'.format(epoch_id + 1))
+	    print('Weights of f saved.')
+	    # Evaluate in epoch 
+	    acc,top_5_acc = perform_evaluation(args,f_target_weights)
         
-        # Add tensorflow saving
+	    # Add tensorflow saving
+	    train_summary_writer = tf.summary.create_file_writer(args.log_dir)
+	    with train_summary_writer.as_default():
+		tf.summary.scalar('top_1_acc',float(acc),step=epoch)
+		tf.summary.scalar('top_5_acc',float(top_5_acc),step=epoch)
+
+        
+        # Add tensorflow saving for loss in each epoch
         train_summary_writer = tf.summary.create_file_writer(args.log_dir)
         with train_summary_writer.as_default():
             tf.summary.scalar('loss', float(losses[-1]), step=epoch)
-            tf.summary.scalar('top_1_acc',float(acc),step=epoch)
-            tf.summary.scalar('top_5_acc',float(top_5_acc),step=epoch)
+            
 
 
         
