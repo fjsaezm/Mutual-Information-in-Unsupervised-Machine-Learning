@@ -35,7 +35,7 @@ They both have the same structure, composed of three stages:
 \item A projector $g_\gamma$,
 \item A predictor $q_\gamma$,
 \end{enumerate}
-where $\gamma \in \{\theta,\upxi\}$.
+where $\gamma \in \{\theta,\upxi\}$. In the online network, despite their different name, the projector $g_\theta$ and the predictor $q_\theta$ have the same architecture.
 
 \begin{remark}
 The projector $g_\gamma$ is used because in SimCLR \citep{chen_simple_2020} is proven empirically that this projection improves the general performance of the framework.
@@ -107,13 +107,31 @@ After the whole model has been fully trained, both the projection $g_\theta$  an
 
 Some considerations have to be made about this framework:
 \begin{enumerate}
-    \item About data augmentation: In BYOL,it is not important if the model learns about the histogram of the image, since we want ot keep any information captured by the target representatoin into its online network. In the original paper, it is empirically shown how BYOL is more robust to the choice of the image augmentations than SimCLR.
+    \item About data augmentation: In BYOL,it is not important if the model learns about the histogram of the image, since we want ot keep any information captured by the target representation into its online network. In the original paper, it is empirically shown how BYOL is more robust to the choice of the image augmentations than SimCLR.
 
     \item Since the weights of the target network $\upxi$ depend on the weights of the online network $\theta$ by a parameter $\tau$, the first mentioned weights $\upxi$ represent a delayed and stable version of $\theta$. Actually, if the decay rate $\tau$ is $1$, we never update $\upxi$, and if $\tau = 0 $, then the weights of the target network are always being updated. This way, a trade-off is tablished between updating $\upxi$ too often or too slowly. Empirically, it has been shown that the most adequate values that yield to more stable results are $\tau \in [0.9,0.999]$.
 \end{enumerate}
 
 \section{Results obtained by this framework}
 
-In this framework, the impact of the batch size varies respect to the importance that it had in SimCLR. In contrast with BYOL's framework, in SimCLR we were using negative samples in our network to learn how to produce the representations. Because of this, BYOL's is expected to eb more robust to smaller batch sizes. 
+In this framework, the impact of the batch size varies respect to the importance that it had in SimCLR. In contrast with BYOL's framework, in SimCLR we were using negative samples in our network to learn how to produce the representations. Because of this, BYOL's is expected to be more robust to smaller batch sizes. 
 
-BYOL achieved the state of art 
+It is empirically shown that the regularization of the weights is crutial in the self-supervised setting. The experiments in the paper showed that removing the weight decay regularization led to model divergence.
+
+
+BYOL achieved the state-of-art performance results in the linear evaluation. This is, again, one of the most interesting parts since it helps us to evaluate how good the representations that our model create are.
+
+\begin{table}[H]
+    \label{table:best:first:simclr}
+\centering
+\begin{tabular}{llrrr}
+Method & Architecture & Params & Top-1 & Top 5 \\ \hline
+SimCLR & ResNet-50($2\times)$ & 94M & 74.2 & 92.0 \\
+BYOL & ResNet-50($2\times)$ & 94M & \textbf{77.4} & \textbf{93.6} \\
+SimCLR & ResNet-50($4\times)$ & 375M & 76.5& 93.2 \\
+BYOL & ResNet-50($4\times)$ & 375M & \textbf{79.6}& \textbf{94.8} \\
+\end{tabular}
+\caption{Comparison between SimCLR and BYOL Top1 and Top5 accuracies using the same architectures on the ImageNet dataset.}
+\end{table}
+
+BYOL also outperformed other models such as \emph{MoCo} \citep{he2020momentum} and a second version of the Contrastive Predictive Coding framework \citep{hénaff2020dataefficient}, but they have not been included in the table since they are not deeply studied in this work.
