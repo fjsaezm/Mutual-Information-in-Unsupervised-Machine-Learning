@@ -82,7 +82,7 @@ with tf.GradientTape() as g:
 dy_dx = g.gradient(y, x)
 \end{minted}
 
-In our case, the gradient is obtained and the applied to the optimzer by using:
+In our case, the gradient is obtained and the applied to the optimizer by using:
 
 \begin{minted}[mathescape,linenos]{python}
 with tf.GradientTape() as tape:
@@ -118,7 +118,16 @@ Also, it is very easy to integrate with tensorflow.  Actually, in most of the ca
               callbacks=[tensorboard_callback])  
 \end{minted}
 
-In our case, there are some differences, since we are not using the 
+In our case, there are some differences, since we are not using the standard \lstinline{fit} function to train our models. Because of this, we have to log the information that we have obtained in each step. To do this, we can use the \lstinline{metrics} python package to group them (as it is done in the SimCLR code), or we can just directly save the information creating a \emph{file writer} and writing the desired variables on this file. We do this in the modification that we have done to BYOL's original code as follows:
+
+\begin{minted}[mathescape,linenos]{python}
+train_summary_writer = tf.summary.create_file_writer(args.log_dir)
+with train_summary_writer.as_default():
+    tf.summary.scalar('top_1_acc',float(acc),step=epoch)
+    tf.summary.scalar('top_5_acc',float(top_5_acc),step=epoch)
+    tf.summary.scalar('loss', float(losses[-1]), step=epoch)
+\end{minted}
+
 
 \section{Metrics}
 
