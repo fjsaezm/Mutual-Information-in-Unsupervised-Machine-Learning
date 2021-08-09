@@ -9,15 +9,18 @@ import tensorflow as tf
 from datasets import CIFAR10
 from models import ResNet18, ResNet34, ProjectionHead
 from losses import byol_loss
-from linearevaluation import compute_test_accuracy
+from linearevaluation import compute_test_accuracy, compute_top5_test_accuracy
 
 from models import ResNet18, ResNet34, ClassificationHead
 from sklearn.metrics import top_k_accuracy_score
-
-
+import json
 
 
 encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
+
+def _float_metric_value(metric):
+  """Gets the value of a float-value keras metric."""
+  return metric.result().numpy().astype(float)
 
 
 def perform_evaluation(args, weights):
@@ -25,7 +28,7 @@ def perform_evaluation(args, weights):
     data = CIFAR10()
 
     # Define hyperparameters
-    num_epochs = 10
+    num_epochs = 20
     batch_size = args.batch_size
 
     # Instantiate networks f and c
@@ -49,6 +52,7 @@ def perform_evaluation(args, weights):
     total_update_steps = num_epochs * batches_per_epoch
     lr_schedule = tf.keras.optimizers.schedules.PolynomialDecay(5e-2, total_update_steps, 5e-4, power=2)
     opt = tf.keras.optimizers.Adam(learning_rate=lr_schedule)
+    global_step = opt.iterations
 
     
     @tf.function
@@ -126,6 +130,8 @@ def main(args):
     opt = tf.keras.optimizers.Adam(learning_rate=lr)
     print('Using Adam optimizer with learning rate {}.'.format(lr))
 
+    # Define logger for tensorboard
+    train_summary_writer = tf.summary.create_file_writer(args.logdir)
 
     @tf.function
     def train_step_pretraining(x1, x2):  # (bs, 32, 32, 3), (bs, 32, 32, 3)
@@ -170,6 +176,8 @@ def main(args):
 
     losses = []
     f_target_weights = []
+    acc = 0
+    top_5_acc = 0
     for epoch_id in range(args.num_epochs):
         data.shuffle_training_data()
         
@@ -179,7 +187,7 @@ def main(args):
             losses.append(float(loss))
             
             # Update target networks (exponential moving average of online networks)
-            beta = 0.99
+            beta = args.tau
 
             f_target_weights = f_target.get_weights()
             f_online_weights = f_online.get_weights()
@@ -198,26 +206,26 @@ def main(args):
 
 	    # Every 10 epochs compute test
         if (epoch_id + 1) % save_every == 0:
-            f_online.save_weights('f_online_{}.h5'.format(epoch_id + 1))
+            f_online.save_weights(args.logdir + '/f_online_{}.h5'.format(epoch_id + 1))
             print('Weights of f saved.')
-	        # Evaluate in epoch 
+
+        if (epoch_id + 1) % save_every == 0:
+	    # Evaluate in epoch 
             acc,top_5_acc = perform_evaluation(args,f_target_weights)
             # Add tensorflow saving
-            train_summary_writer = tf.summary.create_file_writer(args.log_dir)
-            with train_summary_writer.as_default():
-                tf.summary.scalar('top_1_acc',float(acc),step=epoch)
-                tf.summary.scalar('top_5_acc',float(top_5_acc),step=epoch)
-
-        
-        # Add tensorflow saving for loss in each epoch
-        train_summary_writer = tf.summary.create_file_writer(args.log_dir)
-        with train_summary_writer.as_default():
-            tf.summary.scalar('loss', float(losses[-1]), step=epoch)
             
+            tf.summary.scalar('test/top_1_acc',float(acc),step=epoch_id)
+            tf.summary.scalar('test/top_5_acc',float(top_5_acc),step=epoch_id)
 
+        # Save loss in each epoch
+	tf.summary.scalar('train/loss',float(losses[-1]),step=epoch_id)
 
-        
-    
+    # Save results json
+    dict = { 'loss':losses[-1],
+	     'acc':acc,
+             'top_5_acc':top_5_acc}
+    with open("byol-results-experiment.json", "w") as outfile: 
+        json.dump(dictionary, outfile)
     #np.savetxt('losses.txt', tf.stack(losses).numpy())
 
 
@@ -228,5 +236,6 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', type=int, default=300, help='Number of epochs')
     parser.add_argument('--batch_size', type=int, default=512, help='Batch size for pretraining')
     parser.add_argument('--logdir', type=str,required = True, help='Directory to store results')
+    parser.add_argument('--tau', type=float,default = 0.99,help='Decay Rate for target')
     args = parser.parse_args()
     main(args)
