@@ -216,9 +216,9 @@ def main(args):
             
             tf.summary.scalar('test/top_1_acc',float(acc),step=epoch_id)
             tf.summary.scalar('test/top_5_acc',float(top_5_acc),step=epoch_id)
-
+        
         # Save loss in each epoch
-	tf.summary.scalar('train/loss',float(losses[-1]),step=epoch_id)
+        tf.summary.scalar('train/loss',float(losses[-1]),step=epoch_id)
 
     # Save results json
     dict = { 'loss':losses[-1],

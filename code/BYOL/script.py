@@ -5,7 +5,7 @@ import itertools
 from operator import add
 import subprocess
 
-COMMAND = """python pretrain_eval.py --encoder resnet18 --num_epochs 100"""
+COMMAND = """python pretrain_eval.py --encoder resnet18 --num_epochs 100 """
 
 
 def separator():
@@ -18,7 +18,7 @@ def separator():
 
 headers = ["--batch_size ",
             "--encoder ",
-            "--logdir models/"]
+            "--logdir "]
 
 batch_sizes = [1024]
 resnet_depths = ["resnet34"]
@@ -27,7 +27,7 @@ all = [batch_sizes,resnet_depths]
 
 for el in tqdm(list(itertools.product(*all))):
     # Create model dir name and create dir for the model
-    model_dir =  '-'.join([str(elem) for elem in el])
+    model_dir =  "models/" + '-'.join([str(elem) for elem in el])
     os.mkdir(model_dir)
     # Join model dir name to the list of parameters
     list_el = [str(i) for i in el]
