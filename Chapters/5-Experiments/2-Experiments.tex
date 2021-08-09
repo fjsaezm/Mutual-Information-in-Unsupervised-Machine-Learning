@@ -83,4 +83,24 @@ Figure \ref{fig:evolution:acc:batches:simclr} supports what we have just present
 
 \subsection*{Observations ofher hyperparameters}
 
-We have seen that in our first experiment, batch size has been really relevant in the final results.
+We have seen that in our first experiment, batch size has been really relevant in the final results. We would like to see if the rest of the parameters play such an important role as well. 
+
+As we have seen before, the parameters that we want to see how they affect the models are the \lstinline{color_jitter_strength} and the \lstinline{temperature} $\tau$ parameter. Let us study their impact on the model one by one. 
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.55\textwidth]{color-jitter-impact-simclr}%
+    
+    \label{exp:simclr:colorjitter:impact}
+    \caption{Acurracy score following the color jitter parameter and both batch sizes considered.}
+\end{figure}
+
+As we can see in Figure \ref{exp:simclr:colorjitter:impact}, the \lstinline{color_jitter_strength} parameter does not have a huge impact on the performance of the linear head of the model. The black bars on the center of each orange/blue bar indicate the variance of the accuracy respect the rest of the parameters. Surely, there are centesimal differences between the different values of this parameter. However, more finetuning might be needed in order to make this parameter relevant for our model. The low influence may as well be caused by the small encoder network (ResNet 18), so we will explore if there are any changes when we change the encoder network later in the document.
+
+\begin{figure}[H] 
+    \centering
+    \label{exp:simclr:temperature:impact}
+        \includegraphics[width=0.55\textwidth]{temperature-impact-simclr}%
+       
+        \caption{Acurracy score following the temperature and both batch sizes considered.}
+\end{figure}

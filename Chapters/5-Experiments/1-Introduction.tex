@@ -17,7 +17,27 @@ The implementations that have been used can be found in:
 \item BYOL implementation: not official, found in \url{https://github.com/garder14/byol-tensorflow2}. 
 \end{itemize}
 
-The non-official implementation of BYOL has been chosen because it uses \emph{Tensorflow}, which makes the implementations easier to understand. Also, the idea is to make use of \emph{Tensorboard}, a Tensorflow utility that helps with visualization and graph generation of the training and final results.
+Although there exists an official implementation of BYOL, non-official one has been chosen because it uses \emph{Tensorflow}, which makes the implementations easier to understand and modify, which we needed to do. Also, the idea is to make use of \emph{Tensorboard}, a Tensorflow utility that helps with visualization and graph generation of the training and final results.
+
+
+\section{Hardware and basic libraries}
+
+When running training experiments in DL, the used hardware is one of the most determining factors for the results obtained by the models. There are many reasons for this, such as the time spent on the training a model or the amount of  data that we can fit in the GPUs (which will be our case) or TPUs.
+
+For the experiments of this project, the DECSAI\footnotemark department of the University of Granada generously provided us access to a server that has a few NVIDIA GeForce RTX 3090. This model of GPU is one of the best in the market, having a \emph{compute capability} of $8.6/10$, rated by the NVIDIA company. IT also has a memory of $24GB$, which allows us to experiment with relatively large batch sizes using a single GPU and not having to parallelize the experiment.
+
+%------------- Footnotemark
+\footnotetext{The DECSAI's website is \url{https://decsai.ugr.es/}.}
+%----------------------
+
+
+To be able to use this GPUs in our experiments, two basic libraries have to be installed in the server:
+\begin{enumerate}
+\item \lstinline{tensorflow-gpu}. This is a variant of the \lstinline{tensorflow} library that was developed for using GPUs while using tensorflow.
+\item \lstinline{CUDA 11.4}. CUDA is a parallel computing platform and API created by NVIDIA which allows to use a CUDA-enabled GPU for general purpose processing. In other words, CUDA is needed to be able to use the GPU in our \lstinline{python} scripts.
+\end{enumerate}
+
+These two libraries, along with other packages that are needed for creating graphics (\lstinline{Matplotlib,Seaborn}) or computing metrics (\lstinline{sklearn}) are installed using a \lstinline{Conda} enviroment in our server's user.
 
 
 \section{The dataset: CIFAR10}

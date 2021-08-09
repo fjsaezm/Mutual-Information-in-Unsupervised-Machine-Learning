@@ -13,13 +13,13 @@
 [x] Distance metric learning https://www.nec-labs.com/uploads/images/Department-Images/MediaAnalytics/papers/nips16_npairmetriclearning.pdf
 [x] Check if color of propositions is the same as the others
 [x] Change the .0. numeration in defs/props etc
-[] Neural networks introduction (resnet, data augmentation (give examples of data augmentations))
+[x] Neural networks introduction (resnet, data augmentation (give examples of data augmentations))
 [x] Change `with tf.summary.record_if(should_record)` to TRUE for testing purposes. (didnt change)
 [x] Test batch size = 512/1024 more (it cant do more)
-[] Change to continuous val evaluation 
+[x] Change to continuous val evaluation 
 [x] redo table
 [] Say where we are executing (nvidia)
-[] End Tensorboard explanation
+[x] End Tensorboard explanation
 
 
 # Useful Links
