@@ -1,5 +1,21 @@
+\section{Notions on logistic regression}
+
+The logistic model is used to model the probability of a certain \emph{discriminative} class o event existing, such as pass/fail or dead/alive. It can be extended to a multiple class problem, but we will focus on the binary problem.
+
+\begin{ndef}
+The \emph{odds} is a likelihood measure of a particular outcome. It is calculated as the ratio of the number of events that produce that outcome to the numbers of events that produce a different outcome.
+
+The \emph{log-odds} is the logarithm of the odds.
+\end{ndef}
+
+Usually, logistic models make use of an indicator variable, where the two values are labeled as $0$ and $1$. The log-odds of the value labeled as $1$ is a combination of one or more independent variables.
+ 
+
 \label{Chapter:NCE}
-Our problem now is, to estimate the density function (p.d.f.) of some observed data. Consider that a sample $X = \{x_1,\dots,x_{T_d}\}$ of a random vector has been observed. It follows an unknown p.d.f. $P_d$, that we assume to belong to a parametrized family of functions, that is
+
+\section{Motivation}
+
+Our problem now is to estimate the probability density function (p.d.f.) of some observed data. Consider that a sample $X = \{x_1,\dots,x_{T_d}\}$  has been observed, where each element has been sampled from a random variable. This data follows an unknown p.d.f. $P_d$, that we assume to belong to a parametrized family of functions, that is
 \[
 P_d \in \{P_m(.;\theta)\}_\theta,
 \]
@@ -9,23 +25,32 @@ P_d(.) = P_m(.;\theta^*) \quad \text{for some } \theta^*.
 $$
 Our problem now will be to find the $\theta^*$ that matches the distribution. 
 
-Any estimate $\hat{\theta}$ must meet the constraints that a normalized p.d.f. should satisfy. Those are:
+Any estimate $\hat{\theta}$ must meet the constraints that a normalized p.d.f. should satisfy.
+
+
+\begin{ndef}
+Let $\hat{\theta}$ be a set of parameters and $P_m(.;\hat{\theta})$ a probability density function with parameters $\hat{\theta}$. We say that $P_m(.;\hat{\theta})$ is normalized if it satisfies:
 $$
 \int P_m(u;\hat{\theta})du = 1, \quad \text{and}\quad P_m(.;\hat{\theta})\geq 0.
 $$
+\end{ndef}
+
 If the constraints are satisfied for any $\theta$ in the set of parameters, we say that the model is normalized, and then we can use the maximum likelihood principle to estimate $\theta$.
 
-Let us assume that the noisy data $Y$ is an i.i.d. sample $\{y_1,\dots,Y_{T_n}\}$ of a random variable with p.d.f. $P_n$. The ratio $P_d/P_n$ of the density functions that generate $X$ and $Y$ respectively, can give us a relative description of the data $X$. If $P_n$ is known, then we can obtain $P_d$ using the ratio that we have just mentioned.
+Consider now some noisy data $Y$. Let us assume that the noisy data $Y$ is an i.i.d. sample $\{y_1,\dots,Y_{T_n}\}$ of a random variable with p.d.f. $P_n$. The ratio $P_d/P_n$ of the density functions that generate $X$ and $Y$ respectively, can give us a relative description of the data $X$. That means, if we know the noisy distribution $P_n$, then we can estimate the data distribution $P_d$ using the ratio that we have just mentioned.
 
-In order to discriminate between elements of $X$ and $Y$, it is needed to compare their properties. We will show that we can provide a relative description of $X$ in the form of an estimate of the ratio $P_d/P_n$.
+We would like to be able to discriminate between elements that have been sampled from the original data distribution $P_d$ and elements that have been sampled from the noise distributionIn order to discriminate between elements of $X$ and $Y$, it is needed to compare their properties. We will show that we can provide a relative description of $X$ in the form of an estimate of the ratio $P_d/P_n$.
 
-Let $U = \{u_1,\cdots,u_{T_d + T_n}\}$ be the union of the sets $X$ and $Y$. We assign to each $u_t$ a binary class label:
+\section{Formalization of the NCE problem}
+
+Let $U = \{u_1,\cdots,u_{T_d + T_n}\}$ be the union of the sets $X$ and $Y$. We assign to each $u_t$ a binary class label, depending if it belongs to the original data $X$ or the noise data $Y$:
 \[
 C_t(u_t) = \begin{cases}
 1 & if \ u_t \in X\\
 0 & if \ u_t \in Y
 \end{cases}
 \]
+
 We will now make use of logistic regression, where the posterior probabilities of the classes given the data are estimated. We know that $P_d$ is unknown, we want to model $P(.|C=1)$ with $P_m(.;\theta)$. Note that $\theta$ may include a parameter for the normalization of the model, if it is not normalized. Hence, we have:
 \[
 P(u|C = 1,\theta) = P_m(u;\theta), \quad \quad P(u|C = 0) = P_n(u),
@@ -48,7 +73,7 @@ r_\nu(u) = \frac{1}{1 + \nu exp(-u)}.
 \end{equation}
 Using \eqref{log:ratio:G} and \eqref{log:func:nu}, we can write
 \[
-h(u;\theta) := P(C = 1|u ; \theta) =    r_\nu(G(u;\theta)) = \frac{1}{1+ \nu exp(\log \frac{P_m(u,\theta)}{P_n(u)})}. 
+h(u;\theta) := P(C = 1|u ; \theta) =    r_\nu(G(u;\theta)) = \frac{1}{1+ \nu exp\left((\log \frac{P_m(u,\theta)}{P_n(u)}\right)}. 
 \]
 Since the class labels $C_t$ are assumed Bernoulli distributed and independent, the conditional log-likelihood has the form:
 \begin{equation}\label{log:likelihood:theta}
@@ -69,7 +94,7 @@ If we consider $-\ell(\theta)$, this is known as the \emph{cross entropy functio
 \end{remark}
 
 \begin{remark}
-    Here, we have achieved the estimation of a p.d.f. , which is an unsupervised (not labeled data) learning problem, logistic regression, which is supervised learning (labeled data).
+    Here, we have achieved the estimation of a p.d.f. , which is an unsupervised (not labeled data) learning problem, using logistic regression, which is supervised learning (labeled data).
 \end{remark}
 
 Now, if we consider $P_m^0(.;\alpha)$ an unnormalized (doest not integrate $1$) model, we can add a normalization parameter to it in order to normalize it. We can consider

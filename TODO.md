@@ -18,8 +18,9 @@
 [x] Test batch size = 512/1024 more (it cant do more)
 [x] Change to continuous val evaluation 
 [x] redo table
-[] Say where we are executing (nvidia)
+[x] Say where we are executing (nvidia)
 [x] End Tensorboard explanation
+[] Logistic regression
 
 
 # Useful Links
