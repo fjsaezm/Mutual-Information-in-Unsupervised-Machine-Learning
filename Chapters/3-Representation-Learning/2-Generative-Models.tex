@@ -2,13 +2,13 @@
 \label{Chapter:Gen:Models}
 The vast majority of the problems in ML are usually of a discriminative nature, which is almost a synonym of supervised learning. However, there also exist problems that involve learning how to generate new examples of the data. More formally:
 
-\begin{ndef}
+\begin{ndefC}
 \begin{enumerate}
 \item \emph{Discriminative models} estimate $p(y|x)$, the probability of a label $y$ given an observation $x$.
 \item \emph{Generative models} estimate $p(x)$, the probability of observing the datapoint $x$. If the dataset is labeled, a generative model can also estimate the distribution $p(x|y)$.
 \end{enumerate}
 
-\end{ndef}
+\end{ndefC}
 
 
 From now on, let $\D$ be any kind of observed data. This will always be a finite subset of samples taken from a probability distribution $\pd$. There are models that, given $\D$, try to approximate the 

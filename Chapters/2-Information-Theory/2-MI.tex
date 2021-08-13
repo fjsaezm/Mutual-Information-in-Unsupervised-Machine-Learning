@@ -2,12 +2,12 @@
 \label{Chapter:MI}
 Using the entropy of a random variable we can directly state the definition of \emph{mutual information} as follows:
 
-\begin{ndef}
+\begin{ndefC}
 Let $X,Z$ be random variables. The \emph{mutual information (MI)} between $X$ and $Z$ is expressed as the difference between the entropy of $X$ and the conditional entropy of $X$ and $Z$, that is:
 $$
 I(X,Z) := H(X) - H(X|Z).
 $$
-\end{ndef}
+\end{ndefC}
 Since the entropy of the random variable $H(X)$ explains the uncertainty of $X$ occurring, the intuitive idea of the \emph{MI} is to determine the decrease of uncertainty of $X$ occurring when we already
 know that $Z$ has occurred. We also have to note that, using the definition of the \emph{entropy} and the same argument that we used to obtain the expression in Eq. \ref{eq:dif-expr-mi}, we can rewrite the \emph{MI}  it follows:
 \begin{align}
@@ -113,7 +113,7 @@ We have taken advantage of the non-negativity of the KL-Divergence.
 
 Using this bound, and combining this theoretical knowledge with machine learning methods, such as \emph{backpropagation}, we can make $Q_\theta$ be a neural network and maximize this lower bound.
 
-\subsection{Donsker-Varadhan Representation}
+\subsection{Donsker-Varadhan Representation lower bound}
 
 We can also give a lower bound on the mutual information using its KL-Divergence formulation. Firstly, we have to 
 
@@ -125,13 +125,22 @@ D_{KL}(P || Q) = \sup_{T} E_P[T] - \log E_Q[e^T],
 where the supremum is taken over all functions $T:\Omega \to \R$ such that both expectations exist.
 \end{nth}
 \begin{proof}
-    TODO
+    Let $T$ be a given function. We can consider the \emph{Gibbs} distribution, which is defined by
+    \[
+    G(x) = \frac{1}{Z}e^T Q(x),
+    \]
+    where $Z$ is a normalization term defined by $Z = E_{Q(x)}[e^T]$. 
+    
 \end{proof}
 
-Using this representation, we reach this lower bound. Let $\mathcal F$ be any class of functions $T: \Omega \to \R$ satisfying the integrability constraints of the theorem. Then, 
+Using this representation, we reach this lower bound as a corollary. 
+
+\begin{corollary}
+    Let $\mathcal F$ be any class of functions $T: \Omega \to \R$ satisfying the integrability constraints of the theorem. Then, 
 $$
 I(P,Q) = D_{KL}(P||Q) \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q[e^T].
 $$
+\end{corollary}
 
 \subsection{Contrastive Lower Bound}
 

@@ -1,5 +1,104 @@
+
+
 \label{Chapter:NCE}
-Our problem now is, to estimate the density function (p.d.f.) of some observed data. Consider that a sample $X = \{x_1,\dots,x_{T_d}\}$ of a random vector has been observed. It follows an unknown p.d.f. $P_d$, that we assume to belong to a parametrized family of functions, that is
+
+In this chapter, we will present the mathematical fundamentals that inspired the methods that nowadays obtain the best results in the field of unsupervised representation learning, which is a very important part of the new advances in machine learning. All these concepts will be clarified later in this document.
+
+\section{Logistic regression}
+
+The logistic model is used to model the probability of a certain \emph{discriminative} class o event existing, such as pass/fail or dead/alive. It can be extended to a multiple class problem, but we will focus on the binary problem.
+
+\begin{ndef}
+The \emph{odds} is a likelihood measure of a particular outcome. It is calculated as the ratio of the number of events that produce that outcome to the numbers of events that produce a different outcome.\\
+
+The \emph{log-odds} is the logarithm of the odds.
+\end{ndef}
+
+Usually, logistic models make use of an indicator variable (which is a random variable that takes values $0$ or $1$). The log-odds of the value labeled as $1$ is a combination of one or more independent variables. Let us see how this idea is formalized and how we use this.
+
+Let $X$ be the input variables to a model and $Y$ a label with values $\{0,1\}$ as we said before. The labels are distributed following a $Bern(p_i)$ distribution. That is:
+\[
+y_i | x_{1,i},\cdots,x_{n,i} \sim Bern(p_i)    
+\]
+We would like to have the conditional distribution $P(Y|X)$, that is, the distribution that models the probability of our label $Y$ given the input $X$. 
+
+
+Since $Y$ is an indicator variable, we have that $P(Y=1) = E[Y]$ and, similarly, $P(Y = 1 | X = x) = E[Y | X = x]$. Knowing this,  there exists methods for estimating the regression function for the indicator variable using a smoother \citep{cosma_advanced}. However this could be a bad idea because we can not assure that any smoother would return a value between $0$ and $1$. However, we can find a way to go around this problem.
+
+Let us now assume $P(Y = 1| X = x) = p(x;\theta)$ for some function $p$ parametrized by $\theta$ and that the observations $x_i$ are independent from each other. Then, the conditional likelihood function is:
+\begin{equation}\label{logistic:likelihood:function}
+\prod_{i=1}^n P(Y = y_i | X = x_i) = \prod_{i=1}^n p(x_i,\theta)^{y_i} \left(1-p(x_i;\theta)\right)^{(1-y_i)}.    
+\end{equation}
+We would like to find the $p(x;\theta)$, constraining it to be a probability, that is, to be between $0$ and $1$. To achieve this, we make use of the logistic transformation, that is, we consider:
+\[
+\log\frac{p}{1-p}.   
+\]
+Let us set in the case of a single explanatory variable $x$. An idea could be to make this model a linear regressor. That is, solving
+\[
+\log\frac{p(x;\theta)}{1-p(x;\theta)} = \beta_0 + \beta x , 
+\]
+which gives us the solution:
+\[
+p(x;\beta) = \frac{exp(\beta_0 +  \beta x)}{1 + exp(\beta_0 +  \beta x)} = \frac{1}{1 + exp\left( - \beta_0 + \beta x\right)},
+\]
+which is called the logistic function. We have constructed the following definition:
+\begin{ndef}
+The \emph{standard logistic function} $\sigma: \R \to (0,1)$ is defined as follows:
+\[
+\sigma(t) = \frac{1}{1+e^{-t}}
+\]
+\end{ndef}
+
+\subsection{Fitting a Logistic Regression model}
+
+Consider now a generalized linear model, which we assume parametrized by a set of parameters $\theta$:
+\[
+p(X,\theta) = \frac{1}{1+e^{-\theta^T X}} = P(Y = 1 |X; \theta).    
+\]
+WhereTherefore, 
+\[
+P(Y = 0 | X ; \theta) = 1- p(X,\theta). 
+\]
+Since $Y$ is an indicator variable, we have that
+\[
+P(y|X;\theta) = p(X,\theta)^y(1-p(X,\theta))^{(1-y)}.
+\]
+As we have seen in Equation \eqref{logistic:likelihood:function}, we have that the likelihood function in:
+\begin{align*}
+L(\theta|y;x) & = P(Y|X;\theta) \\
+& =\prod_i P(y_i|x_i;\theta) \\
+& =  \prod_i p(x_i;\theta)^y_i (1- p(x_i,\theta))^{(1-y_i)}.    
+\end{align*}
+If we consider now the log-likelihood function, the logarithm turns products into sums, so we obtain:
+\[
+N^{-1}\log L(\theta|y;x) = N^{-1} \sum_{i=1} \log P(y_i | x_i;\theta),
+\]
+which can be maximized using optimization techniques such as \emph{gradient descent}, a very common technique in machine learning.
+
+\begin{remark}
+If we assume that the pairs $(x_i,y_i)$ are drawn uniformly from the underlying distribution, if we consider the the limit in $N$, we obtain:
+\begin{align*}
+    &\hspace{4cm} \lim_{N \to + \infty} N^{-1}\sum_{i=1}^N \log P(y_i|x_i;\theta) \\
+    &  = \sum_{x\in \mathcal X}\sum_{y \in \mathcal Y} P(X = x,Y = y) \log P(Y = y | X = x; \theta)\\
+    & = \sum_{x\in \mathcal X}\sum_{y \in \mathcal Y} P(X = x,Y = y) \left( - \log \frac{P(Y = y | X = x)}{P(Y = y | X = x; \theta)} + \log P(Y = y | X = x) \right) \\
+    & = - D_{KL}(Y || Y_\theta) - H(Y|X),
+\end{align*}
+where $H(Y|X)$ is the conditional entropy\footnotemark, and in the first equality we have use the \emph{Law of the Large Numbers}. This means that, intuitively, if we maximize the log-likelihood of a model, we are minimizing the KL-divergence of our model from the maximal entropy distribuition, which is sort of \emph{searching for the model that makes the fewest assumptions in its parameters}.
+\end{remark}
+
+
+%------------- Footnotemark
+\footnotetext{A definition and explanation of what the entropy is will be given in the next Part.}
+%----------------------
+
+ 
+
+
+\section{Motivation}
+
+Our problem now is to estimate the probability density function (p.d.f.) of some observed data. However, the data that we have available has been sampled in a specific way, let us present see how it is done.
+
+Consider that a sample $X = \{x_1,\dots,x_{T_d}\}$  has been observed, where each element has been sampled from a random variable. This data follows an unknown p.d.f. $P_d$, that we assume to belong to a parametrized family of functions, that is
 \[
 P_d \in \{P_m(.;\theta)\}_\theta,
 \]
@@ -9,52 +108,99 @@ P_d(.) = P_m(.;\theta^*) \quad \text{for some } \theta^*.
 $$
 Our problem now will be to find the $\theta^*$ that matches the distribution. 
 
-Any estimate $\hat{\theta}$ must meet the constraints that a normalized p.d.f. should satisfy. Those are:
+Any estimate $\hat{\theta}$ must meet the constraints that a normalized p.d.f. should satisfy.
+
+
+\begin{ndef}
+Let $\hat{\theta}$ be a set of parameters and $P_m(.;\hat{\theta})$ a probability density function with parameters $\hat{\theta}$. We say that $P_m(.;\hat{\theta})$ is normalized if it satisfies:
 $$
 \int P_m(u;\hat{\theta})du = 1, \quad \text{and}\quad P_m(.;\hat{\theta})\geq 0.
 $$
+\end{ndef}
+
 If the constraints are satisfied for any $\theta$ in the set of parameters, we say that the model is normalized, and then we can use the maximum likelihood principle to estimate $\theta$.
 
-Let us assume that the noisy data $Y$ is an i.i.d. sample $\{y_1,\dots,Y_{T_n}\}$ of a random variable with p.d.f. $P_n$. The ratio $P_d/P_n$ of the density functions that generate $X$ and $Y$ respectively, can give us a relative description of the data $X$. If $P_n$ is known, then we can obtain $P_d$ using the ratio that we have just mentioned.
+Consider now some noisy data $Y$. Let us assume that the noisy data $Y$ is an i.i.d. sample $\{y_1,\dots,Y_{T_n}\}$ of a random variable with p.d.f. $P_n$. The ratio $P_d/P_n$ of the density functions that generate $X$ and $Y$ respectively, can give us a relative description of the data $X$. That means, if we know the noisy distribution $P_n$, then we can estimate the data distribution $P_d$ using the ratio that we have just mentioned. Shortly: if we know de differences between $X$ and $Y$ and we know the properties of $Y$, we can deduce the properties of $X$.
 
-In order to discriminate between elements of $X$ and $Y$, it is needed to compare their properties. We will show that we can provide a relative description of $X$ in the form of an estimate of the ratio $P_d/P_n$.
+Our goal in \emph{Noise Contrastive Estimation} (NCE) is to be able to discriminate between elements that have been sampled from the original data distribution $P_d$ and elements that have been sampled from the noise distributionIn order to discriminate between elements of $X$ and $Y$, it is needed to compare their properties. We will show that we can provide a relative description of $X$ in the form of an estimate of the ratio $P_d/P_n$.
 
-Let $U = \{u_1,\cdots,u_{T_d + T_n}\}$ be the union of the sets $X$ and $Y$. We assign to each $u_t$ a binary class label:
+\section{Formalization of the NCE problem}
+
+Let $U = \{u_1,\cdots,u_{T_d + T_n}\}$ be the union of the sets $X$ and $Y$ that we mentioned before. We assign to each $u_t$ a binary class label, depending if it belongs to the original data $X$ or the noise data $Y$:
 \[
 C_t(u_t) = \begin{cases}
 1 & if \ u_t \in X\\
 0 & if \ u_t \in Y
 \end{cases}
 \]
-We will now make use of logistic regression, where the posterior probabilities of the classes given the data are estimated. We know that $P_d$ is unknown, we want to model $P(.|C=1)$ with $P_m(.;\theta)$. Note that $\theta$ may include a parameter for the normalization of the model, if it is not normalized. Hence, we have:
+
+With this labels, will now make use of logistic regression, where the posterior probabilities of the classes given the data are estimated. We know that the distribution of the data $P_d$ is unknown, we want to model the class conditional probability $P(.|C=1)$ with $P_m(.;\theta)$. Note that $\theta$ may include a parameter for the normalization of the model, if it is not normalized. Hence, we have:
 \[
-P(u|C = 1,\theta) = P_m(u;\theta), \quad \quad P(u|C = 0) = P_n(u),
+P(u|C = 1,\theta) = P_m(u;\theta), \quad \quad P(u|C = 0) = P_n(u).
 \]
-with
+Furthermore, since we know the numbers of examples of each of the $X$ and $Y$ sets, we also know that the prior probabilities are:
 \[
 P(C = 1) = \frac{T_d}{T_d + T_n}, \quad \quad P(C = 0) = \frac{T_n}{T_d + T_n}.
 \]
-Hence, if $\nu = T_n/T_d$, the posterior probabilities for the classes are:
+We also have to consider that $P(u)$ can be decomposed as:
 \[
-P(C=1|u;\theta) = \frac{P_m(u;\theta)}{P_m(u;\theta) + \nu P_n(u)}, \quad \quad P(C = 0|u; \theta) = \frac{\nu P_n(u)}{P_m(u;\theta) + \nu P_n(u)}.
+P(u) = P(C = 1) P_m(u; \theta) + P(C = 0)P_n(u) = \frac{T_d}{T_d + T_n} P_m(u;\theta) + \frac{T_n}{T_d + T_n}   
 \]
-Denote $G(.;\theta)$ to the log ratio between $P_m(.;\theta)$ and $P_n$:
+
+Hence, if we rename the quotient of the probability of the negative class by the probability of the positive class $\nu = P(C = 0)/P(C = 1) =  T_n/T_d$, the posterior probabilities for the positive class $C = 1$ is:
+\begin{align*}
+P(C=1|u;\theta) & = \frac{P(u|C=1;\theta)P(C=1)}{P(u)} \\
+& = \frac{P_m(u;\theta)P(C = 1)}{P(C = 1) P_m(u; \theta) + P(C = 0)P_n(u)} \\
+& = \frac{P_m(u;\theta)}{P_m(u;\theta) + \nu P_n(u)}
+\end{align*}
+Where in the first equality we have used Bayes' rule. Similarly, the posterior probability for the negative class $C = 0$ is:
+\begin{align*}
+P(C = 0|u; \theta) & = \frac{P(u|C = 0; \theta) P(C = 0)}{P(u)}\\
+& = \frac{P_n(u) P(C = 0)}{P(C = 1) P_m(u; \theta) + P(C = 0)P_n(u)}\\
+& = \frac{P_n(u) P(C = 0)}{P(C = 1) \left( P_m(u; \theta) + \frac{P(C = 0)}{P(C = 1)}P_n(u) \right)} \\
+& = \frac{P_n(u) \frac{P(C = 0)}{P(C = 1)}}{  P_m(u; \theta) + \frac{P(C = 0)}{P(C = 1)}P_n(u)}\\
+& =  \frac{\nu P_n(u)}{P_m(u;\theta) + \nu P_n(u)}.
+\end{align*}
+
+We are in the conditions now to see how we use the logistic regression to obtain its conditional log-likelihood form.
+Let $G(.;\theta)$ be the log ratio between $P_m(.;\theta)$ and $P_n(.)$:
 \begin{equation}\label{log:ratio:G}
-G(u;\theta) = \log P_m(u;\theta) - \log P_n(u) = \log \frac{P_m(u;\theta)}{P_n(u)}.
+G(u;\theta) = \log \frac{P_m(u;\theta)}{P_n(u)} =\log P_m(u;\theta) - \log P_n(u).
 \end{equation}
-Also, let $r_\nu$ the logistic function parametrized by $\nu$, that is:
-\begin{equation}\label{log:func:nu}
-r_\nu(u) = \frac{1}{1 + \nu exp(-u)}.
-\end{equation}
-Using \eqref{log:ratio:G} and \eqref{log:func:nu}, we can write
+
+Using this log-ratio, we obtain the following proposition. It is not a super interesting result, but we want to remark it since it connects the context with the logistic function.
+\begin{nprop}
+Under the conditions that we have presented until this point, and naming $h(u;\theta) := P(C = 1|u ; \theta)$, we have that
 \[
-h(u;\theta) := P(C = 1|u ; \theta) =    r_\nu(G(u;\theta)) = \frac{1}{1+ \nu exp(\log \frac{P_m(u,\theta)}{P_n(u)})}. 
+h(u;\theta) = r_\nu(G(u;\theta)),
 \]
+where
+\begin{equation}\label{log:func:nu}
+r_\nu(u) = \frac{1}{1 + \nu exp(-u)},
+\end{equation}
+is the logistic function parametrized by $\nu$.
+\end{nprop}
+\begin{proof}
+Firstly, it is easy to see that
+\[
+exp(-G(u;\theta)) = exp(- \log P_m(u;\theta) + \log P_n(u)) = \frac{P_n(u)}{P_m(u;\theta)}.    
+\]
+Using this, the proof is almost pretty straightforward:
+\begin{align*}
+h(u;\theta) & = r_\nu(G(u;\theta)) \\
+& = \frac{1}{1 + \nu \exp(- G(u;\theta))} \\
+& = \frac{1}{1 + \nu \frac{P_n(u)}{P_m(u;\theta)}}\\
+& = \frac{1}{\frac{1}{P_m(u;\theta)} \left( P_m(u;\theta) + \nu P_n(u)\right)} \\
+& = \frac{P_m(u;\theta)}{P_m(u;\theta) + \nu P_n(u)}\\
+& = P(C = 1|u; \theta),\\
+\end{align*}
+as we wanted to proof.
+\end{proof}
 Since the class labels $C_t$ are assumed Bernoulli distributed and independent, the conditional log-likelihood has the form:
 \begin{equation}\label{log:likelihood:theta}
 \ell(\theta)  = \sum_{t = 1}^{T_d + T_n} C_t \log P(C_t = 1|u_t; \theta) + (1-C_t) \log P(C_t = 0|u_t;\theta).
 \end{equation}
-Now, in the $t$ such that $u_t$ in $X$,then  $u_t = x_t$ an we have that $P(C_t = 0|x_t;\theta) = 0$, so we obtain that the term that adds to the sum in that certain $t$ is:
+Now, in the terms of the sumatory such that $u_t$ in $X$, we have that  $u_t = x_t$ and, hence,  $P(C_t = 0|x_t;\theta) = 0$. Because of this, we obtain that the term that adds to the sum in those specific $t$ adopt the form:
 \[
 1\cdot \log P(C_t = 1|u_t;\theta) = \log h(x_t;\theta).
 \]
@@ -69,14 +215,14 @@ If we consider $-\ell(\theta)$, this is known as the \emph{cross entropy functio
 \end{remark}
 
 \begin{remark}
-    Here, we have achieved the estimation of a p.d.f. , which is an unsupervised (not labeled data) learning problem, logistic regression, which is supervised learning (labeled data).
+    Here, we have achieved the estimation of a p.d.f. , which is an unsupervised (not labeled data) learning problem, using logistic regression, which is supervised learning (labeled data).
 \end{remark}
 
 Now, if we consider $P_m^0(.;\alpha)$ an unnormalized (doest not integrate $1$) model, we can add a normalization parameter to it in order to normalize it. We can consider
 \[
 \log P_m(.;\theta) = \log P_m^0(.;\alpha ) + c  , \quad \quad \text{with } \theta=(\alpha,c).
 \]
-With this model, a new estimator is defined. Considering $X$ as before and $Y$ an artificially generated set with $T_n = \nu T_d$ independent observations extracted from $P_n$, known. as the argument $\hat{\theta}_T$ which maximizes
+With this model, a new estimator is defined. We consider $X$ as before and $Y$ an artificially generated set with $\abs{Y} = T_n = \nu T_d$ independent observations extracted from $P_n$, known. Then, the estimator is defined to be the  argument $\hat{\theta}_T$ which maximizes
 \[
 J_T(\theta) = \frac{1}{T_d}\left\{\sum_{t = 1}^{T_d} \log[h(x_t;\theta)] + \sum_{t=1}^{T_n}\log[1-h(y_t;\theta)]\right\}.
 \]
@@ -89,8 +235,11 @@ Let us rename some terms before announcing a theorem. We want to see $J$ as a fu
 \[
 \tilde{J}(f_m) = E\left\{\log[r_\nu (f_m(x) - \log P_n(x))]\right\} + \nu E\left\{\log [1- r_\nu(f_m(y) - \log P_n(y))]\right\}.    
 \]
+
 The following theorem states that the probability density function $P_d$ of the data can be found by maximizing $\tilde{J}$, that is, learning a nonparametric classifier in \emph{infinite data}.
 
 \begin{nthC}
 The objective $\tilde{J}(f_m)$ achieves a maximum at $f_m = \log P_d$. Furthermore, there are not other extrema if the noise density $P_n$ is chosen such that it is nonzero whenever $P_d$ is nonzero.
 \end{nthC}
+
+The proof of this theorem is beyond the scope of this work and will not be shown here. It can be found in \cite{gutmann_noise-contrastive_nodate}.

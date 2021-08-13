@@ -1,8 +1,8 @@
 \section{Definition}
-Intuitively, if $x$ is a datapoint in a dataset $\D \subset \R^d$, a \emph{representation} of $x$ is a vector $r \in \R^n$ (usually, $n \leq d$), that shares information with the datapoint $x$. Representations are very often used in Machine Learning.
+Intuitively, if $x$ is a datapoint in a dataset $\D \subset \R^d$, a \emph{representation} of $x$ is a vector $r \in \R^n$ (usually, $n \leq d$), that shares information with the datapoint $x$. Representations are very often used in Machine Learning (ML).
 
-Obtaining good representations of data is one of the most important tasks in machine learning (ML). 
-Recently, it has been discovered that maximizing \emph{mutual information} between two elements in our data can give us good representations for our data.
+Obtaining good representations of data is one of the most important tasks in ML. 
+Recently, it has been discovered that maximizing the \emph{mutual information} between two elements in our data can give us good representations for our data.
 In this section, \emph{information theory} notions will be presented, in order to use them in our ML models. This will provide a theoretical solid base for
 the notions explained later.
 
@@ -12,9 +12,14 @@ Given an event $\mathcal A \in \Alg$, $P$ a probability measure and $P[\A]$ the 
 $$
 \log\frac{1}{P[\mathcal A]}
 $$
-describes \emph{"how surprising is that $\A$ occurs"}. For instance, if $P[\A] = 1$, then the last expression is zero, which means that it is not a surprise that $\A$ occurred. With this motivation, we get to the following definition.
+describes \emph{"how surprising is that $\A$ occurs"}. Clearly, then, 
+\begin{itemize}
+\item If $P[\A]= 1$, then we have $\log 1 = 0$, which would indicate that it is not a surprise that $\A$ occurred.
 
+\item On the other hand, if $P[A]\to 0$, then we have $\log(+\infty)$, which will surely be a big number indicating great surprise that $\A$ occurred.
+\end{itemize}
 
+With this motivation, we get to the following definition.
 \begin{ndef}
 Let $X$ be a discrete random variable with image $\X$. The \emph{Shannon entropy}, or simply \emph{entropy}  $H(X)$ of $X$ is defined as:
 $$
