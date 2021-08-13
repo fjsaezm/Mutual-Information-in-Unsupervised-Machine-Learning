@@ -23,9 +23,9 @@ encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
 def build_optimizer(args):
     """Returns the optimizer."""
     # Define optimizer
-    decay_steps = 1000
+    decay_steps = 100
     lr = 0.2 * args.batch_size / 256
-    w_decay = tf.keras.optimizers.schedules.CosineDecay(
+    lr = tf.keras.optimizers.schedules.CosineDecay(
         lr, decay_steps)
 
     #lr = 1e-3 * args.batch_size / 256
@@ -34,19 +34,10 @@ def build_optimizer(args):
     elif args.optimizer == 'lars':
         return lars_optimizer.LARSOptimizer(
             lr,
-            weight_decay=w_decay,
+            weight_decay=args.weight_decay,
             exclude_from_weight_decay=[
             'batch_normalization', 'bias'
         ])
- 
-  if FLAGS.optimizer == 'momentum':
-    return tf.keras.optimizers.SGD(learning_rate, FLAGS.momentum, nesterov=True)
-  elif FLAGS.optimizer == 'adam':
-    return tf.keras.optimizers.Adam(learning_rate)
-  elif FLAGS.optimizer == 'lars':
-    
-  else:
-    raise ValueError('Unknown optimizer {}'.format(FLAGS.optimizer))
 
 def _float_metric_value(metric):
   """Gets the value of a float-value keras metric."""
@@ -159,7 +150,7 @@ def main(args):
     
     opt = build_optimizer(args)
     #opt = tf.keras.optimizers.Adam(learning_rate=lr)
-    print('Using {} optimizer with learning rate {}.'.format(args.optimizer,lr))
+    #print('Using {} optimizer with learning rate {}.'.format(args.optimizer,lr))
 
     # Define logger for tensorboard
     train_summary_writer = tf.summary.create_file_writer(args.logdir)
@@ -223,7 +214,7 @@ def main(args):
             # Update target networks (exponential moving average of online networks)
             curr_step = epoch_id * batches_per_epoch + batch_id
             #beta = args.tau
-            beta = 1 - (1-beta_ini)*cos(math.pi*curr_step/total_steps)/2
+            beta = 1 - (1-beta_ini)*math.cos(math.pi*curr_step/total_steps)/2
 
             f_target_weights = f_target.get_weights()
             f_online_weights = f_online.get_weights()
@@ -275,4 +266,5 @@ if __name__ == '__main__':
     parser.add_argument('--optimizer', type=str, default = 'Adam',required = False,choices = ['adam','lars'],help = 'Optimizer to use')
     parser.add_argument('--weight_decay',type=float,default=1.5*1e-6,help='Weight decay')
     args = parser.parse_args()
+    print(args)
     main(args)
