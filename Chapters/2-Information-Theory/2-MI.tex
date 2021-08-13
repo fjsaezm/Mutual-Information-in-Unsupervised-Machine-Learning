@@ -120,7 +120,7 @@ We can also give a lower bound on the mutual information using its KL-Divergence
 \begin{nth}[Donsker-Varadhan]
 The KL divergence admits the following dual representation:
 \[
-D_{KL}(P || Q) = \sup_{T} E_P[T] - \log E_Q[e^T],
+D_{KL}(P || Q) = \sup_{T} E_P[T] - \log E_Q\left[e^T\right],
 \]
 where the supremum is taken over all functions $T:\Omega \to \R$ such that both expectations exist.
 \end{nth}
@@ -129,7 +129,30 @@ where the supremum is taken over all functions $T:\Omega \to \R$ such that both 
     \[
     G(x) = \frac{1}{Z}e^T Q(x),
     \]
-    where $Z$ is a normalization term defined by $Z = E_{Q(x)}[e^T]$. 
+    where $Z$ is a normalization term defined by $Z = E_{Q(x)}[e^T]$. We observe by the definition of $G$ that, taking logarithms and then taking expectations respect to $P(x)$, we obtain
+    \begin{equation}\label{alternative:gibbs}
+    E_{P}\left[ \log \frac{G(x)}{Q(x)}\right] = E_{P}[T] - \log Z = E_P[T] - \log \left( E_Q\left[e^T\right]\right)
+    \end{equation}
+    Let $\Delta$ be the gap between $D_{KL}$ between the distributions $P$ and $Q$, and the RHS of the Equation \eqref{alternative:gibbs},
+    \[
+    \Delta := D_{KL}(P||Q) - \left( E_{P}[T] - \log(E_Q\left[e^T\right])\right).
+    \]
+    Applying the definition of KL-Divergence and Equation \eqref{alternative:gibbs}, we obtain
+    \begin{align}
+    \Delta & = E_{P}\left[\log \frac{P}{Q}\right] - E_{P}\left[ \log \frac{G(x)}{Q(x)}\right] \nonumber \\
+    & = E_P \left[\log \frac{P}{Q} - \log \frac{G}{Q}\right] \nonumber \\
+    & = E_P\left[\log \frac{P}{G}\right] \nonumber \\
+    & = D_{KL}(P||G) \label{delta:DKL}.
+    \end{align}
+    Hence, since $D_{KL}(P||G) \geq 0$ for any distributions $P,G$, we have that $\Delta \geq 0$ and therefore
+    \[
+    D_{KL}(P||Q) \geq E_P[T] - \log \left(E_Q\left[e^T\right]\right). 
+    \]
+    This inequality is preserved upon taking the supremum over the right hand side. Also, Equation \eqref{delta:DKL} shows that the bound is \emph{tight} whenever $P(x) = Q(x)$ for all $x$, namely for optimal functions $T^*$ that have the form
+    \[
+    T^* = \log \frac{P(x)}{Q(x)} + C,    
+    \]
+    for some $C \in \R$.
     
 \end{proof}
 
@@ -138,9 +161,13 @@ Using this representation, we reach this lower bound as a corollary.
 \begin{corollary}
     Let $\mathcal F$ be any class of functions $T: \Omega \to \R$ satisfying the integrability constraints of the theorem. Then, 
 $$
-I(P,Q) = D_{KL}(P||Q) \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q[e^T].
+I(P,Q) = D_{KL}(P||Q) \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q\left[e^T\right].
 $$
 \end{corollary}
+
+This bound may seem a bit odd in the context of Machine Learning. However, it is very useful. It was used in \cite{belghazi2018mine} to estimate the mutual information between two random variables using neural networks.
+
+Furthermore, since it is a lower bound, it can be used as a \emph{loss function} to learn representations. In \cite{hjelm_learning_2019}, $T_\theta$ parametrized a neural network that acted as a discriminator between samples drawn from the joint distribution $P(x,z)$ and samples from the marginal distribution $P(x)P(z)$. They discovered that the inputs to the neural network, which were representations of the original data, must have high mutual information with the original data in order to obtain good results.
 
 \subsection{Contrastive Lower Bound}
 
@@ -193,10 +220,14 @@ E_X\left[ \log \frac{1}{ 1+ \frac{P(x^*)}{P(x^*|z)}(N-1)}\right] \\
 & \stackrel{(1)}{=} E_X \left[ \log\left(\frac{P(x^*,z)}{P(x^*)P(z)}\right)\right] - \log N\\
 & \stackrel{(2)}{=} I(x,z) - \log N,
 \end{align*}
-where, in $(1)$, we have use Bayes' rule again and in $(2)$ we have used the definition of the MI that we found in equation \ref{MI:sum:xz}. Looking at the first and last equations used in this proof, and seeing that we have $\leq$ in the middle of the chain of equalities, we have proven
+where, in $(1)$, we have use Bayes' rule again and in $(2)$ we have used the definition of the MI that we found in equation \ref{MI:sum:xz}. Looking at the first and last equations used in this proof, and seeing that we have $\leq$ in the middle of the chain of equalities, we have proved
 \[
-    E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] = - \ell (\theta) \leq I(x,z) - \log N \implies I(x,z) \geq -\ell(\theta)+ \log N,
+    E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] = - \ell (\theta) \leq I(x,z) - \log N,
 \]
-as we wanted.   
+which implies 
+\[
+I(x,z) \geq -\ell(\theta)+ \log N  
+\]
+as we wanted to see.   
 \end{proof}
 

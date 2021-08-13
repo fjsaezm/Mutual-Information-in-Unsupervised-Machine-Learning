@@ -5,6 +5,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="1"
 import argparse
 import numpy as np
 import tensorflow as tf
+import math
 
 from datasets import CIFAR10
 from models import ResNet18, ResNet34, ProjectionHead
@@ -22,14 +23,18 @@ encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
 def build_optimizer(args):
     """Returns the optimizer."""
     # Define optimizer
-    lr = 1e-3 * args.batch_size / 256
+    decay_steps = 1000
+    lr = 0.2 * args.batch_size / 256
+    w_decay = tf.keras.optimizers.schedules.CosineDecay(
+        lr, decay_steps)
+
+    #lr = 1e-3 * args.batch_size / 256
     if args.optimizer == 'adam':
-        return tf.keras.optimizers.Adam(learning_rate)
+        return tf.keras.optimizers.Adam(lr)
     elif args.optimizer == 'lars':
         return lars_optimizer.LARSOptimizer(
-            learning_rate,
-            momentum=FLAGS.momentum,
-            weight_decay=FLAGS.weight_decay,
+            lr,
+            weight_decay=w_decay,
             exclude_from_weight_decay=[
             'batch_normalization', 'bias'
         ])
@@ -197,8 +202,11 @@ def main(args):
 
 
     batches_per_epoch = data.num_train_images // args.batch_size
+    total_steps = args.num_epochs * batches_per_epoch
     log_every = 10  # batches
     save_every = 25  # epochs
+    # Initial value for the tau parameter
+    beta_ini = args.tau
 
     losses = []
     f_target_weights = []
@@ -213,7 +221,9 @@ def main(args):
             losses.append(float(loss))
             
             # Update target networks (exponential moving average of online networks)
-            beta = args.tau
+            curr_step = epoch_id * batches_per_epoch + batch_id
+            #beta = args.tau
+            beta = 1 - (1-beta_ini)*cos(math.pi*curr_step/total_steps)/2
 
             f_target_weights = f_target.get_weights()
             f_online_weights = f_online.get_weights()
@@ -261,7 +271,8 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', type=int, default=300, help='Number of epochs')
     parser.add_argument('--batch_size', type=int, default=512, help='Batch size for pretraining')
     parser.add_argument('--logdir', type=str,required = True, help='Directory to store results')
-    parser.add_argument('--tau', type=float,default = 0.99,help='Decay Rate for target')
+    parser.add_argument('--tau', type=float,default = 0.996,help='Decay Rate for target')
     parser.add_argument('--optimizer', type=str, default = 'Adam',required = False,choices = ['adam','lars'],help = 'Optimizer to use')
+    parser.add_argument('--weight_decay',type=float,default=1.5*1e-6,help='Weight decay')
     args = parser.parse_args()
     main(args)

@@ -91,8 +91,9 @@ As we have seen before, the parameters that we want to see how they affect the m
     \centering
     \includegraphics[width=0.55\textwidth]{color-jitter-impact-simclr}%
     
-    \label{exp:simclr:colorjitter:impact}
     \caption{Acurracy score following the color jitter parameter and both batch sizes considered.}
+    
+    \label{exp:simclr:colorjitter:impact}
 \end{figure}
 
 As we can see in Figure \ref{exp:simclr:colorjitter:impact}, the \lstinline{color_jitter_strength} parameter does not have a huge impact on the performance of the linear head of the model. The black bars on the center of each orange/blue bar indicate the variance of the accuracy respect the rest of the parameters. Surely, there are centesimal differences between the different values of this parameter. However, more finetuning might be needed in order to make this parameter relevant for our model. The low influence may as well be caused by the small encoder network (ResNet 18), so we will explore if there are any changes when we change the encoder network later in the document.

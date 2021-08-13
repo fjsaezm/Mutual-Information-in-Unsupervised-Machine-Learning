@@ -128,7 +128,6 @@ Usually, ResNet comes accompanied by a number (e.g. \emph{Resnet-50}), that indi
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 \begin{table}[H]
-    \label{arch:resnet:18}
     \centering
     \begin{tabular}{l|l|c}
     \hline
@@ -142,6 +141,7 @@ Usually, ResNet comes accompanied by a number (e.g. \emph{Resnet-50}), that indi
                                 & $1\times 1 $                    & average pool, 1000-d fc, softmax                                              \\ \hline
     \end{tabular}
     \caption{Resnet 18 architecture.}
+    \label{arch:resnet:18}
     \end{table}
 
 For instance, having a look at the Table \ref{arch:resnet:18}, in the convolution block \emph{conv2}, we have two convolutions with kernel size $3\times 3$ and depth size $64$. This would be one of the blocks, represented in Figure \ref{fig:resnet:block}. However, since at the right hand side of the matrix we have a $\times 2$, it means that we will have two of this blocks in this convolution group.
