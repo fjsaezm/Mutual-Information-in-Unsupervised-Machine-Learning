@@ -37,7 +37,7 @@ batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_a
 \end{table}
 
 \begin{remark}
-On the original paper, the Top 1 accuracy score reported for CIFAR10 in $100$ epochs was $\sim 84.6\%$ accuracy for batch size $512$ and $\sim 85.1 \%$ accuracy score for $1024$ batch size. If we have a look at the results obtained in our experiment, we can say that our first attempt was \emph{successfull}.
+On the original paper, the Top 1 accuracy score reported for CIFAR10 in $100$ epochs was $\sim 84.6\%$ accuracy for batch size $512$ and $\sim 85.1 \%$ accuracy score for $1024$ batch size. It has to be remarked that these results were obtained using ResNet-50,  larger version of ResNet. It is also reported that larger encoder architectures benefit the model, so this is an advantage they have at this point of the experiments . Having these aspects in account, and looking at the results obtained in our first experiment, we can say that this attempt was \emph{successfull}.
 \end{remark}
 
 Let us make some observations. The clearest is that, since the second batch size doubles the first one, the training ends in half the steps. We can see that the temperature obtained in both cases is the same, and it is equal to $0.25$. However, there is a big change in the color jitter parameter: while using $512$ as batch size obtains the best result with the value of $0.25$ for color jitter, using $1024$ as batch size this value changes to $0.75$, which implies stronger color changes on the data augmentation. 
@@ -100,8 +100,42 @@ As we can see in Figure \ref{exp:simclr:colorjitter:impact}, the \lstinline{colo
 
 \begin{figure}[H] 
     \centering
-    \label{exp:simclr:temperature:impact}
         \includegraphics[width=0.55\textwidth]{temperature-impact-simclr}%
        
         \caption{Acurracy score following the temperature and both batch sizes considered.}
+        
+    \label{exp:simclr:temperature:impact}
 \end{figure}
+
+The parameter temperature, however, has a bigger impact on our framework's results. As we can see in Figure \ref{ex:simclr:temperature:impact}, when the temperature $\tau$ takes larger values, the accuracy obtained by the the linear head decreases. The decrease is approximately a $5\%$ on average, so we can affirm that the influence of the parameter is important on the model.
+
+In the original paper, the best results also occurred with low values for the temperature parameter. They even tested lower values for this parameter and got even better results. We will have this in account for the following experiments.
+
+\subsection{Going deeper on the encoder architecture}
+\label{experiments:simclr:second}
+
+
+As we have mentioned before, original results prove that using wider and deeper architectures for the encoder on the SimCLR framework. Going deeper, however, requires more computational capabilities since more parameters have to be adjusted.
+
+In the implementation used, we have the option of changing an input parameter in order to execute the experiment with a different architecture for the encoder. Specifically, we can pass \lstinline{resnet_depth=50} as an argument to the \lstinline{run.py} script to execute the train of the framework and the linear head finetuning and evaluation with the Resnet50 architecture. The architecture for this neural network is presented in Table \ref{table:resnet:50}.
+
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    Layers                 & Output size                    & CIFAR10                         \\ \hline
+    conv1                  & $112\times112$                 & $3\times3, \ 64,$ stride 1      \\ \hline
+    \multirow{2}{*}{conv2} & \multirow{2}{*}{$56\times 56$} & $3\times3$ max pool, stride 2   \\ \cline{3-3} 
+                           &                                & $\blockb{256}{64}{3}$           \\ \hline
+    conv3                  & $28 \times 28$                 & $\blockb{512}{128}{4}$          \\ \hline
+    conv4                  & $14 \times 14$                 & $\blockb{1024}{256}{6}$         \\ \hline
+    conv5                  & $7 \times 7$                   & $\blockb{2048}{512}{3}$         \\ \hline
+    \multirow{2}{*}{}      & $1\times 1$                    & $7\times 7$ global average pool \\ \cline{2-3} 
+                           &                                & $10-d$ FC, softmax              \\ \hline
+    \multicolumn{2}{|c|}{Number of parameters}              & $23.520.842$                    \\ \hline
+    \end{tabular}
+    \caption{Resnet50 architecture.}
+    \label{table:resnet:50}
+    \end{table}
+
