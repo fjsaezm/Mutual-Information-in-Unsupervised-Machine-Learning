@@ -39,7 +39,12 @@ for dir in dirs:
 
 
 df['batch_size'] = pd.to_numeric(df['batch_size'])
-df = df.sort_values(by=["batch_size"])
+df = df.sort_values(by=["batch_size","temperature"])
+
+df["regularization_loss"] = df["regularization_loss"].round(4)
+df["label_top_1_accuracy"] = df["label_top_1_accuracy"].round(3)
+df["label_top_5_accuracy"] = df["label_top_5_accuracy"].round(3)
+df.round(3)
 print(df)
 df.to_csv(path_or_buf='results-simclr-resnet50.csv')
 res = df.to_json("results-simclr-resnet50.json")
