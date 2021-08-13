@@ -7,7 +7,9 @@
 Elementos exportados.bib
 *.lof
 *.lot
-code/SimCLR/__pycache__
+*__pycache__
+*.h5
+*models*
 code/SimCLR/models
 .directory
 _minted-thesis/

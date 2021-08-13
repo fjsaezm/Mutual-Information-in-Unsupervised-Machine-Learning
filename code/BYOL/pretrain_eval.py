@@ -10,6 +10,7 @@ from datasets import CIFAR10
 from models import ResNet18, ResNet34, ProjectionHead
 from losses import byol_loss
 from linearevaluation import compute_test_accuracy, compute_top5_test_accuracy
+import lars_optimizer
 
 from models import ResNet18, ResNet34, ClassificationHead
 from sklearn.metrics import top_k_accuracy_score
@@ -17,6 +18,30 @@ import json
 
 
 encoders = {'resnet18': ResNet18, 'resnet34': ResNet34}
+
+def build_optimizer(args):
+    """Returns the optimizer."""
+    # Define optimizer
+    lr = 1e-3 * args.batch_size / 256
+    if args.optimizer == 'adam':
+        return tf.keras.optimizers.Adam(learning_rate)
+    elif args.optimizer == 'lars':
+        return lars_optimizer.LARSOptimizer(
+            learning_rate,
+            momentum=FLAGS.momentum,
+            weight_decay=FLAGS.weight_decay,
+            exclude_from_weight_decay=[
+            'batch_normalization', 'bias'
+        ])
+ 
+  if FLAGS.optimizer == 'momentum':
+    return tf.keras.optimizers.SGD(learning_rate, FLAGS.momentum, nesterov=True)
+  elif FLAGS.optimizer == 'adam':
+    return tf.keras.optimizers.Adam(learning_rate)
+  elif FLAGS.optimizer == 'lars':
+    
+  else:
+    raise ValueError('Unknown optimizer {}'.format(FLAGS.optimizer))
 
 def _float_metric_value(metric):
   """Gets the value of a float-value keras metric."""
@@ -28,7 +53,7 @@ def perform_evaluation(args, weights):
     data = CIFAR10()
 
     # Define hyperparameters
-    num_epochs = 20
+    num_epochs = 50
     batch_size = args.batch_size
 
     # Instantiate networks f and c
@@ -74,7 +99,7 @@ def perform_evaluation(args, weights):
     print("Finetuning linear head")
     # Fine Tune linear head for current weights
     for epoch_id in range(num_epochs):
-        print("Epoch {}/10...".format(epoch_id))
+        print("Epoch {}/20...".format(epoch_id))
         data.shuffle_training_data()
         
         for batch_id in range(batches_per_epoch):
@@ -125,10 +150,11 @@ def main(args):
     print('The encoders have {} trainable parameters each.'.format(num_params_f))
 
 
-    # Define optimizer
-    lr = 1e-3 * args.batch_size / 512
-    opt = tf.keras.optimizers.Adam(learning_rate=lr)
-    print('Using Adam optimizer with learning rate {}.'.format(lr))
+
+    
+    opt = build_optimizer(args)
+    #opt = tf.keras.optimizers.Adam(learning_rate=lr)
+    print('Using {} optimizer with learning rate {}.'.format(args.optimizer,lr))
 
     # Define logger for tensorboard
     train_summary_writer = tf.summary.create_file_writer(args.logdir)
@@ -172,7 +198,7 @@ def main(args):
 
     batches_per_epoch = data.num_train_images // args.batch_size
     log_every = 10  # batches
-    save_every = 100  # epochs
+    save_every = 25  # epochs
 
     losses = []
     f_target_weights = []
@@ -204,24 +230,23 @@ def main(args):
             if (batch_id + 1) % log_every == 0:
                 print('[Epoch {}/{} Batch {}/{}] Loss={:.5f}.'.format(epoch_id+1, args.num_epochs, batch_id+1, batches_per_epoch, loss))
 
-	    # Every 10 epochs compute test
+	    # Every save_every, z
         if (epoch_id + 1) % save_every == 0:
             f_online.save_weights(args.logdir + '/f_online_{}.h5'.format(epoch_id + 1))
             print('Weights of f saved.')
-
-        if (epoch_id + 1) % save_every == 0:
 	    # Evaluate in epoch 
             acc,top_5_acc = perform_evaluation(args,f_target_weights)
             # Add tensorflow saving
-            
-            tf.summary.scalar('test/top_1_acc',float(acc),step=epoch_id)
-            tf.summary.scalar('test/top_5_acc',float(top_5_acc),step=epoch_id)
+            with train_summary_writer.as_default():
+                tf.summary.scalar('eval/top_1_acc',float(acc),step=epoch_id)
+                tf.summary.scalar('eval/top_5_acc',float(top_5_acc),step=epoch_id)
         
         # Save loss in each epoch
-        tf.summary.scalar('train/loss',float(losses[-1]),step=epoch_id)
+        with train_summary_writer.as_default():
+            tf.summary.scalar('train/loss',float(losses[-1]),step=epoch_id)
 
     # Save results json
-    dict = { 'loss':losses[-1],
+    dictionary = { 'loss':losses[-1],
 	     'acc':acc,
              'top_5_acc':top_5_acc}
     with open("byol-results-experiment.json", "w") as outfile: 
@@ -237,5 +262,6 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=512, help='Batch size for pretraining')
     parser.add_argument('--logdir', type=str,required = True, help='Directory to store results')
     parser.add_argument('--tau', type=float,default = 0.99,help='Decay Rate for target')
+    parser.add_argument('--optimizer', type=str, default = 'Adam',required = False,choices = ['adam','lars'],help = 'Optimizer to use')
     args = parser.parse_args()
     main(args)

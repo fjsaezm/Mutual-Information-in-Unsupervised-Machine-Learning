@@ -15,12 +15,13 @@
 # ==============================================================================
 """The main training pipeline."""
 
+import os,sys
+os.environ["CUDA_VISIBLE_DEVICES"]="2"
 
 
 
 import json
 import math
-import os
 
 from absl import app
 from absl import flags

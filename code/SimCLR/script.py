@@ -1,12 +1,12 @@
 import os,sys
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+os.environ["CUDA_VISIBLE_DEVICES"]="2"
 from tqdm import tqdm
 import itertools
 from operator import add
 import subprocess
 
 COMMAND = """
-python run.py --mode=train_then_eval --train_epochs=100 --learning_rate=1.0 --dataset=cifar10 --image_size=32 --eval_split=test --use_blur=False --use_tpu=False """
+python run.py --mode=train_then_eval --train_epochs=100 --learning_rate=1.0 --dataset=cifar10 --image_size=32 --eval_split=test --use_blur=True --use_tpu=False """
 
 
 def separator():
@@ -24,18 +24,19 @@ headers = ["--train_batch_size=",
             "--resnet_depth=",
             "--model_dir=models/"]
 
-batch_sizes = [16,32,64,128,256]
-temperatures = [0.75]
+batch_sizes = [56]
+temperatures = [0.5]
 weight_decays = [1e-4]
-color_jitter_strenghts = [0.75]
-resnet_depths = [18]
+color_jitter_strenghts = [0.65,0.75]
+resnet_depths = [50]
 
 all = [batch_sizes,temperatures,weight_decays,color_jitter_strenghts,resnet_depths]
 
 for el in tqdm(list(itertools.product(*all))):
     # Create model dir name and create dir for the model
-    model_dir =  '-'.join([str(elem) for elem in el])
-    #os.mkdir(model_dir)
+    model_dir =  '-'.join([str(elem) for elem in el])+"-blur"
+    if not os.path.exists("models/"+model_dir):
+        os.mkdir("models/"+ model_dir)
     # Join model dir name to the list of parameters
     list_el = [str(i) for i in el]
     list_el.append(model_dir)
