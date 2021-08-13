@@ -39,7 +39,7 @@ for dir in dirs:
 
 
 df['batch_size'] = pd.to_numeric(df['batch_size'])
-df = df.sort_values(by=["batch_size","temperature"])
+df = df.sort_values(by=["batch_size","temperature","color_jitter"],ascending = (True,True,True))
 
 df["regularization_loss"] = df["regularization_loss"].round(4)
 df["label_top_1_accuracy"] = df["label_top_1_accuracy"].round(3)
