@@ -139,3 +139,4 @@ In the implementation used, we have the option of changing an input parameter in
     \label{table:resnet:50}
     \end{table}
 
+    As we can see comparing this architecture with ResNet18 in Table \ref{arch:resnet:18}, the number of parameters that the network has to train doubles the first one, so we expect to have less memory available on our GPU so the \lstinline{batch_size} will have to be decreased to be able to run the trainings.
