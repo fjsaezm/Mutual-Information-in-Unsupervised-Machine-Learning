@@ -17,6 +17,8 @@ What we did for this first exploration was to define a \emph{parameter grid} and
 \item \lstinline{temperature}. The temperature parameter $\tau$ plays an important role in the individual loss seen in Equation \eqref{c:loss:simclr:ind}. It is suggested to try values in the range $[0,1]$ and the one that had better performance for the original experiments was around $0.5$, so we chose the following values: \lstinline|temperature = {0.25,0.5,0.75,1}|.
 
 \item \lstinline{color_jitter_strength}. This parameter measures how hard is the color variation in the data augmentation. Previous results show that this parameter is important for the success of the network, so we provide with a big range of values. We include the following values: \lstinline|color_jitter_strength = {0.25,0.5,0.75,1}|.
+
+\item \lstinline{epochs}. In the first stages of the experiments, we will always use $100$ as standard number of epoch for the trainings. We will see later if more epochs are needed in order to obtain better results.
 \end{enumerate}
 
 Using python and the python function \lstinline{itertools.product} we straightforwardly generate all possible different combinations of unions of the parameters so we only have to append them to a general string and execute the \lstinline{run.py} script mentioned before to obtain the results. In total, we obtain $32$ possible combinations, so we will obtain $32$ models. 
@@ -60,7 +62,11 @@ Using the resources we have, the following experiment was performed: using the h
 $$
 \text{\lstinline{batch-size}}=\{16,32,64,128,256,512,1024\},
 $$
-where the last two values had already been computed in the GridSearch so we do not have to repeat the training.
+where the last two values had already been computed in the GridSearch so we do not have to repeat the training. 
+
+\begin{remark}
+    To avoid confusion, we have to remark that in the figures that will come in the next pages, all the models do not end the training in the same number of steps because the number of steps depends on the \lstinline{batch_size}. That does not mean that the models were trained for a different number of epochs, and the figures are presented like this because Tensorboard provides the charts using the steps in the $x$ axis. 
+\end{remark}
 
 \begin{figure}[htp] 
     \centering
@@ -107,7 +113,7 @@ As we can see in Figure \ref{exp:simclr:colorjitter:impact}, the \lstinline{colo
     \label{exp:simclr:temperature:impact}
 \end{figure}
 
-The parameter temperature, however, has a bigger impact on our framework's results. As we can see in Figure \ref{ex:simclr:temperature:impact}, when the temperature $\tau$ takes larger values, the accuracy obtained by the the linear head decreases. The decrease is approximately a $5\%$ on average, so we can affirm that the influence of the parameter is important on the model.
+The parameter temperature, however, has a bigger impact on our framework's results. As we can see in Figure \ref{exp:simclr:temperature:impact}, when the temperature $\tau$ takes larger values, the accuracy obtained by the the linear head decreases. The decrease is approximately a $5\%$ on average, so we can affirm that the influence of the parameter is important on the model.
 
 In the original paper, the best results also occurred with low values for the temperature parameter. They even tested lower values for this parameter and got even better results. We will have this in account for the following experiments.
 
@@ -137,6 +143,79 @@ In the implementation used, we have the option of changing an input parameter in
     \end{tabular}
     \caption{Resnet50 architecture.}
     \label{table:resnet:50}
+\end{table}
+
+    As we can see comparing this architecture with ResNet18 in Table \ref{arch:resnet:18}, the number of parameters that the network has to train doubles the first one, so we expect to have less memory available on our GPU so the \lstinline{batch_size} will have to be decreased to be able to run the trainings. 
+    
+    This is clearly an issue, since we have already shown empirically that our model benefits from taking larger values on this parameter. In this second stage of exploring the best parameters for SimCLR on CIFAR10, we used the following parameters set to perform our particular GridSearch:
+    
+    \begin{itemize}
+        \item \lstinline{batch_size}. In this second experiment, due to the limitations in the GPU memory, we have to reduce the range of this parameter to:
+        $$
+        \text{\lstinline{batch-size}}=\{16,32,64,128,256\}.
+        $$
+
+        \item \lstinline{temperature}. We found out that, as it happens also to the original paper's experiments, lower temperature values help our representations to be better for downstream tasks. However, we decided to try again \emph{higher} temperature values again, that is: temperature values in the set $\{0.5,0.75\}$, to explore if the temperature parameter had any correlation with the encoder architecture.
+        
+        \item \lstinline{color_jitter_stregth}. This time we focus on harder (higher) color jitter strengths, testing in the range $\{0.65,0.75\}$, since in the first experiments the results obtained were better when this parameter was higher.
+        
+\end{itemize}
+
+    Using this parameters, our script to train and evaluate the models using each combination was executed. The results obtained can be checked in Table \ref{table:simclr:gridsearch:2} in Appendix \ref{APPENDIX:B}. We remark in Table \ref{table:best:second:simclr} some of the most interesting results, comparing them with the ones obtained in the first experiment.
+
+    \begin{table}[H]
+        \label{table:best:second:simclr}
+    \centering
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{lrrrrrrr}
+    Experiment & batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_accuracy & top\_5\_accuracy & steps         \\ \hline
+    1st & 512  &  0.25 &  0.25 &  0.0093      &  0.833         &  0.994          &  9800 \\
+    1st & 1024 &    0.25       &  0.75 &  0.0093      &  0.841          &  0.995          &  4900 \\
+    2nd & 128 & 0.5 & 0.65 & 0.0225 & 0.844 & 0.994 & 39100 \\
+    \textbf{2nd} & \textbf{256} & \textbf{0.5} & \textbf{0.75} & \textbf{0.023} & \textbf{0.848} & \textbf{994} & \textbf{19695} 
+    \end{tabular}
+    }
+    \caption{Best results for the second grid search experiment with SimCLR.}
     \end{table}
 
-    As we can see comparing this architecture with ResNet18 in Table \ref{arch:resnet:18}, the number of parameters that the network has to train doubles the first one, so we expect to have less memory available on our GPU so the \lstinline{batch_size} will have to be decreased to be able to run the trainings.
+    As we can see, the results of the models that use ResNet50  as an encoder outperform for a few hundredths in the Top 1 Accuracy score, and also they reach a lower loss function. Since it is clear that the gain we obtain by increasing the encoder depth is minimal, we may think that it is not worth it for our model since the number of parameters that have to be trained and, thus, the time that the train takes is much higher. However, we must not forget a very important fact that we observed in the first experiment: SimCLR benefits from bigger batch sizes. The results are comparing batch sizes $512$ and $1024$ in the first experiment with $128$ and $256$ in the second experiment (as we have already mentioned, the GPU memory does not allow us to use a bigger batch size when we increase the encoder depth).
+
+    Taking this into account and although we can not empirically prove it, we state that when the batch size is increased as well as the encoder depth, the models with larger depth will outperform the models using ResNet18. Let us see some more details about the training.
+
+    In the official implementation of SimCLR, two losses are computed: a contrastive loss and a supervised loss. The total loss is computed as the sum of both:
+    \[
+    \mathcal L_{tot} = \mathcal L_{contrastive} + \mathcal L_{supervised}.    
+    \]
+
+    We can visualize how the loss evolve through the training using the Tensorboard output. The lines are smoothed, that is why sometimes there might be some \emph{shadows} near the lines. The coefficient of smoothing is set as default ot $0.6$. 
+    \begin{figure}[htp] 
+        \centering
+        \subfloat[Contrastive loss in train]{%
+            \includegraphics[width=0.45\textwidth]{simclr-exp2/train_contrast_loss}%
+            \label{fig:contrastive:loss:exp2}%
+            }%
+        \hfill%
+        \subfloat[Supervised loss in train]{%
+            \includegraphics[width=0.45\textwidth]{simclr-exp2/train_supervised_loss}%
+            \label{fig:supervised:loss:exp2}%
+    
+            }%
+            \caption{Graphs on the losses during trian in second experiment. On axis $x$ we have the number of steps and on $y$ axis the value of the loss.}
+            \label{fig:exp2:both:losses}
+    \end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{simclr-exp2/train_total_loss}%
+\caption{Total loss of the four remarked models in the second experiment. The axis are the same of the ones in Figure \ref{fig:exp2:both:losses} }
+\label{fig:total:loss:exp2}%
+\end{figure}
+
+As we can see, although the loss is a sum of two components, as the steps/epochs get close to the end of the training, the supervised loss tends to zero. However, the contrastive loss remains in the range $[8,9.5]$ approximately. 
+
+If we have a look at Figure \ref{fig:supervised:loss:exp2} we can see that in all cases it reaches a minimum and although more steps of the experiments are done, the value of this loss does not get reduced. Hoewever, if we have a look at the contrastive loss in Figure \ref{fig:contrastive:loss:exp2}, we can see that in three out of the four models, the loss is still decreasing and if we increased the number of epochs,we state that we would probably obtain better results.
+
+\subsection{Gaussian blur in the image augmentations}
+
+We have also studied if adding \emph{gaussian blur} as a part of the data augmentation process. This can be easily done by adding the parameter \lstinline{--use_blur=True} to the run script.

@@ -8,7 +8,7 @@
 [x] Ref at the end of generative models
 [x] Add mode and unimodal/multimodal definitions 
 [x] Page 30, revise "In fact..."
-[] Donsker-Varadan representation Theorem
+[x] Donsker-Varadan representation Theorem
 [x] Remove all the bound part in InfoNCE
 [x] Distance metric learning https://www.nec-labs.com/uploads/images/Department-Images/MediaAnalytics/papers/nips16_npairmetriclearning.pdf
 [x] Check if color of propositions is the same as the others
@@ -20,7 +20,7 @@
 [x] redo table
 [x] Say where we are executing (nvidia)
 [x] End Tensorboard explanation
-[] Logistic regression
+[x] Logistic regression
 
 
 # Useful Links
