@@ -148,8 +148,8 @@ def main(args):
 
 
     
-    opt = build_optimizer(args)
-    #opt = tf.keras.optimizers.Adam(learning_rate=lr)
+    #opt = build_optimizer(args)
+    opt = tf.keras.optimizers.Adam(learning_rate=lr)
     #print('Using {} optimizer with learning rate {}.'.format(args.optimizer,lr))
 
     # Define logger for tensorboard

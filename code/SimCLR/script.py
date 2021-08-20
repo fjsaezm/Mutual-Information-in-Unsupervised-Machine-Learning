@@ -6,7 +6,7 @@ from operator import add
 import subprocess
 
 COMMAND = """
-python run.py --mode=train_then_eval --train_epochs=100 --learning_rate=1.0 --dataset=cifar10 --image_size=32 --eval_split=test --use_blur=True --use_tpu=False """
+python run.py --mode=train_then_eval --train_epochs=100 --learning_rate=1.0 --dataset=cifar10 --image_size=32 --eval_split=test --use_blur=False --use_tpu=False """
 
 
 def separator():
@@ -25,7 +25,7 @@ headers = ["--train_batch_size=",
             "--model_dir=models/"]
 
 batch_sizes = [256]
-temperatures = [0.5]
+temperatures = [0.25]
 weight_decays = [1e-4]
 color_jitter_strenghts = [0.65,0.75]
 resnet_depths = [50]

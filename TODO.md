@@ -22,6 +22,23 @@
 [x] End Tensorboard explanation
 [x] Logistic regression
 
+[ ] Abstracts
+[ ] Motivation
+[ ] Conclusions
+
+[ ] Explain Imagenette
+[ ] Add JAX explanation
+[x] Change authory in the repo of 'byol' folder (add readme)
+
+[ ] Gaussian Blur Results
+[ ] Transfer Learning
+
+[ ] BYOL Resnet50
+[ ] Batch size influence in BYOL
+
+[ ] Compare BYOL SIMCLR
+
+
 
 # Useful Links
 
