@@ -140,8 +140,6 @@ The source code of this text and developed programs are available in the Github 
 Abstract goes here
 \chapter*{Resumen}
 El resumen en español va aquí
-\chapter*{Introduction}
-\section*{Main Goals and Results Achieved}
 \newpage
 
 
@@ -155,11 +153,13 @@ El resumen en español va aquí
 \ctparttext{
   \color{black}
   \begin{center}
-    In this part we will introduce the underlying concepts of probability theory and probability distributions that will be needed.
+    In this part we will introduce the topic of this thesis, and also explain the underlying concepts of probability theory and probability distributions that will be needed. Also, the \emph{Noise Contrastive Estimation} problem will be presented.
   \end{center}
 }
-\part{Basic notions}
-
+\part{Introduction and basic notions}
+\chapter{Introduction, motivation and objectives}
+\input{Chapters/1-Probability-Theory/0-Intro}
+\clearpage
 \chapter{Probability theory}
 \input{Chapters/1-Probability-Theory/1-Introduction}
 \clearpage
@@ -176,7 +176,7 @@ El resumen en español va aquí
 \ctparttext{
   \color{black}
   \begin{center}
-  Information theory is the base for all the following work. In this part, \emph{Mutual Information} will be explained and then, bounds for this function will be given.
+  Information theory is the base for all the following work. In this part, \emph{Entropy} and \emph{Mutual Information} will be explained and, then, lower bounds for mutual information function will be given.
   \end{center}
 }
 
@@ -191,7 +191,7 @@ El resumen en español va aquí
 \ctparttext{
   \color{black}
   \begin{center}
-  Clarification of this part
+  In this part, it will be explained what it is understood for \emph{Representation Learning}, explaining the first framework that was used in this field. Also, the \emph{Noise Contrastive Loss} is presented, which will be crutial in the rest of this work.
   \end{center}
 }
 \part{Representation Learning}
@@ -211,7 +211,7 @@ El resumen en español va aquí
 \ctparttext{
   \color{black}
   \begin{center}
-  Clarification of this part
+  In this part, deep learning and neural networks will first be motivated and later be presented. Then, the two most important frameworks that use contrastive learning for representation learning will be completely explained.
   \end{center}
 }
 \part{New Frameworks for Representation Learning}
@@ -225,7 +225,7 @@ El resumen en español va aquí
 \ctparttext{
   \color{black}
   \begin{center}
-  Clarification of this part
+  In this last part, the frameworks that we have presented in the last part will be tested. We will train the models in a specific dataset and the results obtained will be compared with the results of the original papers.
   \end{center}
 }
 \part{Experiments}
@@ -233,6 +233,17 @@ El resumen en español va aquí
 \input{Chapters/5-Experiments/1-Introduction}
 \chapter{Experimentation}
 \input{Chapters/5-Experiments/2-Experiments}
+
+\newpage
+
+\chapter*{Conclusions and further work}
+
+\newpage
+
+\newpage
+
+\chapter*{Acknowledgements}
+\input{Chapters/APPENDIX/Acknowledgements} 
 
 
 \appendix

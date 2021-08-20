@@ -31,7 +31,7 @@ tries to make a posterior task, such as classification, the input $x$ must be tr
 When we mention feature detection, we are addressing the methods for detecting these features of a datapoint.
 
 Representation learning is a set of techniques that allow a system to discover the representations needed for feature detection or classification. 
-In contrast to manual feature engineering (which involves manually exploring the data and finding relationships in it), feature learning allows a machine to learn the features and to use them to perform a task.\\
+In contrast to manual feature engineering (which involves manually exploring the data and finding relationships in it), feature learning allows a machine to learn the features and to use them to perform a task.
 
 Feature learning can be supervised or unsupervised. 
 \begin{itemize}
@@ -43,14 +43,14 @@ Feature learning can be supervised or unsupervised.
 
 The performance of machine learning methods is heavily dependent on the choice of data features \citep{bengio_representation_2014}. This is why most of the current 
 effort in machine learning focuses on designing preprocessing and data transformation that lead to good quality representations. A representation will be of good quality when its features
-produce good results when we evaluate the \emph{accuracy} of our model.\\
+produce good results when we evaluate the \emph{accuracy} of our model.
 
 The main goal in representation learning is to obtain features of the data that are generally good for either of the supervised tasks. These tasks are usually called \emph{downstream tasks}. That is, we would like to obtain
 a representation that is either good for image classification (giving an image a label of what we can see in it) or image captioning (producing a text that describes the image).
 
 Data's features that are invariant through time are very useful for machine learning models. In \citep{wiskott_slow_2002}, \emph{slow features} are presented. Slow features are defined as features of a signal 
 (which can be the input of a model) that vary slowly during time. That means, if $\bm{X}$ is a \emph{time series}\footnotemark, we will try to find any number of features in $\bm{X}$ that vary the most slowly.
-These kind of features are the most interesting ones when creating representations, since they give an abstract view of the original data.\\
+These kind of features are the most interesting ones when creating representations, since they give an abstract view of the original data.
 
 
 %------------- Footnotemark

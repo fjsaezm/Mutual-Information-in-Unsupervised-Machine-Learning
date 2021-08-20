@@ -37,7 +37,7 @@ To be able to use this GPUs in our experiments, two basic libraries have to be i
 \item \lstinline{CUDA 11.4}. CUDA is a parallel computing platform and API created by NVIDIA which allows to use a CUDA-enabled GPU for general purpose processing. In other words, CUDA is needed to be able to use the GPU in our \lstinline{python} scripts.
 \end{enumerate}
 
-These two libraries, along with other packages that are needed for creating graphics (\lstinline{Matplotlib,Seaborn}) or computing metrics (\lstinline{sklearn}) are installed using a \lstinline{Conda} enviroment in our server's user.
+These two libraries, along with other packages that are needed for creating graphics (\lstinline{Matplotlib,Seaborn}) or computing metrics (\lstinline{sklearn}) are installed using a \lstinline{Conda} environment in our server's user.
 
 
 \section{The dataset: CIFAR10}
@@ -78,7 +78,7 @@ It can be used for many tasks, but it focuses on training and inference of deep 
 
 The creation of new models is very simple, offering multiple abstraction levels. This is why it is suitable for our experiments. Also, the code is most of the times easily understandable.
 
-There are other libraries that are widely used in machine learning algorithm development, such as \emph{Pytorch} or \emph{Jax}. However, Tensorflow has been chosen because I was a little bit more familiarized than with the other and because of its simplicity and how common it is. 
+There are other libraries that are widely used in machine learning algorithm development, such as \emph{PyTorch} or \emph{Jax}. However, Tensorflow has been chosen because I was a little bit more familiarized than with the other and because of its simplicity and how common it is. 
 
 There are a few ways to define a NN or a framework using tensorflow. The most classic one is defining a sequential model using \lstinline{Keras}, a tensorflow API that defines layers of a neural network and helps with the implementation of simple NN structures. Let us see how to implement a very simple example of a NN with three \emph{Dense} layers: 
 

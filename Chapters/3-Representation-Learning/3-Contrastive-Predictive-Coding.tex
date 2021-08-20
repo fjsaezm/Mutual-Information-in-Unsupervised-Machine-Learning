@@ -74,9 +74,9 @@ samples from the distribution proposed $P(\xtk)$. With this set, we would like t
 \begin{ndef}
 The loss $\mathcal L_N$ defined as
 \begin{equation}\label{NCE:loss}
-\mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(\xtk,c_t)}{\sum_{x_j \in X} f_k(x_j,c_k)}\right],
+\mathcal L_N = - \underset{X}{E} \left[\log \frac{f_k(\xtk,c_t)}{\sum_{x_j \in X} f_k(x_j,c_t)}\right],
 \end{equation}
-is known as the \emph{InfoNCE} (Information Noise Contrastive Estimation) loss.
+is known as the \emph{InfoNCE} (Information Noise Contrastive Estimation) loss. We have defined it this time for the particular case of this problem, but changing $f_k$ for a function depending on some parameters and $\xtk$ and $c_t$ for positive and negative samples, this loss is generalized to a contrastive loss for any contrastive problem.
 
 This loss also gives the bound in Proposition \ref{Prop:Bound:NCE} the name of \emph{InfoNCE Bound}.
 
@@ -183,7 +183,7 @@ Let $f_1,f_2$ be minimal sufficient encoders, and $\mathcal T$ be a downstream t
 \[
     (v_1^*,v_2^*) = \argmin_{v_1,v_2} I(v_1,v_2),
 \]
-subjec to to $I(v_1,y) = I(v_2,y) = I(x,y)$.
+subject to to $I(v_1,y) = I(v_2,y) = I(x,y)$.
 
 Given the optimal views $(v_1^*,v_2^*)$, the representation $z_1^*$ learned by contrastive learning is optimal for $\mathcal T$.
 \end{nprop}
