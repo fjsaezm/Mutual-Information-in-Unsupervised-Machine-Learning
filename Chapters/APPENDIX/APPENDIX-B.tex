@@ -81,3 +81,30 @@ The results obtained for the second experiment, which was presented in Section \
     \caption{All results for the SimCLR first experiment using Resnet50}
     \label{table:simclr:gridsearch:2}    
 \end{table}
+
+The third experiment on SimCLR consisted in adding Gaussian Blur to preprocessing and checking if it improved the results for CIFAR10. The parameters are explained in Section \ref{exp3:adding:blur} results obtained are presented in Table \ref{table:simclr:gridsearch:blur}.
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrrrrr}
+    resnet\_depth & batch\_size  & temperature   & color\_jitter & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step   \\ \hline
+    18            & 256          & 0.25          & 0.65          & 0.0072               & 0.827                   & 0.992                   & 19695          \\
+                  &              &               & 0.75          & 0.007                & 0.825                   & 0.994                   &                \\
+                  &              & 0.5           & 0.65          & 0.0108               & 0.819                   & 0.993                   &                \\
+                  &              &               & 0.75          & 0.0108               & 0.82                    & 0.993                   &                \\
+                  & 512          & 0.25          & 0.65          & 0.0081               & 0.841                   & 0.993                   & 9800           \\
+                  &              &               & 0.75          & 0.0081               & 0.837                   & 0.994                   &                \\
+                  &              & 0.5           & 0.65          & 0.012                & 0.824                   & 0.994                   &                \\
+                  &              &               & 0.75          & 0.0118               & 0.823                   & 0.994                   &                \\
+                  & 1024         & 0.25          & 0.65          & 0.0093               & 0.846                   & 0.994                   & 4900           \\
+                  &              &               & 0.75          & 0.0092               & 0.841                   & 0.995                   &                \\
+                  &              & 0.5           & 0.65          & 0.0132               & 0.83                    & 0.994                   &                \\
+                  &              &               & 0.75          & 0.0131               & 0.833                   & 0.994                   &                \\
+    \textbf{50}   & \textbf{256} & \textbf{0.25} & \textbf{0.65} & \textbf{0.0228}      & \textbf{0.862}          & \textbf{0.997}          & \textbf{19695} \\
+                  &              &               & 0.75          & 0.0224               & 0.861                   & 0.996                   &                \\
+                  &              & 0.5           & 0.65          & 0.0223               & 0.849                   & 0.996                   &                \\
+                  &              &               & 0.75          & 0.0215               & 0.851                   & 0.995                   &               
+    \end{tabular}
+    }
+    \caption{Results for SimCLR using the best hyperparameters found in previous experiments, plus adding the Gaussian Blur to training preprocessing.}
+    \label{table:simclr:gridsearch:blur}
+    \end{table}

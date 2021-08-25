@@ -23,11 +23,13 @@
 [x] Logistic regression
 
 [ ] Abstracts
-[ ] Motivation
+[x] Motivation
 [ ] Conclusions
 
-[ ] Explain Imagenette
-[ ] Add JAX explanation
+[] Add GaussianBlur Explanation
+
+[x] Explain Imagenette
+[?] Add JAX explanation
 [x] Change authory in the repo of 'byol' folder (add readme)
 
 [ ] Gaussian Blur Results

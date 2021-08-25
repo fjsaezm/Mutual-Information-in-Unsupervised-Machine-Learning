@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 import tensorflow_datasets as tfds
+import cv2 as cv2
 from SimCLR.data_util import *
 
 
@@ -23,6 +24,7 @@ plt.title(get_label_name(label))
 #plt.imsave("../media/tulips.pdf",image)
 plt.show()
 
+blur = cv2.GaussianBlur(image.numpy(),(7,7),sigmaX = 7,sigmaY = 7)
 # Add the image to a batch for data augmentation
 image = tf.expand_dims(image, 0)
 
@@ -30,6 +32,12 @@ data_augmentation = tf.keras.Sequential([
   layers.experimental.preprocessing.RandomFlip("horizontal_and_vertical"),
   layers.experimental.preprocessing.RandomRotation(0.2),
 ])
+plt.imshow(blur)
+
+plt.imsave("../media/tulips-blur-5.pdf",blur)
+plt.show()
+exit()
+
 
 augmented = data_augmentation(image)
 

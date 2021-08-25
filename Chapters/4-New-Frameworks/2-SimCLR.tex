@@ -121,8 +121,8 @@ Considerations:
 \item In SimCLR, the data augmentation is applied sequentially, and using three techniques of image data augmentation that are very simple and common:
 \begin{enumerate}
 \item Random cropping followed by resize to original size,
-\item Random color distortions, consisting in changing the value of certain amount of pixels randomly, like color jittering or changing from colored images to black and white images.
-\item Random Gaussian Blur: Gaussian Blur consists in convolving an image with a \emph{Gaussian function}.
+\item Random color distortions, which consist of changing the value of certain amount of pixels randomly, like color jittering or changing from colored images to black and white images.
+\item Random Gaussian Blur: Gaussian Blur consists of convolving an image with a \emph{Gaussian function}.
 \end{enumerate}
 
 \item For the base encoder $f(\cdot)$, a \emph{ResNet} network is used because of its simplicity.
@@ -149,7 +149,7 @@ Considerations:
     \item This loss also benefits from larger batch sizes and longer training, as well as from deeper and wider networks.
 \end{itemize}
 
-Later, \emph{SimCLRv2} was presented \citep{chen2020big}, achieving a new state-of-art in semi-supervised learning on the ImageNet dataset. In this new framework, semi-supervised learning is use . This approach involves unsupervised learning followed by supervised fine-tuning\footnotemark. After this stages that are similar to SimCLR,  a final stage is added. It consists in \emph{distillation} with unlabeled examples for refining the task-specific knowledge.
+Later, \emph{SimCLRv2} was presented \citep{chen2020big}, achieving a new state-of-art in semi-supervised learning on the ImageNet dataset. In this new framework, semi-supervised learning is use . This approach involves unsupervised learning followed by supervised fine-tuning\footnotemark. After this stages that are similar to SimCLR,  a final stage is added. It consists of \emph{distillation} with unlabeled examples for refining the task-specific knowledge.
 
 
 In the self-supervised (or unsupervised) part, the images are used without its labels, so that the representations of them that are obtained by the framework are not related to an specific task. Using this technique, \cite{chen2020big} shows how using deeper and wider neural networks for both self-supervised pretraining and fine-tuning improves accuracy greatly. Also, the importance of the projection head $g(\cdot)$ is remarked in this new framework.

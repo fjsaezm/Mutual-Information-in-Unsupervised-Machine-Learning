@@ -1,8 +1,7 @@
 In this chapter, we will explain the fundamentals and technologies that have been used for the experimentation. We will focus on three main aspects:
 \begin{enumerate}
-\item The used dataset.
+\item The used datasets.
 \item The used libraries for the development of the code.
-\item Analysis of the code itself.
 \item The used metrics to evaluate the obtained results.
 \end{enumerate}
 
@@ -14,15 +13,32 @@ The implementations that have been used can be found in:
 \begin{itemize}
 \item SimCLR implementation: Official implementation from Google in \url{https://github.com/google-research/simclr/tree/master/tf2}
 
-\item BYOL implementation: not official, found in \url{https://github.com/garder14/byol-tensorflow2}. 
+\item BYOL implementation,: Official implementation from DeepMind, found in \url{https://github.com/deepmind/deepmind-research/tree/master/byol}. 
 \end{itemize}
 
-Although there exists an official implementation of BYOL, non-official one has been chosen because it uses \emph{Tensorflow}, which makes the implementations easier to understand and modify, which we needed to do. Also, the idea is to make use of \emph{Tensorboard}, a Tensorflow utility that helps with visualization and graph generation of the training and final results.
+
+At first, we tried to use the same library (Tensorflow) for both frameworks. However, finally it was decided that using the official implementation for BYOL, which was coded using \lstinline{Jax} was better, since some pre-sets of this implementation were useful for our case study. Also, the idea is to make use of \emph{Tensorboard}, a Tensorflow utility that helps with visualization and graph generation of the training and final results that can be used with both Jax and Tensorflow.
+
+\section{Objectives of the experiments}
+
+In the most ideal scenario, the main goal of our experiments should be to try to reproduce the results that the original papers have obtained and check if, under the conditions that are set, we obtain the same (or at least similar) results.
+
+However, while carefully studying the frameworks proposed, we found that their results were obtained using the following computational resources:
+\begin{itemize}
+\item SimCLR's results were obtained using $128$ TPU v3 cores in around $1.5$ hours of training, using a batch size of $4096$.
+\item BYOL's results were obtained using $512$ Cloud TPU v3 cores in around $8$ hours using the same batch size used in SimCLR experiments.
+\end{itemize}
+
+Approximately, the price of a single Cloud TPU V3 is $8.80\$$ per hour. If we wanted to use $128$ TPUs, it would cost a total of $\sim 1126 \$$  per hour of execution. We can not afford this pricing. 
+
+Because of this, we decided to set a different main goal of our experiments. Our goal will be to research what results can we obtain using limited resources. Using a single GPU for each experiment, we will investigate how the hyperparameters affect to the final results, in a dataset where the training times allow us to realize multiple training of the models.
 
 
-\section{Hardware and basic libraries}
+\section{Language, hardware and basic libraries}
 
-When running training experiments in DL, the used hardware is one of the most determining factors for the results obtained by the models. There are many reasons for this, such as the time spent on the training a model or the amount of  data that we can fit in the GPUs (which will be our case) or TPUs.
+The chosen language for this project was \lstinline{Python}. There were other possibilities, such as \lstinline{R}. However, since the majority of machine learning projects are developed in \lstinline{Python}, our choice was easy.
+
+When running training experiments in DL, the used hardware is one of the most determining factors for the results obtained by the models. There are many reasons for this, such as the time spent on the training a model or the amount of  data that we can fit in the GPU's (which will be our case) or TPU's memory.
 
 For the experiments of this project, the DECSAI\footnotemark department of the University of Granada generously provided us access to a server that has a few NVIDIA GeForce RTX 3090. This model of GPU is one of the best in the market, having a \emph{compute capability} of $8.6/10$, rated by the NVIDIA company. IT also has a memory of $24GB$, which allows us to experiment with relatively large batch sizes using a single GPU and not having to parallelize the experiment.
 
@@ -31,16 +47,19 @@ For the experiments of this project, the DECSAI\footnotemark department of the U
 %----------------------
 
 
-To be able to use this GPUs in our experiments, two basic libraries have to be installed in the server:
+To be able to use this GPUs in our experiments, three basic libraries have to be installed in the server:
 \begin{enumerate}
 \item \lstinline{tensorflow-gpu}. This is a variant of the \lstinline{tensorflow} library that was developed for using GPUs while using tensorflow.
+\item \lstinline{Jax}, a library used to automatically differentiate native \lstinline{Python} and \lstinline{NumPy} functions.
 \item \lstinline{CUDA 11.4}. CUDA is a parallel computing platform and API created by NVIDIA which allows to use a CUDA-enabled GPU for general purpose processing. In other words, CUDA is needed to be able to use the GPU in our \lstinline{python} scripts.
 \end{enumerate}
 
 These two libraries, along with other packages that are needed for creating graphics (\lstinline{Matplotlib,Seaborn}) or computing metrics (\lstinline{sklearn}) are installed using a \lstinline{Conda} environment in our server's user.
 
 
-\section{The dataset: CIFAR10}
+\section{The datasets}
+
+\subsection{CIFAR10}
 
 The computational resources that we have for the experiment are limited. Due to this, we must fix a dataset that, having enough and representative examples, allows us to achieve feasible training time and successful results.
 
@@ -56,6 +75,16 @@ CIFAR10 contains $60.000$ images divided in $10$ classes, where each class conta
 This dataset has $50.000$ samples for training and $10.000$ for test. The test batch contains the same number of examples of each of the $10.000$ classes in the dataset, that is, it contains $1.000$ examples of each class. 
 
 It is important to remark that the classes are \emph{completely mutually exclusive}. That means that there is no overlap between the classes even if they have similar images, such as \emph{Cars} and \emph{Truck}, which are two of the classes of the dataset.
+
+\subsection{Imagenette}
+
+When we reached the part where we tried to reproduce the experiments of the BYOL framework, we discovered that the time for a single \emph{pretraining} took almost a whole day to train for $100$ epochs. Because of this, we decided to look for a solution that could make our trainings faster.
+
+In the repository of the implementation, we found that the model could also be trained on \emph{Imagenette}. This dataset is a subset of $10$ easily classified classes from \lstinline{Imagenet} \citep{russakovsky2015imagenet}, one of the biggest and most commonly used datasets. This subset can be obtained in different image sizes depending on our purposes: full size download, $320$ px or $160$ px. We use the $160$ px version, consisting in approximately $9.000$ images for train and $4.000$ images for test.
+
+Since the classes are easily classifiable, this dataset helps the project to test the frameworks in a friendly environment, similar to what CIFAR10 offers us, but using different classes.
+
+
 
 \section{Tensorflow}
 
@@ -77,8 +106,6 @@ Tensorflow\footnotemark is an open source library for developing machine learnin
 It can be used for many tasks, but it focuses on training and inference of deep neural networks. It is used for both research and production at \emph{Google}, since it was also developed by the \emph{Google Brain} team for internal use. However, it was later released as open source.
 
 The creation of new models is very simple, offering multiple abstraction levels. This is why it is suitable for our experiments. Also, the code is most of the times easily understandable.
-
-There are other libraries that are widely used in machine learning algorithm development, such as \emph{PyTorch} or \emph{Jax}. However, Tensorflow has been chosen because I was a little bit more familiarized than with the other and because of its simplicity and how common it is. 
 
 There are a few ways to define a NN or a framework using tensorflow. The most classic one is defining a sequential model using \lstinline{Keras}, a tensorflow API that defines layers of a neural network and helps with the implementation of simple NN structures. Let us see how to implement a very simple example of a NN with three \emph{Dense} layers: 
 
@@ -159,19 +186,18 @@ As we have seen, firstly, our models create a representation of the input image 
 We will address the \emph{true positives} (the positive samples of a class classified correctly) as $TP$, the \emph{true negatives} (the negative samples classified correctly) as $TN$, the \emph{false positives} (the negative samples classified as positive ones, which is a mistake of our model) as $FP$ and the false negatives (the positive samples classified incorrectly as negative samples) as $FN$.
 \end{notation}
 
-Using this notation, the measures that we will be using are the following:
-
-\begin{itemize}
-\item \emph{Accuracy}. The classic measure for models. It measures the number of successes our network has obtained producing the correct label for the representation created during the unsupervised part of the network. Formally,
+Using this notation, the main measure that we will be using is the \emph{Accuracy}, which we know that can be expressed as follows:
 \[
 \operatorname{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}  .  
 \] 
-In SimCLR, we wil use two kinds of accuracies:
+
+Accuracy is a classic measure for classification models. It measures the percentage of correct labels that our models has obtained for the representation that has been introduced to the linear head as input. In our case, we will be distinguishing two cases of accuracy:
+measures that we will be using are the following:
+
 \begin{enumerate}
 \item \emph{Top1} accuracy, which is the ordinary accuracy.
-\item \emph{Top5} accuracy, which measures if any of the 5 highest probability answers matches the true label.
+\item \emph{Top5} accuracy, which measures if any of the 5 highest probability answers matches the true label. This is interesting because it tells us whether the model, if it did not classify an input correctly, it was close to doing it.
 \end{enumerate}
-\end{itemize}
 
 
 

@@ -14,7 +14,7 @@ We would also like to have a DL definition. In \cite{deng_deep_2014}, multiple s
 \emph{Deep Learning} is a class of ML learning techniques that exploit many layers of non-linear information processing for supervised or unsupervised feature extraction and transformation, and for pattern analysis and classification.
 \end{ndefC}
 
-Usually, these techniques are based on the biologically inspired \emph{neural networks}(NNs), which consists in several connected units: the \emph{neurons}. Each neuron is basically a Perceptron, which is a is a weighted sum followed by a non-linear function, called an \emph{activator} in the ML context. Formally, the output of each neuron is 
+Usually, these techniques are based on the biologically inspired \emph{neural networks}(NNs), which consists of several connected units: the \emph{neurons}. Each neuron is basically a Perceptron, which is a is a weighted sum followed by a non-linear function, called an \emph{activator} in the ML context. Formally, the output of each neuron is 
 \[
 y = \phi\left(w_0 +\sum_{i = 1}^N w_i x_i \right) .   
 \]
@@ -73,9 +73,9 @@ W^{\operatorname{opt}}   = \argmin_{w} \sum_{n = 1}^N l(y_n, f_w(x_n)),
 \]
 where $\mathcal D = \{(x_n,y_n)\}$ is a dataset.
 
-This problem is solved using a variant of \emph{stochastic gradient descent (SGD)}. This algorithm involves the computation of the loss function derivatives respect to the network parameters, and updates the parameters using this derivatives. Specifically, the parameters are updated as follows:
+This problem is solved using a variant of \emph{stochastic gradient descent (SGD)}. This algorithm involves the computation of the loss function $l$ derivatives respect to the network parameters, and updates the parameters using this derivatives. Specifically, the parameters are updated as follows:
 \[
-W_{t+1} = W_t + \eta \nabla f(W_t),
+W_{t+1} = W_t + \eta \nabla l(W_t),
 \]
 where $\eta \in \R^+$ is a small constant called the \emph{learning rate}. This algorithm guarantees convergence to local minimums of $f$ and, if $f$ is convex, the algorithm converges to a global minimum.
 
@@ -170,7 +170,7 @@ A very common data augmentation technique is the \emph{rotation} of the image a 
 \]
 where $(x,y)$ is the pixel of the image that we will rotate and $\theta$ are the degrees that the image will be rotated.
 
-This rotation can be composed (or not) with a \emph{flip} operation. That operation consists in applying a symmetry respect the central column of an image. Clearly, a flip can be applied on its own and it is still generating a new example.
+This rotation can be composed (or not) with a \emph{flip} operation. That operation consists of applying a symmetry respect the central column of an image. Clearly, a flip can be applied on its own and it is still generating a new example.
 
 \begin{figure}[htp] 
     \centering
@@ -191,7 +191,7 @@ This rotation can be composed (or not) with a \emph{flip} operation. That operat
 
 Another type of example generation is taking a crop randomly out of the image, making sure that the whole crop stays inside the image, and then resizing it back to the original image size. 
 
-If an image is sized $n\times m$ with $n,m \in \mathbb N$, this method consists in selecting a rectangle of size $n'\times m'$ with $n' \leq n, m' \leq m$ of the original image and then resizing it back via upsampling\footnotemark.
+If an image is sized $n\times m$ with $n,m \in \mathbb N$, this method consists of selecting a rectangle of size $n'\times m'$ with $n' \leq n, m' \leq m$ of the original image and then resizing it back via upsampling\footnotemark.
 
 %------------- Footnotemark
 \footnotetext{Upsampling is increasing the size of an image by inserting new rows and columns in the image matrix and interpolating the values of the introduced pixels using the pixels that we already had in the image.}

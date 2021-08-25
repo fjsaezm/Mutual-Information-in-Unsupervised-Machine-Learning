@@ -3,7 +3,7 @@ We are now ready to perform the experiments. We will begin exploring SimCLR impl
 The code used for the experimentation, plus some files that contain the results, can be found on the Github repository made for this work.
 
 \section{SimCLR exploration}
-We will perform an iterative exploration with this framework. We will explore a few range for a subset of the hyperparameters and then we will go deeper into some hyperparameters to try and obtain better results.
+We will perform an iterative exploration with this framework. We will explore a few range for a subset of the hyperparameters and then we will go deeper into some hyperparameters to try to obtain better results.
 
 \subsection{First approach}
 \label{experiments:simclr:first}
@@ -39,7 +39,7 @@ batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_a
 \end{table}
 
 \begin{remark}
-On the original paper, the Top 1 accuracy score reported for CIFAR10 in $100$ epochs was $\sim 84.6\%$ accuracy for batch size $512$ and $\sim 85.1 \%$ accuracy score for $1024$ batch size. It has to be remarked that these results were obtained using ResNet-50,  larger version of ResNet. It is also reported that larger encoder architectures benefit the model, so this is an advantage they have at this point of the experiments . Having these aspects in account, and looking at the results obtained in our first experiment, we can say that this attempt was \emph{successful}.
+On the original paper, the top 1 accuracy score reported for CIFAR10 in $100$ epochs was $\sim 84.6\%$ accuracy for batch size $512$ and $\sim 85.1 \%$ accuracy score for $1024$ batch size. It has to be remarked that these results were obtained using ResNet-50,  larger version of ResNet. It is also reported that larger encoder architectures benefit the model, so this is an advantage they have at this point of the experiments . Having these aspects in account, and looking at the results obtained in our first experiment, we can say that this attempt was \emph{successful}.
 \end{remark}
 
 Let us make some observations. The clearest is that, since the second batch size doubles the first one, the training ends in half the steps. We can see that the temperature obtained in both cases is the same, and it is equal to $0.25$. However, there is a big change in the color jitter parameter: while using $512$ as batch size obtains the best result with the value of $0.25$ for color jitter, using $1024$ as batch size this value changes to $0.75$, which implies stronger color changes on the data augmentation. 
@@ -70,7 +70,7 @@ where the last two values had already been computed in the GridSearch so we do n
 
 \begin{figure}[htp] 
     \centering
-    \subfloat[Evolution of the Top 1 accuracy with the batch size.]{%
+    \subfloat[Evolution of the top 1 accuracy with the batch size.]{%
         \includegraphics[width=0.45\textwidth]{simclr-batch-comparison}%
         \label{fig:accs:per:batch:simclr}%
         }%
@@ -83,7 +83,7 @@ where the last two values had already been computed in the GridSearch so we do n
         \caption{Results of the batch-size experiment.}
 \end{figure}
 
-Figure \ref{fig:accs:per:batch:simclr} shows the clear improvement of the Top 1 accuracy score when increasing the size of the batch that is used to compute the loss of our model. Increasing from $16$ to $1024$ gives an increase of more than $8\%$ in Top 1 accuracy, which is a lot. Further increase can be obtained if we keep increasing the batch size, but this is beyond our computation possibilities.
+Figure \ref{fig:accs:per:batch:simclr} shows the clear improvement of the Top 1 accuracy score when increasing the size of the batch that is used to compute the loss of our model. Increasing from $16$ to $1024$ gives an increase of more than $8\%$ in top 1 accuracy, which is a lot. Further increase can be obtained if we keep increasing the batch size, but this is beyond our computation possibilities.
 
 Figure \ref{fig:evolution:acc:batches:simclr} supports what we have just presented: not only with a smaller batch size we have to do thousands of extra steps in the training, but also we obtain much better accuracy performance of the linear head of the model.
 
@@ -166,12 +166,12 @@ In the implementation used, we have the option of changing an input parameter in
     \begin{table}[H]
     \centering
     \resizebox{\columnwidth}{!}{
-    \begin{tabular}{lrrrrrrr}
-    Experiment & batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_accuracy & top\_5\_accuracy & steps         \\ \hline
-    1st & 512  &  0.25 &  0.25 &  0.0093      &  0.833         &  0.994          &  9800 \\
-    1st & 1024 &    0.25       &  0.75 &  0.0093      &  0.841          &  0.995          &  4900 \\
-    2nd & 128 & 0.5 & 0.65 & 0.0225 & 0.844 & 0.994 & 39100 \\
-    \textbf{2nd} & \textbf{256} & \textbf{0.5} & \textbf{0.75} & \textbf{0.023} & \textbf{0.848} & \textbf{994} & \textbf{19695} 
+    \begin{tabular}{rlllllll}
+    resnet\_depth & batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_accuracy & top\_5\_accuracy & steps         \\ \hline
+    18 & 512  &  0.25 &  0.25 &  0.0093      &  0.833         &  0.994          &  9800 \\
+     & 1024 &    0.25       &  0.75 &  0.0093      &  0.841          &  0.995          &  4900 \\
+    \textbf{50} & 128 & 0.5 & 0.65 & 0.0225 & 0.844 & 0.994 & 39100 \\
+     & \textbf{256} & \textbf{0.5} & \textbf{0.75} & \textbf{0.023} & \textbf{0.848} & \textbf{994} & \textbf{19695} 
     \end{tabular}
     }
     \caption{Best results for the second grid search experiment with SimCLR.}
@@ -179,13 +179,13 @@ In the implementation used, we have the option of changing an input parameter in
     \label{table:best:second:simclr}
     \end{table}
 
-    As we can see, the results of the models that use ResNet50  as an encoder outperform for a few hundredths in the Top 1 Accuracy score, and also they reach a lower loss function. Since it is clear that the gain we obtain by increasing the encoder depth is minimal, we may think that it is not worth it for our model since the number of parameters that have to be trained and, thus, the time that the train takes is much higher. However, we must not forget a very important fact that we observed in the first experiment: SimCLR benefits from bigger batch sizes. The results are comparing batch sizes $512$ and $1024$ in the first experiment with $128$ and $256$ in the second experiment (as we have already mentioned, the GPU memory does not allow us to use a bigger batch size when we increase the encoder depth).
+    As we can see, the results of the models that use ResNet50  as an encoder outperform the ones that use ResNet18 for a few hundredths in the top 1 accuracy score, and also they reach a lower value in the loss function. Since it is clear that the gain we obtain by increasing the encoder depth is minimal, we may think that it is not worth it for our model since the number of parameters that have to be trained and, thus, the time that the train takes is much higher. However, we must not forget a very important fact that we observed in the first experiment: SimCLR benefits from bigger batch sizes. The results are comparing batch sizes $512$ and $1024$ in the first experiment with $128$ and $256$ in the second experiment (as we have already mentioned, the GPU memory does not allow us to use a bigger batch size when we increase the encoder depth).
 
     Taking this into account and although we can not empirically prove it, we state that when the batch size is increased as well as the encoder depth, the models with larger depth will outperform the models using ResNet18. Let us see some more details about the training.
 
     In the official implementation of SimCLR, two losses are computed: a contrastive loss and a supervised loss. The total loss is computed as the sum of both:
     \[
-    \mathcal L_{tot} = \mathcal L_{contrastive} + \mathcal L_{supervised}.    
+    \mathcal L_{\operatorname{total}} = \mathcal L_{\operatorname{contrastive} }+ \mathcal L_{\operatorname{supervised}}.    
     \]
 
     We can visualize how the loss evolve through the training using the Tensorboard output. The lines are smoothed, that is why sometimes there might be some \emph{shadows} near the lines. The coefficient of smoothing is set as default ot $0.6$. 
@@ -209,7 +209,7 @@ In the implementation used, we have the option of changing an input parameter in
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.55\textwidth]{simclr-exp2/train_total_loss}%
-\caption{Total loss of the four remarked models in the second experiment. The axis are the same of the ones in Figure \ref{fig:exp2:both:losses} }
+\caption{Total loss of the four remarked models in the second experiment. The axis are the same of the ones in Figure \ref{fig:exp2:both:losses}. }
 \label{fig:total:loss:exp2}%
 \end{figure}
 
@@ -218,5 +218,116 @@ As we can see, although the loss is a sum of two components, as the steps/epochs
 If we have a look at Figure \ref{fig:supervised:loss:exp2} we can see that in all cases it reaches a minimum and although more steps of the experiments are done, the value of this loss does not get reduced. However, if we have a look at the contrastive loss in Figure \ref{fig:contrastive:loss:exp2}, we can see that in three out of the four models, the loss is still decreasing and if we increased the number of epochs,we state that we would probably obtain better results.
 
 \subsection{Gaussian blur in the image augmentations}
+\label{exp3:adding:blur}
 
-We have also studied if adding \emph{gaussian blur} as a part of the data augmentation process. This can be easily done by adding the parameter \lstinline{--use_blur=True} to the run script.
+We have also studied if adding \emph{gaussian blur} as a part of the data augmentation process. This can be easily done by adding to the execution command the parameter \lstinline{--use_blur=True} to the run script. As we have already mentioned, the types of transformations applied in the data augmentation process is very relevant for the model training. The quality of the representations strongly depends on the transformations used.
+
+Our goal with adding gaussian blur to the experiment is testing if, in the case of this specific dataset (CIFAR10), adding gaussian blur as a part of the data augmentation improves the quality of the representations for the classification task performed later. It is very important to remark that we are testing this \emph{only} for this dataset. The results obtained for this dataset do not have to be verified in general, since we know that most of the times, training a model in a dataset involves searching for the best hyperparameters for the specific dataset.
+
+For this experiments, we decided to use wide range of hyperparameters and perform a third \emph{Grid Search}. Concretely, we chose:
+\begin{itemize}
+\item \lstinline{resnet_depth}. Although we already know and have proved that SimCLR benefits from larger ResNet depths, we wanted to see if adding data augmentation to the pretrain phase also improves the results of the smaller ResNet depths. Because of this, we trained models on both \emph{ResNet18} and \emph{ResNet50}.
+\item \lstinline{batch_size}. In this case, we fix a batch size of $256$ for the ResNet50 trainings, since we already know that we can not fit bigger batch sizes in the GPU's memory. For the ResNet18 models, we test the same size that we use in ResNet50, and also add two bigger values to see how the model performs, so we use the set $\{256,512,1024\}$.
+\item \lstinline{temperature}. In previous cases, the value that performed the best for us was $0.25$. However, since in the original paper suggest to use $0.5$ since it is the best parameter for \emph{ImageNet}, we use this value as well, obtaining the set $\{0.25,0.5\}$.
+\item \lstinline{color_jitter_strength}. We use again the values $\{0.65,0.75\}$ since we obtained before good results using these two values.
+\end{itemize}
+
+Using these parameters, we obtain the results that we depict in Table \ref{table:simclr:gridsearch:blur} in Appendix \ref{APPENDIX:B}. The models that obtained the best results in terms of Top 1 Accuracy are the following:
+
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrrrrr}
+    resnet\_depth & batch\_size  & temperature   & color\_jitter & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step   \\ \hline
+
+    18              & 1024         & 0.25          & 0.65          & 0.0093               & 0.846                   & 0.994   &  4900                     \\
+    \textbf{50}   & \textbf{256} & \textbf{0.25} & \textbf{0.65} & \textbf{0.0228}      & \textbf{0.862}          & \textbf{0.997} & \textbf{19695}          \\                                
+    \end{tabular}
+    }
+    \caption{Best results for the experiment of adding gaussian blur to data augmentation.}
+    \label{table:simclr:gridsearch:blur:best}
+\end{table}
+
+As we can see, the model that uses ResNet50 outperforms the one using a smaller ResNet architecture, as expected. Also, the temperature parameter that was obtaining the best results before, keeps doing it in this experiment, obtaining a final Top 1 accuracy of $0.862$.
+
+
+
+
+    \begin{table}[H]
+        \resizebox{\columnwidth}{!}{
+        \begin{tabular}{lrrrrrrrr}
+        Experiment &resnet\_depth & batch\_size  & temperature   & color\_jitter & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step   \\ \hline 
+    1st& 18 & 1024 &    0.25       &  0.75 &  0.0093      &  0.841          &  0.995          &  4900 \\
+    2nd& 50 & {256} & {0.5} & {0.75} & {0.023} & {0.848} & {994} & {19695}  \\
+    \textbf{3rd}&    18              & 1024         & 0.25          & 0.65          & 0.0093               & 0.846                   & 0.994   &  4900                     \\
+    & \textbf{50}   & \textbf{256} & \textbf{0.25} & \textbf{0.65} & \textbf{0.0228}      & \textbf{0.862}          & \textbf{0.997} & \textbf{19695}                                                     
+        \end{tabular}
+        }
+        \caption{Comparison of the results of the third experiment with the best results of the two previous experiments.}
+        \label{table:simclr:gridsearch:blur:comparison}
+        \end{table}
+
+As we can see , the model that uses ResNet18 in the 3rd experiment outperforms the model in the 1st experiment, which is a very similar model in terms of bath size, temperature parameter and color jitter. In fact, they reach the same loss value. However, this model of the third experiment get very slightly outperformed by the ResNet50 model of the second experiment. This emphasizes the importance of wider networks for the encoder. 
+
+However the best performing model is the one appearing on the last row in Table \ref{table:simclr:gridsearch:blur:comparison}. This model uses gaussian blur and similar parameters to the best model of the second experiment, but increases the top 1 accuracy value for around $1.4\%$. This is a great improvement since we are already close to very high accuracies.  
+
+Also, recalling that 1st and 2nd experiment did not use blur and 3rd did, we can see that the models without blur need a stronger color jitter parameter and the model that uses blur uses a lower \lstinline{color_jitter_strength} parameter. This may be a consequence of the blur, since we already know that applying a gaussian blur to an image smooths the color shifts in the image and, therefore, color jitter may have a lower impact on the representation learning.
+
+
+\begin{figure}[htp] 
+    \centering
+    \subfloat[Contrastive loss in train]{%
+        \includegraphics[width=0.45\textwidth]{simclr-exp3/train_contrast_loss}%
+        \label{fig:contrastive:loss:exp3}%
+        }%
+    \hfill%
+    \subfloat[Supervised loss in train]{%
+        \includegraphics[width=0.45\textwidth]{simclr-exp3/train_supervised_loss}%
+        \label{fig:supervised:loss:exp3}%
+
+        }%
+        \caption{Graphs on the losses during train in third experiment. On axis $x$ we have the number of steps and on $y$ axis the value of the loss.}
+        \label{fig:exp3:both:losses}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{simclr-exp3/train_total_loss}%
+    \caption{Total loss of the four remarked models in the third experiment. The axis are the same of the ones in Figure \ref{fig:exp3:both:losses}. }
+    \label{fig:total:loss:exp3}%
+    \end{figure}
+
+As we can see in Figure \ref{fig:contrastive:loss:exp3}, the models that use the smaller batch size ($256$) flatten their contrastive loss during the train. There is some margin for improvement in all cases, but probably this would change the accuracy results notoriously. This says that adding gaussian blur helps to finding a minimum in the loss function faster and converging to it with an appropriate learning rate ( even in our case, that we have not finetuned the learning rate hyperparameter, we have used the default \emph{adaptative} version). The model with the label \emph{Exp1} is the best obtained from the first experiment, and as we mentioned in the second experiments, its loss values are still decreasing and probably could reach lower values (and, therefore, higher accuracies in classification) using more epochs for training.
+
+Figure \ref{fig:supervised:loss:exp3} shows that the loss of the linear head soon reaches values very close to zero, having no margin to improve. This, if the representations created were good for downstream tasks, was to be expected since we know that the already existing  classifiers can perform very well (obtain high accuracies) in the dataset that we are using.
+
+In general, having a look at the total loss shown in Figure \ref{fig:total:loss:exp3} we can see the losses of all experiments are far from zero, but they have flattened the curve a lot, which means that probably with the used set of parameters to perform the grid search we will never reach \emph{close to zero} values for this loss function.
+
+\subsection{Transfer Learning}
+
+
+\subsection{SimCLR Conclusions}
+
+\section{BYOL exploration}
+
+Using the same iterative process that we have followed to explore SimCLR, we are going to train the models of this framework using different hyperparameters and we are going to see what results we obtain.
+
+In this case, the number of hyperparameters that we are able to explore is drastically reduced, we will focus on two hyperparameters that showed to be very important in the previous framework. Specifically, we will try to determine how the following hyperparameters affect the results:
+
+\begin{itemize}
+\item \lstinline{batch_size}. This parameter was very important in the SimCLR framework. However, in BYOL's original paper \citep{grill2020bootstrap}, it is empirically shown that this hyperparameter does not have the same relevance in this new framework. We want to check this ourselves in the considered dataset.
+\item \lstinline{resnet_depth}. Since it is repeated in many cases, the depth and width of the used networks affect the results in a directly proportional way: the wider and deeper networks, the better representations we obtain. Even even a new version of SimCLR: (\emph{SimCLRv2}) emphasizing this idea \citep{chen2020big}. We want to see if this hypothesis is also fulfilled in the used dataset.
+\end{itemize}
+
+At first, we wanted to give both models the same treat and try to perform the grid search algorithm with the same amount of hyperparameters. However, in a first attempt to train BYOL in CIFAR10 we found out that the training times were much longer than SimCLR training times. A single execution of the pretraining and evaluation process would take around 15 hours to finish, which was more time than we could afford to spend for each model. Due to this, we decided to change the dataset to smaller one: Imagenette. 
+
+\subsection{First experiment: batch size influence}
+
+MENTION THAT BATCH SIZE MAY NOT HAVE THE SAME IMPORTANCE SINCE YOU ARE NOT COMPARING POSITIVE WITH 2K NEGATIVES
+
+\subsection{Second experiment: ResNet depth influence}
+
+\subsection{Transfer Learning ??????????}
+
+\subsection{Conclusions about BYOL}
+
+\section{Comparison between SimCLR and BYOL}
