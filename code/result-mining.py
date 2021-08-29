@@ -9,7 +9,7 @@ import pandas as pd
 path = "SimCLR/models/"
 # Obtain all the directories of the models
 dirs = [d for d in listdir(path) if isdir(path+d)]
-dirs = [d for d in dirs if d.endswith('-50')]
+dirs = [d for d in dirs if d.endswith('-blur')]
 dirs.sort(reverse=True)
 index = [i for i in range(len(dirs))]
 print(dirs)
@@ -30,6 +30,8 @@ for dir in dirs:
         continue
     
     col = dir.split("-")
+    if 'blur' in col:
+        col.pop()
     for el in jsonObject:
         col.append(jsonObject[el])
         
@@ -39,12 +41,12 @@ for dir in dirs:
 
 
 df['batch_size'] = pd.to_numeric(df['batch_size'])
-df = df.sort_values(by=["batch_size","temperature","color_jitter"],ascending = (True,True,True))
+df = df.sort_values(by=["resnet_depth","batch_size","temperature","color_jitter"],ascending = (True,True,True,True))
 
 df["regularization_loss"] = df["regularization_loss"].round(4)
 df["label_top_1_accuracy"] = df["label_top_1_accuracy"].round(3)
 df["label_top_5_accuracy"] = df["label_top_5_accuracy"].round(3)
 df.round(3)
 print(df)
-df.to_csv(path_or_buf='results-simclr-resnet50.csv')
-res = df.to_json("results-simclr-resnet50.json")
+df.to_csv(path_or_buf='results-simclr-BLUR.csv')
+res = df.to_json("results-simclr-BLUR.json")
