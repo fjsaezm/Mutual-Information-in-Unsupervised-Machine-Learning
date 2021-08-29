@@ -2,7 +2,7 @@
 \label{APPENDIX:B}
 In this appendix we will insert some experimental results that have been obtained during this work, but have not been presented before since not all of them are completely relevant.
 The most relevant ones have already been presented, so this section is not needed for complete understanding of this work.
-\section{SimCLR Experiments}
+\section{SimCLR's experiments}
 
 The results obtained for the first experiment, which was presented in Section \ref{experiments:simclr:first}, are presented in table \ref{table:simclr:gridsearch:1}
 
@@ -108,3 +108,39 @@ The third experiment on SimCLR consisted in adding Gaussian Blur to preprocessin
     \caption{Results for SimCLR using the best hyperparameters found in previous experiments, plus adding the Gaussian Blur to training preprocessing.}
     \label{table:simclr:gridsearch:blur}
     \end{table}
+
+\section{BYOL's experiments}
+
+
+The results obtained for the first experiment with this framework, which was presented in Section \ref{experiments:byol:first}, are presented in table \ref{table:byol:gridsearch:1}.
+
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrr}
+    batch\_size & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step    \\ \hline
+    32          & 0.723                & 0.875                   & 1                       & 295900          \\
+    \textbf{64} & \textbf{0.381}       & \textbf{0.968}          & \textbf{1}              & \textbf{148000} \\
+    128         & 0.436                & 0.929                   & 0.976                   & 739800          \\
+    256         & 0.453                & 0.929                   & 0.996                   & 369900          \\
+    512         & 0.520                & 0.916                   & 0.994                   & 184900          \\
+    1024        & 0.752                & 0.852                   & 0.983                   & 924700         
+    \end{tabular}
+    }
+    \caption{All results for BYOL's experiment on the influence of batch size.}
+    \label{table:byol:gridsearch:1}
+    \end{table}
+
+    The results obtained for the second experiment, which was presented in Section \ref{byol:second:experiment}, are presented in table \ref{table:byol:gridsearch:2}.
+    \begin{table}[H]
+        \resizebox{\columnwidth}{!}{
+        \begin{tabular}{rrrrr}
+        batch\_size  & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step    \\ \hline
+        32           & 0.564                & 0.937                   & 0.9688                  & 295900          \\
+        64           & 0.484                & 0.953                   & 1                       & 148000          \\
+        \textbf{128} & \textbf{0.2747}      & \textbf{1}              & \textbf{1}              & \textbf{739800} \\
+        256          & 0.276                & 0.968                   & 1                       & 369900         
+        \end{tabular}
+        }
+        \caption{All results for BYOL's experiment on the influence of the encoder architecture.}
+    \label{table:byol:gridsearch:2}
+        \end{table}
