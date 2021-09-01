@@ -50,14 +50,21 @@ Experiment = Union[
     Type[eval_experiment.EvalExperiment]]
 
 
-def write_tensorboard(writer,scalars,step):
+def write_tensorboard_epoch(writer,scalars,step):
     with writer.as_default():
-        tf.summary.scalar('eval/top_1_acc',float(scalars['top1_accuracy']),step=step)
-        tf.summary.scalar('eval/top_5_acc',float(scalars['top5_accuracy']),step=step)
+        tf.summary.scalar('train/top_1_acc',float(scalars['top1_accuracy']),step=step)
+        tf.summary.scalar('train/top_5_acc',float(scalars['top5_accuracy']),step=step)
         tf.summary.scalar('learning_rate',float(scalars['learning_rate']),step=step)
         tf.summary.scalar('train/supervised_loss',float(scalars['classif_loss']),step=step)
         tf.summary.scalar('train/repr_loss',float(scalars['repr_loss']),step=step)
-        tf.summary.scalar('eval/loss',float(scalars['loss']),step=step)
+        tf.summary.scalar('train/total_loss',float(scalars['loss']),step=step)
+
+def write_tensorboard_end(writer,scalars,step):
+     with writer.as_default():
+        tf.summary.scalar('eval/label_top_1_accuracy',float(scalars['top1_accuracy']),step=step)
+        tf.summary.scalar('eval/label_top_5_accuracy',float(scalars['top5_accuracy']),step=step)
+        tf.summary.scalar('eval/regularization_loss',float(scalars['loss']),step=step)
+
 
 
 def train_loop(experiment_class: Experiment, config: Mapping[Text, Any]):
@@ -70,6 +77,7 @@ def train_loop(experiment_class: Experiment, config: Mapping[Text, Any]):
     or eval_experiment).
     config: the experiment config.
   """
+  
   experiment = experiment_class(**config)
   rng = jax.random.PRNGKey(0)
   step = 0
@@ -104,12 +112,13 @@ def train_loop(experiment_class: Experiment, config: Mapping[Text, Any]):
       current_time = time.time()
       if current_time - last_logging > FLAGS.log_tensors_interval:
         logging.info('Step %d: %s', step, scalars)
-        write_tensorboard(train_summary_writer,scalars,step)
+        write_tensorboard_epoch(train_summary_writer,scalars,step)
 
         last_logging = current_time
     step += 1
   logging.info('Saving final checkpoint')
   logging.info('Step %d: %s', step, scalars)
+  write_tensorboard_end(train_summary_writer,scalars,step)
   experiment.save_checkpoint(step, rng)
 
 
