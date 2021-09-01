@@ -27,18 +27,19 @@
 [ ] Conclusions
 
 [] Add GaussianBlur Explanation
+[] Add siamese networks definition
 
 [x] Explain Imagenette
 [?] Add JAX explanation
 [x] Change authory in the repo of 'byol' folder (add readme)
 
 [ ] Gaussian Blur Results
-[ ] Transfer Learning
+[x] Transfer Learning
 
-[ ] BYOL Resnet50
-[ ] Batch size influence in BYOL
+[x] BYOL Resnet50
+[x] Batch size influence in BYOL
 
-[ ] Compare BYOL SIMCLR
+[x] Compare BYOL SIMCLR => CANT BE DONE
 
 
 

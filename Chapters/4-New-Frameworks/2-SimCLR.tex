@@ -16,6 +16,15 @@ In fact, in \cite{tschannen_mutual_2020} they provide empirical proof for the lo
 
 Even with the empirically proved disconnection between MI maximization and representation quality, recent works that have used the loss function defined in Equation \eqref{NCE:loss} have obtained state-of-art results in practice. 
 
+Both SimCLR and BYOL (the framework that we will present later), are examples of \emph{siamese neural networks}. We remark it as a definition since it is important for the later explanation.
+
+\begin{ndef}
+A \emph{siamese neural network} is a type of NN architecture that contains (typically) two NNs which have the same configuration, parameters and weights. The parameters are updated the same way across both networks. 
+\end{ndef}
+
+These networks are usually used to find the similarity between the inputs by comparing produced feature vectors. They are more robust to class imbalance, nice to an ensemble with the best classifier (since the classifier is built on top of the representation extractors), and learn from semantic similarity.
+
+
 \section{SimCLR framework}
 
 \emph{SimCLR} \citep{chen_simple_2020} presents a framework that achieved state-of-art results when it was presented in July 2020. It also uses contrastive learning in an specific way that we will present later. 
