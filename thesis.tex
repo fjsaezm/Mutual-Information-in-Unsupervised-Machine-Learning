@@ -111,6 +111,9 @@ manychapters,pdfspacing]{classicthesis}
 \input{macros}  % En macros.tex se almacenan las opciones y comandos para escribir matemáticas.
 \input{classicthesis-config} % En classicthesis-config.tex se almacenan las opciones propias de la plantilla.
 
+% Adding bib to toc
+\usepackage[nottoc,numbib]{tocbibind}
+
 % Color institucional UGR
 % \definecolor{ugrColor}{HTML}{ed1c3e} % Versión clara.
 \definecolor{ugrColor}{HTML}{c6474b}  % Usado en el título.
@@ -158,34 +161,27 @@ The source code of this text and developed programs are available in the Github 
 }
 \part{Introduction and basic notions}
 \chapter{Introduction, motivation and objectives}
-\input{Chapters/1-Probability-Theory/0-Intro}
+\input{Chapters/1-Probability-Theory/0-Mix}
 \clearpage
-\chapter{Probability theory}
+\chapter{Fundamentals}
 \input{Chapters/1-Probability-Theory/1-Introduction}
 \clearpage
-\chapter{Distributions and Kullback-Leibler Divergence}
+\section{Distributions and Kullback-Leibler Divergence}
 \input{Chapters/1-Probability-Theory/2-Distributions}
 \clearpage
-\chapter{Statistical Inference}
+\section{Statistical Inference}
 \input{Chapters/1-Probability-Theory/3-Inference}
-\clearpage
-\chapter{Noise Contrastive Estimation}
-\input{Chapters/1-Probability-Theory/4-Noise-Contrastive-Estimation}
+\section{Introduction to Deep Learning}
+\input{Chapters/4-New-Frameworks/1-Introduction}
 \clearpage
 
-\ctparttext{
-  \color{black}
-  \begin{center}
-  Information theory is the base for all the following work. In this part, \emph{Entropy} and \emph{Mutual Information} will be explained and, then, lower bounds for mutual information function will be given.
-  \end{center}
-}
 
-\part{Information Theory}
-\chapter{Entropy}
+
+\chapter{Information theory fundamentals}
 \input{Chapters/2-Information-Theory/1-Entropy}
-\clearpage
-\chapter{Mutual Information}
+\section{Mutual Information}
 \input{Chapters/2-Information-Theory/2-MI}
+
 
 
 \ctparttext{
@@ -194,13 +190,13 @@ The source code of this text and developed programs are available in the Github 
   In this part, it will be explained what it is understood for \emph{Representation Learning}, explaining the first framework that was used in this field. Also, the \emph{Noise Contrastive Loss} is presented, which will be crutial in the rest of this work.
   \end{center}
 }
-\part{Representation Learning}
-\chapter{Context}
-\input{Chapters/3-Representation-Learning/1-Intro}
+\part{Contrastive learning}
+
+\chapter{Noise Contrastive Estimation}
+\input{Chapters/1-Probability-Theory/4-Noise-Contrastive-Estimation}
 \clearpage
-\chapter{Generative Models}
-\input{Chapters/3-Representation-Learning/2-Generative-Models}
-\clearpage
+ 
+
 \chapter{The InfoNCE Loss}
 \input{Chapters/3-Representation-Learning/3-Contrastive-Predictive-Coding}
 \clearpage
@@ -215,8 +211,6 @@ The source code of this text and developed programs are available in the Github 
   \end{center}
 }
 \part{New Frameworks for Representation Learning}
-\chapter{Introduction to Deep Learning}
-\input{Chapters/4-New-Frameworks/1-Introduction}
 \chapter{SimCLR}
 \input{Chapters/4-New-Frameworks/2-SimCLR}
 \chapter{Boostrap Your Own Latent}
@@ -257,8 +251,6 @@ The source code of this text and developed programs are available in the Github 
 \part{Appendix}
 \chapter{Appendix A}
 \input{Chapters/APPENDIX/APPENDIX-A}
-\chapter{Appendix B}
-\input{Chapters/APPENDIX/APPENDIX-B}
 
 
 

@@ -59,7 +59,7 @@ ReLu is highly computationally efficient and non-linear. Its main problem is tha
 
 
 
-\section{Neural Networks}
+\subsection{Neural Networks}
 
 Using neurons and activation functions, we can formally define NNs. A NN with $L$ hidden layers is a deterministic non-linear function $f$, parametrized by a set of matrices $W = \{W_0,\cdots,W_L\}$ and non-linear activation functions $\{\phi_0,\cdots,\phi_L\}$. Given an input $x$, the output $y$ of the network is calculated as follows:
 \[
@@ -83,7 +83,7 @@ The last comment about neural networks is that, since the weights $W = \{W_0,\cd
 
 Understanding both SGD and Backpropagation is crucial for understanding how NNs  work. However, in the experimentation part of this work we will focus on researching how a few hyperparameters affect the results of the proposed frameworks, so no further explanation on these important concepts will be provided.
 
-\section{Convolutional Neural Networks}
+\subsection{Convolutional Neural Networks}
 
 Convolutional Neural Networks (CNNs) are a specific type of Neural Networks. The difference that we have between CNNs and NNs is that CNNs assume that the inputs have local dependencies. For instance, using an image, a CNN assumes (most of the time correctly) that given a pixel $x_{ij}$ of an input $x$, the neighbours of this pixels will have similar values or intensities. This allows us to encode certain properties into the architecture of the network.
 
@@ -148,7 +148,7 @@ Usually, ResNet comes accompanied by a number (e.g. \emph{Resnet-50}), that indi
 
 For instance, having a look at the Table \ref{arch:resnet:18}, in the convolution block \emph{conv2}, we have two convolutions with kernel size $3\times 3$ and depth size $64$. This would be one of the blocks, represented in Figure \ref{fig:resnet:block}. However, since at the right hand side of the matrix we have a $\times 2$, it means that we will have two of this blocks in this convolution group.
 
-\section{Data augmentation}
+\subsection{Data augmentation}
 
 In the general problem of performing a DL task, it may happen that the amount of data, either labeled or unlabeled, is not enough to give the model the number of examples that it needs to learn. 
 
@@ -162,7 +162,7 @@ Depending on the kind of data that we are facing, the techniques change. For ins
 
 In our case, we will be working with images. Let us present some examples that can be used for data augmentation in the computer vision field.
 
-\subsection*{Rotations and flips}
+\subsubsection*{Rotations and flips}
 
 A very common data augmentation technique is the \emph{rotation} of the image a certain amount of degrees, usually one of the following: $\left\{\frac{\pi}{2}, \pi, \frac{3}{2}\pi\right\}$, using the center of the image as a rotation center. To do this, we only have to consider the following transformation:
 \[
@@ -187,7 +187,7 @@ This rotation can be composed (or not) with a \emph{flip} operation. That operat
 \end{figure}
 
 
-\subsection*{Random crop with resize}
+\subsubsection*{Random crop with resize}
 
 Another type of example generation is taking a crop randomly out of the image, making sure that the whole crop stays inside the image, and then resizing it back to the original image size. 
 
@@ -224,7 +224,7 @@ This can be useful to obtain images that are similar to each other, for instance
 As we can see, the histograms of both the images are quite similar, so a DL model could learn to indentify similar objects making use only on this data histogram, which would not be very effective since the same object can have many different histograms. Because of this, this random crops are useful but the random cropped images have to be applied more functions in order to be really useful for the training of our models. 
 
 
-\subsection*{Random color jitter}
+\subsubsection*{Random color jitter}
 
 This kind of data augmentation is not always used, but it is very interesting in our case. The random crops produced very similar data histograms since the colors in the original image and the cropped image are very similar. We can try to change this by randomly modifying the value of the pixels by changing the brightness, saturation or the contrast of the image.
 

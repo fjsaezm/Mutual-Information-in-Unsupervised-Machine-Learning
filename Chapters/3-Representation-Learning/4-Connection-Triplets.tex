@@ -83,7 +83,7 @@ In order to fix this, a good idea would be to compare in each evaluation a posit
 \begin{ndef}
 Let $\ps$ be a positive example of the anchor $x$, and consider the set $X^- = \{\ns_1,\cdots,\ns_{N-1}\}$ of $(N-1)$ negative samples. Given an encoder $g$, the $(N+1)-$tuplet loss is defined as follows:
 \begin{equation}\label{nplus1:tuplet:loss}
-\mathcal L_{(N+1)-\text{tuplet}}(x,\ps,x^-) = \log \left( 1+ \sum_{i=1}^{N-1} \exp \left(g(x)^T g(\ns_i) - g(x)^T g(\ps)\right)\right) 
+\mathcal L_{(N+1)-\text{tuplet}}(x,\ps,X^-) = \log \left( 1+ \sum_{i=1}^{N-1} \exp \left(g(x)^T g(\ns_i) - g(x)^T g(\ps)\right)\right) 
 \end{equation}
 \end{ndef}
 

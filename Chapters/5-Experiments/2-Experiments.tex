@@ -23,7 +23,55 @@ What we did for this first exploration was to define a \emph{parameter grid} and
 
 Using python and the python function \lstinline{itertools.product} we straightforwardly generate all possible different combinations of unions of the parameters so we only have to append them to a general string and execute the \lstinline{run.py} script mentioned before to obtain the results. In total, we obtain $32$ possible combinations, so we will obtain $32$ models. 
 
-The script was executed and took approximately $24$ hours to train and evaluate all the different models, obtaining the results in Table \ref{table:simclr:gridsearch:1} in Appendix \ref{APPENDIX:B}. We have to remark, for each of the two possible batch sizes, the best results obtained. These are:
+The script was executed and took approximately $24$ hours to train and evaluate all the different models, obtaining the results in Table \ref{table:simclr:gridsearch:1}.
+
+\begin{table}[H]
+    \centering
+    
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrrrr}
+    batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_accuracy & top\_5\_accuracy & steps         \\ \hline
+    \textbf{512}  & \textbf{0.25} & \textbf{0.25} & \textbf{0.0093}      & \textbf{0.833}          & \textbf{0.994}          & \textbf{9800} \\
+                  &               & 0.5           & 0.0089               & 0.832                   & 0.993                   & 9800          \\
+                  &               & 0.75          & 0.0086               & 0.831                   & 0.994                   & 9800          \\
+                  &               & 1.0           & 0.008                & 0.83                    & 0.992                   & 9800          \\
+                  & 0.5           & 0.25          & 0.0136               & 0.819                   & 0.993                   & 9800          \\
+                  &               & 0.5           & 0.0124               & 0.822                   & 0.993                   & 9800          \\
+                  &               & 0.75          & 0.0121               & 0.821                   & 0.993                   & 9800          \\
+                  &               & 1.0           & 0.0118               & 0.817                   & 0.992                   & 9800          \\
+                  & 0.75          & 0.25          & 0.0161               & 0.809                   & 0.993                   & 9800          \\
+                  &               & 0.5           & 0.015                & 0.812                   & 0.993                   & 9800          \\
+                  &               & 0.75          & 0.0141               & 0.805                   & 0.99                    & 9800          \\
+                  &               & 1.0           & 0.0137               & 0.793                   & 0.99                    & 9800          \\
+                  & 1.0           & 0.25          & 0.017                & 0.798                   & 0.99                    & 9800          \\
+                  &               & 0.5           & 0.0163               & 0.797                   & 0.99                    & 9800          \\
+                  &               & 0.75          & 0.016                & 0.793                   & 0.99                    & 9800          \\
+                  &               & 1.0           & 0.0155               & 0.782                   & 0.989                   & 9800          \\
+    \textbf{1024} & \textbf{0.25}          & 0.25          & 0.0103               & 0.836                   & 0.993                   & 4900          \\
+                  &               & 0.5           & 0.0097               & 0.839                   & 0.995                   & 4900          \\
+                  &               & \textbf{0.75} & \textbf{0.0093}      & \textbf{0.841}          & \textbf{0.995}          & \textbf{4900} \\
+                  &               & 1.0           & 0.009                & 0.835                   & 0.993                   & 4900          \\
+                  & 0.5           & 0.25          & 0.0149               & 0.822                   & 0.993                   & 4900          \\
+                  &               & 0.5           & 0.0133               & 0.827                   & 0.994                   & 4900          \\
+                  &               & 0.75          & 0.0132               & 0.826                   & 0.994                   & 4900          \\
+                  &               & 1.0           & 0.0128               & 0.82                    & 0.993                   & 4900          \\
+                  & 0.75          & 0.25          & 0.0168               & 0.814                   & 0.991                   & 4900          \\
+                  &               & 0.5           & 0.0166               & 0.816                   & 0.992                   & 4900          \\
+                  &               & 0.75          & 0.0157               & 0.813                   & 0.993                   & 4900          \\
+                  &               & 1.0           & 0.0153               & 0.802                   & 0.989                   & 4900          \\
+                  & 1.0           & 0.25          & 0.0175               & 0.806                   & 0.991                   & 4900          \\
+                  &               & 0.5           & 0.0174               & 0.802                   & 0.992                   & 4900          \\
+                  &               & 0.75          & 0.017                & 0.794                   & 0.99                    & 4900          \\
+                  &               & 1.0           & 0.0164               & 0.79                    & 0.989                   & 4900         
+    \end{tabular}
+    }
+    
+    \caption{All results for first experiment using SimCLR using Resnet18.}
+    
+    \label{table:simclr:gridsearch:1}
+    \end{table}
+
+We have to remark, for each of the two possible batch sizes, the best results obtained. These are:
 
 \begin{table}[H]
     \label{table:best:first:simclr}
@@ -161,7 +209,35 @@ In the implementation used, we have the option of changing an input parameter in
         
 \end{itemize}
 
-    Using this parameters, our script to train and evaluate the models using each combination was executed. The results obtained can be checked in Table \ref{table:simclr:gridsearch:2} in Appendix \ref{APPENDIX:B}. We remark in Table \ref{table:best:second:simclr} some of the most interesting results, comparing them with the ones obtained in the first experiment.
+    Using this parameters, our script to train and evaluate the models using each combination was executed. The results obtained can be checked in Table \ref{table:simclr:gridsearch:2}.
+    
+    \begin{table}[H]
+        \resizebox{\columnwidth}{!}{
+        \begin{tabular}{rrrrrrr}
+        batch\_size  & temperature  & color\_jitter & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step   \\ \hline
+        32           & 0.5          & 0.65          & 0.0243               & 0.822                   & 0.992                   & 157762         \\
+                     &              & 0.75          & 0.0238               & 0.814                   & 0.992                   & 157762         \\
+        64           & 0.5          & 0.65          & 0.0223               & 0.835                   & 0.995                   & 78881          \\
+                     &              & 0.75          & 0.0222               & 0.833                   & 0.994                   & 78881          \\
+                     & 0.75         & 0.25          & 0.021                & 0.838                   & 0.995                   & 78881          \\
+                     &              & 0.65          & 0.0242               & 0.828                   & 0.993                   & 78881          \\
+                     &              & 0.75          & 0.0243               & 0.822                   & 0.993                   & 78881          \\
+        128          & 0.5          & 0.65          & 0.0225               & 0.844                   & 0.994                   & 39100          \\
+                     &              & 0.75          & 0.0222               & 0.842                   & 0.994                   & 39100          \\
+                     & 0.75         & 0.65          & 0.0248               & 0.831                   & 0.994                   & 39100          \\
+                     &              & 0.75          & 0.024                & 0.829                   & 0.994                   & 39100          \\
+        \textbf{256} & \textbf{0.5} & 0.65          & 0.0235               & 0.846                   & 0.995                   & 19695          \\
+                     &              & \textbf{0.75} & \textbf{0.023}       & \textbf{0.848}          & \textbf{0.994}          & \textbf{19695} \\
+                     & 0.75         & 0.65          & 0.0255               & 0.832                   & 0.994                   & 19695          \\
+                     &              & 0.75          & 0.0262               & 0.833                   & 0.994                   & 19695         
+        \end{tabular}
+        }
+    
+        \caption{All results for the SimCLR first experiment using Resnet50}
+        \label{table:simclr:gridsearch:2}    
+    \end{table}
+    
+    We remark in Table \ref{table:best:second:simclr} some of the most interesting results, comparing them with the ones obtained in the first experiment.
 
     \begin{table}[H]
     \centering
@@ -236,7 +312,35 @@ For this experiments, we decided to use wide range of hyperparameters and perfor
 \item \lstinline{color_jitter_strength}. We use again the values $\{0.65,0.75\}$ since we obtained before good results using these two values.
 \end{itemize}
 
-Using these parameters, we obtain the results that we depict in Table \ref{table:simclr:gridsearch:blur} in Appendix \ref{APPENDIX:B}. The models that obtained the best results in terms of Top 1 Accuracy are the following:
+Using these parameters, we obtain the results that we depict in Table \ref{table:simclr:gridsearch:blur}. 
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrrrrr}
+    resnet\_depth & batch\_size  & temperature   & color\_jitter & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step   \\ \hline
+    18            & 256          & 0.25          & 0.65          & 0.0072               & 0.827                   & 0.992                   & 19695          \\
+                  &              &               & 0.75          & 0.007                & 0.825                   & 0.994                   &                \\
+                  &              & 0.5           & 0.65          & 0.0108               & 0.819                   & 0.993                   &                \\
+                  &              &               & 0.75          & 0.0108               & 0.82                    & 0.993                   &                \\
+                  & 512          & 0.25          & 0.65          & 0.0081               & 0.841                   & 0.993                   & 9800           \\
+                  &              &               & 0.75          & 0.0081               & 0.837                   & 0.994                   &                \\
+                  &              & 0.5           & 0.65          & 0.012                & 0.824                   & 0.994                   &                \\
+                  &              &               & 0.75          & 0.0118               & 0.823                   & 0.994                   &                \\
+                  & 1024         & 0.25          & 0.65          & 0.0093               & 0.846                   & 0.994                   & 4900           \\
+                  &              &               & 0.75          & 0.0092               & 0.841                   & 0.995                   &                \\
+                  &              & 0.5           & 0.65          & 0.0132               & 0.83                    & 0.994                   &                \\
+                  &              &               & 0.75          & 0.0131               & 0.833                   & 0.994                   &                \\
+    \textbf{50}   & \textbf{256} & \textbf{0.25} & \textbf{0.65} & \textbf{0.0228}      & \textbf{0.862}          & \textbf{0.997}          & \textbf{19695} \\
+                  &              &               & 0.75          & 0.0224               & 0.861                   & 0.996                   &                \\
+                  &              & 0.5           & 0.65          & 0.0223               & 0.849                   & 0.996                   &                \\
+                  &              &               & 0.75          & 0.0215               & 0.851                   & 0.995                   &               
+    \end{tabular}
+    }
+    \caption{Results for SimCLR using the best hyperparameters found in previous experiments, plus adding the Gaussian Blur to training preprocessing.}
+    \label{table:simclr:gridsearch:blur}
+    \end{table}
+
+
+The models that obtained the best results in terms of Top 1 Accuracy are the following:
 
 \begin{table}[H]
     \resizebox{\columnwidth}{!}{
@@ -319,7 +423,7 @@ However, when I tried to run this transfer learning experiment, I found that the
 %----------------------
 
 
-The bug appears when the transfer learning is tried to be done in dataset with different image sizes. In the image preprocessing process for evaluation, an image of bigger size than expected is received, obtaining the following error
+The bug appears when the transfer learning is tried to be done in dataset with different image sizes. In the image preprocessing process for evaluation, an image of bigger size than expected is received, obtaining the following error 
 \begin{lstlisting}[language=bash,caption={Error obtained in transfer learning.}]
 (0) Invalid argument:  Input to reshape is a tensor with 90720
 
@@ -327,22 +431,39 @@ values, but the requested shape has 3072
     [[node Reshape (defined at run.py:395) ]]
 \end{lstlisting}
 
-The code authors from Google tried to give us a quick way to fix this, which consisted of resizing the input image to $32\times 32 \times 3$ (the size that we used to train the framework in CIFAR10) right before passing the image to the model. However, even with this quick fix provided by the collaboratos, the error persisted since we found that in some place some column/rows were deleted so the sizes of the tensors (images) and the weights were not compatible.
+The code authors from Google tried to give us a quick way to fix this, which consisted of resizing the input image to $32\times 32 \times 3$ (the size that we used to train the framework in CIFAR10) right before passing the image to the model. However, even with this quick fix provided by the collaborators, the error persisted since we found that in some place some column/rows were deleted so the sizes of the tensors (images) and the weights were not compatible.
 
 
 \subsection{SimCLR Conclusions}
 
 Once the experiments with this framework have finished, we can remark the most important facts that we can observe in the results of the executions. We can conclude that:
 \begin{itemize}
-\item In general, the choice of \lstinline{temperature} and \lstinline{color_jitter_strength} parameters seems relevant and has high impact on the quality of the representations obtained. However, if we had to choose between one of them, we have observed that the \lstinline{temperature}  seems to have a major importance on the final results, since using lower values for this parameter leads to reasonably large increses on the accuracy metrics and decreases on the loss functions. All this considered, we  state that it is clear that using lower temperature parameters (around $0.25$) is the best choice, but the \lstinline{color_jitter_strength} parameter is dependent on all the other parameters.
+\item In general, the choice of \lstinline{temperature} and \lstinline{color_jitter_strength} parameters seems relevant and has high impact on the quality of the representations obtained. However, if we had to choose between one of them, we have observed that the \lstinline{temperature}  seems to have a major importance on the final results, since using lower values for this parameter leads to reasonably large increases on the accuracy metrics and decreases on the loss functions. All this considered, we  state that it is clear that using lower temperature parameters (around $0.25$) is the best choice, but the \lstinline{color_jitter_strength} parameter is dependent on all the other parameters.
 
-\item It is crucial to use \lstline{batch_sizes} as larges as possible. It has been empirically proved that the correlation between a higher batch size and higher accuracy score is high. In our case, the biggest value that we can use with our resources is (for the ResNet50 architecture in the encoder) $256$.
+\item It is crucial to use \lstinline{batch_sizes} as larges as possible. It has been empirically proved that the correlation between a higher batch size and higher accuracy score is high. In our case, the biggest value that we can use with our resources is (for the ResNet50 architecture in the encoder) $256$.
 
 \item The encoder architecture is key for the quality of the representations. Even if we have to train more parameters,  the train times are longer and the batch sizes used are smaller, the performance of the classification tasks is improved by a wide margin.
 
-\item For the CIFAR10 case, adding \lstinline{gaussian blur} to the preprocessing and data augmentation stage is benefitial. It leads to higher higher accuracy scores in the classification tasks, which makes us think that the representations created by the encoder are better for downstream tasks.
+\item For the CIFAR10 case, adding \lstinline{gaussian blur} to the preprocessing and data augmentation stage is beneficial. It leads to higher higher accuracy scores in the classification tasks, which makes us think that the representations created by the encoder are better for downstream tasks.
 \end{itemize}
 
+
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrrrr}
+    resnet\_depth & batch\_size  & temperature   & color\_jitter & label\_top\_1\_accuracy & label\_top\_5\_accuracy    \\ \hline
+    {50}   & {256} & {0.25} & {0.65}     & {0.862}          & {0.997}                              
+    \end{tabular}
+    }
+    \caption{Conclusion results in SimCLR.}
+    \label{table:conclusion:simclr}
+\end{table}
+
+
+With all this considerations, the best hyperparameters found are the ones presented in Table \ref{table:conclusion:simclr}. As we can see, we achieve $86.2\%$ as top 1 accuracy best score. This result is far from the $95.3\%$ reported in the original paper. However, in the paper the models were pretrained in ImageNet and used ResNet50 $4\times$ so, in comparison, we can state that we got as close as we could using random initialized weights (instead of pretrained in ImageNet) and smaller encoder architecture.
+
+% ----------------------------------------------
+% --------------------------------------------------
 \section{BYOL exploration}
 
 Using the same iterative process that we have followed to explore SimCLR, we are going to train the models of this framework using different hyperparameters and we are going to see what results we obtain.
@@ -391,14 +512,14 @@ The first augmented view is applied the following transformations:
 The second view follows the same process for the augmentations, but it is also sometimes (with probability $0.2$) applied a \emph{solarization}. This technique consists of reversing the tone of the whole or part of the image.
 
 
-The original repository provides with the steps that can be followed to change the pre-sets oftheir code. However, we want to remark that the implementation could be generalized in some ways:
+The original repository provides with the steps that can be followed to change the pre-sets of their code. However, we want to remark that the implementation could be generalized in some ways:
 \begin{enumerate}
 \item Firstly, this implementation has the hyperparameters for the data augmentation process are fixed, as we have just mentioned. This could be improved by adding more FLAGS or parameters to the \lstinline{main_loop.py} script. This would not be a huge cost for the implementation and would lead to a wider range of experimentation possibilities.
 
 \item Along with the first change, the same could be done with not only the ResNet architecture, but also with the used dataset.
 \end{enumerate}
 
-This all can be changed manually to be able to run any experiment by modifying the source configurations provided. We also could have coded this generalization ourselves, but it was decided to focus on the experiments mentioned at the beggining of this section.
+This all can be changed manually to be able to run any experiment by modifying the source configurations provided. We also could have coded this generalization ourselves, but it was decided to focus on the experiments mentioned at the beginning of this section.
 
 \subsection{First experiment: batch size influence}
 \label{experiments:byol:first}
@@ -415,7 +536,24 @@ In this first experiment, we will fix ResNet18 for the encoder architecture, and
 \]
 More values can not be tested since, if we try to use the following power of two, the execution fails indicating that the memory of the GPU cannot allocate the whole batch. Recall that for the experiment we also use the hyperparameters presented in Subsection \ref{byol:preset}.
 
-If we run the experiments, we obtain the results that we fully present in Table \ref{table:byol:gridsearch:1}. We present here the two most important models obtained:
+If we run the experiments, we obtain the results that we fully present in Table \ref{table:byol:gridsearch:1}. 
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrr}
+    batch\_size & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step    \\ \hline
+    32          & 0.723                & 0.875                   & 1                       & 295900          \\
+    \textbf{64} & \textbf{0.381}       & \textbf{0.968}          & \textbf{1}              & \textbf{148000} \\
+    128         & 0.436                & 0.929                   & 0.976                   & 739800          \\
+    256         & 0.453                & 0.929                   & 0.996                   & 369900          \\
+    512         & 0.520                & 0.916                   & 0.994                   & 184900          \\
+    1024        & 0.752                & 0.852                   & 0.983                   & 924700         
+    \end{tabular}
+    }
+    \caption{All results for BYOL's experiment on the influence of batch size.}
+    \label{table:byol:gridsearch:1}
+    \end{table}
+
+We present here the two most important models obtained:
 
 \begin{table}[H]
     \resizebox{\columnwidth}{!}{
@@ -425,7 +563,7 @@ If we run the experiments, we obtain the results that we fully present in Table 
     \textbf{64} & \textbf{0.381}       & \textbf{0.968}          & \textbf{1}              & \textbf{148000} \\       
     \end{tabular}
     }
-    \caption{All results for BYOL's experiment on the influence of batch size.}
+    \caption{Most important results for BYOL's experiment on the influence of batch size.}
     \label{table:byol:gridsearch:1}
     \end{table}
 
@@ -464,11 +602,25 @@ Figures \ref{fig:repr:loss:exp1} and \ref{fig:byol:supervised:loss:exp1} show th
 
 In the original paper, it is reported that BYOL benefits from larger encoder architectures as it happens in SimCLR. We want to experiment using the same architecture that we used in the last experiment with SimCLR, ResNet50, and test if we achieve better performance on the linear evaluation when we go deeper in the encoder architecture.
 
-To be able to do this, we modify the \lstinline{configs/byol.py} script , changing the following variable to \lstinline{encoder_class='ResNet50'}. We run the main loop again and save the results using tensorboard records. All the results obtained are recorded in Table \ref{table:byol:gridsearch:2} in Appendix \ref{APPENDIX:B}.
+To be able to do this, we modify the \lstinline{configs/byol.py} script , changing the following variable to \lstinline{encoder_class='ResNet50'}. We run the main loop again and save the results using tensorboard records. All the results obtained are recorded in Table \ref{table:byol:gridsearch:2}.
 
 \begin{table}[H]
     \resizebox{\columnwidth}{!}{
-    \begin{tabular}{lrrrrr}
+    \begin{tabular}{rrrrr}
+    batch\_size  & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step    \\ \hline
+    32           & 0.564                & 0.937                   & 0.9688                  & 295900          \\
+    64           & 0.484                & 0.953                   & 1                       & 148000          \\
+    \textbf{128} & \textbf{0.2747}      & \textbf{1}              & \textbf{1}              & \textbf{739800} \\
+    256          & 0.276                & 0.968                   & 1                       & 369900         
+    \end{tabular}
+    }
+    \caption{All results for BYOL's experiment on the influence of the encoder architecture.}
+\label{table:byol:gridsearch:2}
+    \end{table}
+
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrrr}
     ResNet    & batch\_size  & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step    \\ \hline
     18          & 32           & 0.723                & 0.875                   & 1                       & 295900          \\
               & 64           & 0.381                & 0.968                   & 1                       & 148000          \\
@@ -510,7 +662,34 @@ We also have to remark that the best model achieves perfect accuracy on the clas
 
 Observing Figure \ref{fig:repr:loss:exp2}, we can see that the selected as best models reach really low values on the representation loss. This is consistent with the results that we later obtain using these representations for the classification task with the linear head. The model with the biggest batch size performs the fewest number of steps, and it does not achieve to completely flatten the loss curve. However, this is not bad news, since it indicates that this model can still improve in the representation learning task and, therefore, improve the final accuracy score on the classification task.
 
-In Figure \ref{fig:byol:supervised:loss:exp2} we can see that, in the supervised part, the improvement can come from any of the models, since none of them completely flattens the loss curve in the amount of steps that we have set for them. Adding the two losses we obtain the total loss represented in Figure \ref{fig:byol:total:loss:exp2}. If we remember the first experiment, the range for the total loss was $[0.7,1.4]$, in this case the total loss values are reduced to the range $[9.4,0.7]$ which indicates lower losses in general. This is also consistent with the better accuracy scores in the linear evaluation.
+In Figure \ref{fig:byol:supervised:loss:exp2} we can see that, in the supervised part, the improvement can come from any of the models, since none of them completely flattens the loss curve in the amount of steps that we have set for them. Adding the two losses we obtain the total loss represented in Figure \ref{fig:byol:total:loss:exp2}. If we remember the first experiment, the range for the total loss was $[0.7,1.4]$, in this case the total loss values are reduced to the range $[0.4,0.7]$ which indicates lower losses in general. This is also consistent with the better accuracy scores in the linear evaluation.
 
 
 \subsection{Conclusions about BYOL}
+
+With the two experiments that we have done using BYOL, we can conclude the following:
+\begin{itemize}
+\item Unlike SimCLR, \lstinline{batch_size} is not a key hyperparameter for the performance of the framework. In fact, one of the smallest batch size values obtained the best result in the first experiment.
+
+\item As in SimCLR, the encoder depth influences the final results on the classification task and, therefore, we can assume that influences the quality of the representations for any downstream task performed.
+
+
+\item The accuracies that this framework obtains are quite higher compared to SimCLR's scores. Recall that both models were pretrained from zero, but trained in different datasets. However, the different datasets should not be problematic since both of them have similar properties (in terms of number of classes and separability of the classes) and the main difference is the number of examples.
+
+
+\end{itemize}
+
+Recall that we achieved $100\%$ top 1 accuracy in one of our executions. This is a rather strange result, since it is not common to obtain the maximum possible accuracy in any classification task. This could be indicating that there is a mistake in the interpretation of the results or that we got really lucky to find extremely good representations.
+With these last points and considering that, in the code of the original repository they report approximately $92\%$ and we got the complete $100\%$ accuracy, we summarize in Table \ref{table:byol:conclusions} the best model obtained and we state that the experiments were successful.
+
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrr}
+    ResNet    & batch\_size  & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy    \\ \hline
+
+    {50} & {128} & {0.2747}      & {1}              & {1}                 
+    \end{tabular}
+    }
+    \caption{Conclusion of the experiments with BYOL.}
+    \label{table:byol:conclusions}
+    \end{table}

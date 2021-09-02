@@ -66,7 +66,7 @@ $$
 This means that sufficient statistics preserve mutual information and conversely.
 \end{remark}
 
-\section{Lower bounds on Mutual Information}
+\subsection{Lower bounds on Mutual Information}
 
 Although mutual information seems like a relatively intuitive concept, it is most of the times extremely hard to compute it in real life problems in which the distributions $P(x,z),P(x),P(z)$ are not known.
 \begin{nexample}
@@ -75,7 +75,7 @@ Let $x$ represent an image of size $n \times m$ pixels. Then, the dimension of t
 
 Due to this problem related to the \emph{Curse of Dimensionality}, we can try to compute lower bounds of it that are generally easier to calculate. We will now expose two general lower bounds, and we will focus on a third one that will be explained later in this work.
 
-\subsection{Variational Lower Bound}
+\subsubsection{Variational Lower Bound}
 
 
 
@@ -113,7 +113,7 @@ We have taken advantage of the non-negativity of the KL-Divergence.
 
 Using this bound, and combining this theoretical knowledge with machine learning methods, such as \emph{backpropagation}, we can make $Q_\theta$ be a neural network and maximize this lower bound.
 
-\subsection{Donsker-Varadhan Representation lower bound}
+\subsubsection{Donsker-Varadhan Representation lower bound}
 
 We can also give a lower bound on the mutual information using its KL-Divergence formulation. Firstly, we have to 
 
@@ -169,7 +169,7 @@ This bound may seem a bit odd in the context of Machine Learning. However, it is
 
 Furthermore, since it is a lower bound, it can be used as a \emph{loss function} to learn representations. In \cite{hjelm_learning_2019}, $T_\theta$ parametrized a neural network that acted as a discriminator between samples drawn from the joint distribution $P(x,z)$ and samples from the marginal distribution $P(x)P(z)$. They discovered that the inputs to the neural network, which were representations of the original data, must have high mutual information with the original data in order to obtain good results.
 
-\subsection{Contrastive Lower Bound}
+\subsubsection{Contrastive Lower Bound}
 
 In chapter \ref{Chapter:NCE} we presented Noise Contrastive Estimation, that tried to discriminate between elements of two different sets. One was composed of data, $X$, and the other one was composed of noise, $Y$.
 
