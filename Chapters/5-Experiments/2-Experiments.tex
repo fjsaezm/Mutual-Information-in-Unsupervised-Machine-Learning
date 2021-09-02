@@ -147,7 +147,7 @@ In the implementation used, we have the option of changing an input parameter in
 
     As we can see comparing this architecture with ResNet18 in Table \ref{arch:resnet:18}, the number of parameters that the network has to train doubles the first one, so we expect to have less memory available on our GPU so the \lstinline{batch_size} will have to be decreased to be able to run the trainings. 
     
-    This is clearly an issue, since we have already shown empirically that our model benefits from taking larger values on this parameter. In this second stage of exploring the best parameters for SimCLR on CIFAR10, we used the following parameters set to perform our particular GridSearch:
+    This is clearly an issue, since we have already empirically shown  that our model benefits from taking larger values on this parameter. In this second stage of exploring the best parameters for SimCLR on CIFAR10, we used the following parameters set to perform our particular GridSearch:
     
     \begin{itemize}
         \item \lstinline{batch_size}. In this second experiment, due to the limitations in the GPU memory, we have to reduce the range of this parameter to:
@@ -331,6 +331,17 @@ The code authors from Google tried to give us a quick way to fix this, which con
 
 
 \subsection{SimCLR Conclusions}
+
+Once the experiments with this framework have finished, we can remark the most important facts that we can observe in the results of the executions. We can conclude that:
+\begin{itemize}
+\item In general, the choice of \lstinline{temperature} and \lstinline{color_jitter_strength} parameters seems relevant and has high impact on the quality of the representations obtained. However, if we had to choose between one of them, we have observed that the \lstinline{temperature}  seems to have a major importance on the final results, since using lower values for this parameter leads to reasonably large increses on the accuracy metrics and decreases on the loss functions. All this considered, we  state that it is clear that using lower temperature parameters (around $0.25$) is the best choice, but the \lstinline{color_jitter_strength} parameter is dependent on all the other parameters.
+
+\item It is crucial to use \lstline{batch_sizes} as larges as possible. It has been empirically proved that the correlation between a higher batch size and higher accuracy score is high. In our case, the biggest value that we can use with our resources is (for the ResNet50 architecture in the encoder) $256$.
+
+\item The encoder architecture is key for the quality of the representations. Even if we have to train more parameters,  the train times are longer and the batch sizes used are smaller, the performance of the classification tasks is improved by a wide margin.
+
+\item For the CIFAR10 case, adding \lstinline{gaussian blur} to the preprocessing and data augmentation stage is benefitial. It leads to higher higher accuracy scores in the classification tasks, which makes us think that the representations created by the encoder are better for downstream tasks.
+\end{itemize}
 
 \section{BYOL exploration}
 
