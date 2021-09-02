@@ -1,45 +1,44 @@
 # TODO
 
-[x]  Change name ofto Contrastive Predictive coding
-[x]  Change name to InfoNCE LOSS
-[x]  Explain statistics and sufficient statistics
-[x] Page 17 Graph refference not working
-[x] Fix (link) in file: 1-Entropy-MI.tex (add ref)
-[x] Ref at the end of generative models
-[x] Add mode and unimodal/multimodal definitions 
-[x] Page 30, revise "In fact..."
-[x] Donsker-Varadan representation Theorem
-[x] Remove all the bound part in InfoNCE
-[x] Distance metric learning https://www.nec-labs.com/uploads/images/Department-Images/MediaAnalytics/papers/nips16_npairmetriclearning.pdf
-[x] Check if color of propositions is the same as the others
-[x] Change the .0. numeration in defs/props etc
-[x] Neural networks introduction (resnet, data augmentation (give examples of data augmentations))
-[x] Change `with tf.summary.record_if(should_record)` to TRUE for testing purposes. (didnt change)
-[x] Test batch size = 512/1024 more (it cant do more)
-[x] Change to continuous val evaluation 
-[x] redo table
-[x] Say where we are executing (nvidia)
-[x] End Tensorboard explanation
-[x] Logistic regression
+- [x]  Change name of section to Contrastive Predictive coding
+- [x]  Change name to InfoNCE LOSS
+- [x]  Explain statistics and sufficient statistics
+- [x] Page 17 Graph refference not working
+- [x] Fix (link) in file: 1-Entropy-MI.tex (add ref)
+- [x] Ref at the end of generative models
+- [x] Add mode and unimodal/multimodal definitions 
+- [x] Page 30, revise "In fact..."
+- [x] Donsker-Varadan representation Theorem
+- [x] Remove all the bound part in InfoNCE
+- [x] Distance metric learning https://www.nec-labs.com/uploads/images/- Department-Images/MediaAnalytics/papers/nips16_npairmetriclearning.pdf
+- [x] Check if color of propositions is the same as the others
+- [x] Change the .0. numeration in defs/props etc
+- [x] Neural networks introduction (resnet, data augmentation (give examples of data augmentations))
+- [x] Change `with tf.summary.record_if(should_record)` to TRUE for testing purposes.(didnt change)
+- [x] Test batch size = 512/1024 more (it cant do more)
+- [x] Change to continuous val evaluation 
+- [x] redo table
+- [x] Say where we are executing (nvidia)
+- [x] End Tensorboard explanation
+- [x] Logistic regression
+- [x] Abstracts
+- [x] Motivation
+- [ ] Conclusions
+- 
+- [] Add GaussianBlur Explanation
+- [x] Add siamese networks definition
+- 
+- [x] Explain Imagenette
+- [?] Add JAX explanation
+- [x] Change authory in the repo of 'byol' folder (add readme)
 
-[ ] Abstracts
-[x] Motivation
-[ ] Conclusions
+- [x] Gaussian Blur Results
+- [x] Transfer Learning
 
-[] Add GaussianBlur Explanation
-[] Add siamese networks definition
+- [x] BYOL Resnet50
+- [x] Batch size influence in BYOL
 
-[x] Explain Imagenette
-[?] Add JAX explanation
-[x] Change authory in the repo of 'byol' folder (add readme)
-
-[ ] Gaussian Blur Results
-[x] Transfer Learning
-
-[x] BYOL Resnet50
-[x] Batch size influence in BYOL
-
-[x] Compare BYOL SIMCLR => CANT BE DONE
+- [x] Compare BYOL SIMCLR => CANT BE DONE
 
 
 
@@ -60,3 +59,19 @@ https://generallyintelligent.ai/understanding-self-supervised-contrastive-learni
 - https://raw.githubusercontent.com/pabloac31/TFG/master/TFG.pdf
 
 - Resnet: https://arxiv.org/abs/1512.03385
+
+
+# Nicolás suggestions
+
+- Un capítulo único de introducción
+-  unir modelos generativos con inferencia
+- Cargarme el capítulo de modelos autoregresivos
+
+- Th prob. th info, inferencia (discriminative, generative, deep learning), 
+- Aumentar mucho el capítulo 1 
+- Añadir qué se hace en cada capítulo en la intro
+- Despues de
+- Ejemplo de vacas contra camellos
+- Darle énfasis a redes siamesas
+- Intentar meter todo lo contrastivo junto (hacer un bloque)
+- Descirbir algoritmos juntos en capítulo y  experimentación
