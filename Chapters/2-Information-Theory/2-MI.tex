@@ -73,7 +73,7 @@ Although mutual information seems like a relatively intuitive concept, it is mos
 Let $x$ represent an image of size $n \times m$ pixels. Then, the dimension of the single image is $n \cdot m \cdot 3$, for RGB color channels. In these cases, there is no easy way of calculating $P(x)$.
 \end{nexample}
 
-Due to this problem related to the \emph{Curse of Dimensionality}, we can try to compute lower bounds of it that are generally easier to calculate. We will now expose two general lower bounds, and we will focus on a third one that will be explained later in this work.
+Due to this problem related to the \emph{Curse of Dimensionality}, we can try to compute lower bounds of it that are generally easier to calculate. We will now expose two general lower bounds, and the third bound will be proved late in Chapter \ref{Chapter:CPC}.
 
 \subsubsection{Variational Lower Bound}
 
@@ -168,66 +168,3 @@ $$
 This bound may seem a bit odd in the context of Machine Learning. However, it is very useful. It was used in \cite{belghazi2018mine} to estimate the mutual information between two random variables using neural networks.
 
 Furthermore, since it is a lower bound, it can be used as a \emph{loss function} to learn representations. In \cite{hjelm_learning_2019}, $T_\theta$ parametrized a neural network that acted as a discriminator between samples drawn from the joint distribution $P(x,z)$ and samples from the marginal distribution $P(x)P(z)$. They discovered that the inputs to the neural network, which were representations of the original data, must have high mutual information with the original data in order to obtain good results.
-
-\subsubsection{Contrastive Lower Bound}
-
-In chapter \ref{Chapter:NCE} we presented Noise Contrastive Estimation, that tried to discriminate between elements of two different sets. One was composed of data, $X$, and the other one was composed of noise, $Y$.
-
-Let $(x,z)$ be a data representation drawn from a distribution $P(x,z)$ and $x'$ be some other data drawn from the distribution $P(x)$. Using NCE, we should be able to say that $(x,z)$ was drawn from the distribution $P(x,z)$ (which was $P_d$ in the NCE theory) while $(x',z)$ was drawn from the product of the marginal distributions $P(x)P(z)$ (which was $P_n$ in the explanation of NCE). Let $h_\theta$ be a model that helps us to do this discrimination, with parameters $\theta$. 
-
-As we did before, we want to estimate the ratio $P_d/P_n$ of the different distributions, in this case the ratio would be $P(x,z)/P(x)P(z)$. Let $(x^*,z)$ be a pair drawn from $P(x,z)$ and $X = \{x^*, x_1,\cdots,x_{N-1} \}$, where the rest of the $N-1$ points form pairs $(x_j,z)$ drawn from $P(x)P(z)$ the product of the marginal distribution. We can rewrite the loss \ref{log:likelihood:red} in a simpler expression:
-\begin{equation}\label{log:likelihood:rewritten}
-l(\theta) = - E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right]  .
-\end{equation}
-
-If we maximize this objective, $h_\theta$ learns to discriminate $(x^*,z)$ from $(x_j,z)$ for $ 1 \leq j < N$ and, thus, we are learning to estimate the ratio $P(x,z)/P(x)P(z)$. Let us see how maximizing $\ell(\theta)$ we are maximizing a lower bound for $I(x,z)$.
-
-\begin{nprop}\label{Prop:Bound:NCE}
-Let $X = \{x^*, x_1,\cdots,x_{N-1} \}$, where $x^* \sim P(x,z)$ and the rest of them were sampled from $P(x)P(z)$. Then,
-\begin{equation}\label{Bound:NCE}
-I(x,z) \geq -  \ell(\theta) + \log N
-\end{equation}
-\end{nprop}
-\begin{proof}
-
-Firstly, using Bayes' rule, $P(x^*,z) = P(x^*|z)P(z)$. Hence, since $h_\theta$ estimates $P(x^*,z)/P(x)P(z)$, it also estimates
-\[
-\frac{P(x^*,z)}{P(x)P(z)} = \frac{P(x^*|z)P(z)}{P(x)P(z)} = \frac{P(x^*|z)}{P(x)}.
-\]
-Using the definition of the log-likelihood that we see in \eqref{log:likelihood:rewritten}, forgetting the sign for the moment, we see that
-\begin{align*}
-E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] & =  E_X \left[ \log \frac{h_\theta(x^*,z)}{ h_\theta(x^*,z) + \sum_{j = 1}^{N-1} h_\theta(x_j,z)}\right] \\
-& \approx E_X \left[ \log \frac{\frac{P(x^*|z)}{P(x)}}{ \frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}\right].
-\end{align*}
-Now, using that $\log(a) = -log(a^{-1})$,
-\begin{align*}
-E_X \left[ \log \frac{\frac{P(x^*|z)}{P(x)}}{ \frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}\right] & = E_X\left[ -\log\left( \frac{\frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}{\frac{P(x^*|z)}{P(x)}}\right) \right] \\
-& = E_X\left[ -\log\left( 1+ \frac{ \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}{\frac{P(x^*|z)}{P(x)}} \right) \right] \\
-& = E_X\left[ -\log\left( 1+ \frac{ (N-1) E_{X - \{x^*\}}\left[\frac{P(x|z)}{P(x)}\right] }{\frac{P(x^*|z)}{P(x)}}\right)\right] \\
-\end{align*}
-Now, since $E_{X - \{x^*\}} \left[ \frac{P(x|z)}{P(x)} \right] = \sum_{x_j \in X - \{x^*\}} P(x_j) \frac{P(x_j|z)}{P(x_j)} = 1$, then
-\[
-E_X\left[ -\log\left( 1+ \frac{ (N-1) E_{X - \{x^*\}}\left[\frac{P(x|z)}{P(x)}\right] }{\frac{P(x^*|z)}{P(x)}}\right)\right]  
-= E_X\left[ -\log\left( 1+ \frac{ (N-1)}{\frac{P(x^*|z)}{P(x)}} \right)\right].
-\] 
-Lastly, using that if $k > 0$, then $- \log a(k+1) \geq -\log(1+ak)$, we obtain:
-\begin{align*}
-E_X\left[ -\log\left( 1+ \frac{ (N-1)}{\frac{P(x^*|z)} {P(x)}} \right)\right] &  =
-E_X\left[ \log \frac{1}{ 1+ \frac{P(x^*)}{P(x^*|z)}(N-1)}\right] \\
-& \leq E_X\left[ \log\left(\frac{1}{\frac{P(x^*)}{P(x^*|z)}}\frac{1}{N}\right)\right]\\
-& = E_X\left[ \log\left(\frac{P(x^*|z)}{P(x^*)} \frac{1}{N}\right)\right]\\
-& = E_X \left[ \log\left(\frac{P(x^*|z)}{P(x^*)}\right)\right] - \log N \\
-& \stackrel{(1)}{=} E_X \left[ \log\left(\frac{P(x^*,z)}{P(x^*)P(z)}\right)\right] - \log N\\
-& \stackrel{(2)}{=} I(x,z) - \log N,
-\end{align*}
-where, in $(1)$, we have use Bayes' rule again and in $(2)$ we have used the definition of the MI that we found in equation \ref{MI:sum:xz}. Looking at the first and last equations used in this proof, and seeing that we have $\leq$ in the middle of the chain of equalities, we have proved
-\[
-    E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] = - \ell (\theta) \leq I(x,z) - \log N,
-\]
-which implies 
-\[
-I(x,z) \geq -\ell(\theta)+ \log N  
-\]
-as we wanted to see.   
-\end{proof}
-

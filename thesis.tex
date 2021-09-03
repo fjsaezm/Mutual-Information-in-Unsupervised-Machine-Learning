@@ -23,7 +23,7 @@
 %   pdflatex --shell-escape main.tex
 
 % Opciones del tipo de documento
-\documentclass[oneside,openright,titlepage,numbers=noenddot,openany,headinclude,footinclude=true, cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=11pt, dvipsnames]{scrreprt}
+\documentclass[oneside,openright,titlepage,numbers=noenddot,openany,headinclude,footinclude=true, cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=11pt, dvipsnames,table,xcdraw]{scrreprt}
 
 % LaTeX packages loaded on start
 \usepackage[utf8]{inputenc}
@@ -165,7 +165,6 @@ The source code of this text and developed programs are available in the Github 
 \clearpage
 \chapter{Fundamentals}
 \input{Chapters/1-Probability-Theory/1-Introduction}
-\section{Distributions and Kullback-Leibler Divergence}
 \input{Chapters/1-Probability-Theory/2-Distributions}
 \clearpage
 \section{Statistical Inference}
@@ -173,9 +172,6 @@ The source code of this text and developed programs are available in the Github 
 \section{Introduction to Deep Learning}
 \input{Chapters/4-New-Frameworks/1-Introduction}
 \clearpage
-
-
-
 \chapter{Information theory fundamentals}
 \input{Chapters/2-Information-Theory/1-Entropy}
 \section{Mutual Information}
@@ -232,10 +228,10 @@ The source code of this text and developed programs are available in the Github 
 \chapter{Conclusions and further work}
 \input{Chapters/Conclusions}
 
+\newpage 
+\
+\leavevmode\thispagestyle{empty}\newpage
 
-\newpage
-
-\newpage
 
 \chapter*{Acknowledgements}
 \input{Chapters/APPENDIX/Acknowledgements} 
@@ -249,9 +245,11 @@ The source code of this text and developed programs are available in the Github 
     Appendices
   \end{center}
 }
-\part{Appendix}
+\part*{Appendix}
 \chapter{Appendix A}
 \input{Chapters/APPENDIX/APPENDIX-A}
+\chapter{Planification and estimated costs}
+\input{Chapters/Planning-cost}
 
 
 

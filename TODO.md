@@ -23,7 +23,7 @@
 - [x] Logistic regression
 - [x] Abstracts
 - [x] Motivation
-- [ ] Conclusions
+- [x] Conclusions
 - 
 - [] Add GaussianBlur Explanation
 - [x] Add siamese networks definition

@@ -138,7 +138,70 @@ $$
 In the proposed model, we can either use the representation given by the encoder $(z_t)$ or the representation given by the autoregressive model $(c_t)$ for downstream tasks. Clearly, the representation that aggregates information from past inputs will be more useful
 if more information about the context is needed. Furthermore, any type of models for the encoder and the autoregressive models can be used in this kind of framework.
 
-It is clear how, using \eqref{NCE:loss} we are using exactly the same function that we were using in Equation \ref{log:likelihood:rewritten} in Chapter \ref{Chapter:MI}. This way, if we maximize this loss, we are also maximizing the mutual information between $\xtk$ and the context $c_t$.
+
+
+\subsection{Contrastive Lower Bound}
+
+In the context of this framework, a new lower bound for the mutual information was born. This lower bound uses the contrastive loss function and the number of elements used in the noise contrastive estimation. Let us present the bound in general.
+
+Let $(x,z)$ be a data representation drawn from a distribution $P(x,z)$ and $x'$ be some other data drawn from the distribution $P(x)$. Using NCE, we should be able to say that $(x,z)$ was drawn from the distribution $P(x,z)$ (which was $P_d$ in the NCE theory) while $(x',z)$ was drawn from the product of the marginal distributions $P(x)P(z)$ (which was $P_n$ in the explanation of NCE). Let $h_\theta$ be a model that helps us to do this discrimination, with parameters $\theta$. 
+
+As we did before, we want to estimate the ratio $P_d/P_n$ of the different distributions, in this case the ratio would be $P(x,z)/P(x)P(z)$. Let $(x^*,z)$ be a pair drawn from $P(x,z)$ and $X = \{x^*, x_1,\cdots,x_{N-1} \}$, where the rest of the $N-1$ points form pairs $(x_j,z)$ drawn from $P(x)P(z)$ the product of the marginal distribution. We can rewrite the loss \eqref{log:likelihood:red} in a simpler expression:
+\begin{equation}\label{log:likelihood:rewritten}
+l(\theta) = - E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right]  .
+\end{equation}
+
+If we maximize this objective, $h_\theta$ learns to discriminate $(x^*,z)$ from $(x_j,z)$ for $ 1 \leq j < N$ and, thus, we are learning to estimate the ratio $P(x,z)/P(x)P(z)$. Let us see how maximizing $\ell(\theta)$ we are maximizing a lower bound for $I(x,z)$.
+
+\begin{nprop}\label{Prop:Bound:NCE}
+Let $X = \{x^*, x_1,\cdots,x_{N-1} \}$, where $x^* \sim P(x,z)$ and the rest of them were sampled from $P(x)P(z)$. Then,
+\begin{equation}\label{Bound:NCE}
+I(x,z) \geq -  \ell(\theta) + \log N
+\end{equation}
+\end{nprop}
+\begin{proof}
+
+Firstly, using Bayes' rule, $P(x^*,z) = P(x^*|z)P(z)$. Hence, since $h_\theta$ estimates $P(x^*,z)/P(x)P(z)$, it also estimates
+\[
+\frac{P(x^*,z)}{P(x)P(z)} = \frac{P(x^*|z)P(z)}{P(x)P(z)} = \frac{P(x^*|z)}{P(x)}.
+\]
+Using the definition of the log-likelihood that we see in \eqref{log:likelihood:rewritten}, forgetting the sign for the moment, we see that
+\begin{align*}
+E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] & =  E_X \left[ \log \frac{h_\theta(x^*,z)}{ h_\theta(x^*,z) + \sum_{j = 1}^{N-1} h_\theta(x_j,z)}\right] \\
+& \approx E_X \left[ \log \frac{\frac{P(x^*|z)}{P(x)}}{ \frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}\right].
+\end{align*}
+Now, using that $\log(a) = -log(a^{-1})$,
+\begin{align*}
+E_X \left[ \log \frac{\frac{P(x^*|z)}{P(x)}}{ \frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}\right] & = E_X\left[ -\log\left( \frac{\frac{P(x^*|z)}{P(x)} + \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}{\frac{P(x^*|z)}{P(x)}}\right) \right] \\
+& = E_X\left[ -\log\left( 1+ \frac{ \sum_{j = 1}^{N-1} \frac{P(x_j|z)}{P(x)}}{\frac{P(x^*|z)}{P(x)}} \right) \right] \\
+& = E_X\left[ -\log\left( 1+ \frac{ (N-1) E_{X - \{x^*\}}\left[\frac{P(x|z)}{P(x)}\right] }{\frac{P(x^*|z)}{P(x)}}\right)\right] \\
+\end{align*}
+Now, since $E_{X - \{x^*\}} \left[ \frac{P(x|z)}{P(x)} \right] = \sum_{x_j \in X - \{x^*\}} P(x_j) \frac{P(x_j|z)}{P(x_j)} = 1$, then
+\[
+E_X\left[ -\log\left( 1+ \frac{ (N-1) E_{X - \{x^*\}}\left[\frac{P(x|z)}{P(x)}\right] }{\frac{P(x^*|z)}{P(x)}}\right)\right]  
+= E_X\left[ -\log\left( 1+ \frac{ (N-1)}{\frac{P(x^*|z)}{P(x)}} \right)\right].
+\] 
+Lastly, using that if $k > 0$, then $- \log a(k+1) \geq -\log(1+ak)$, we obtain:
+\begin{align*}
+E_X\left[ -\log\left( 1+ \frac{ (N-1)}{\frac{P(x^*|z)} {P(x)}} \right)\right] &  =
+E_X\left[ \log \frac{1}{ 1+ \frac{P(x^*)}{P(x^*|z)}(N-1)}\right] \\
+& \leq E_X\left[ \log\left(\frac{1}{\frac{P(x^*)}{P(x^*|z)}}\frac{1}{N}\right)\right]\\
+& = E_X\left[ \log\left(\frac{P(x^*|z)}{P(x^*)} \frac{1}{N}\right)\right]\\
+& = E_X \left[ \log\left(\frac{P(x^*|z)}{P(x^*)}\right)\right] - \log N \\
+& \stackrel{(1)}{=} E_X \left[ \log\left(\frac{P(x^*,z)}{P(x^*)P(z)}\right)\right] - \log N\\
+& \stackrel{(2)}{=} I(x,z) - \log N,
+\end{align*}
+where, in $(1)$, we have use Bayes' rule again and in $(2)$ we have used the definition of the MI that we found in equation \eqref{MI:sum:xz}. Looking at the first and last equations used in this proof, and seeing that we have $\leq$ in the middle of the chain of equalities, we have proved
+\[
+    E_X \left[ \log \frac{h_\theta(x^*,z)}{\sum_{x \in X}h_\theta(x,z)}\right] = - \ell (\theta) \leq I(x,z) - \log N,
+\]
+which implies 
+\[
+I(x,z) \geq -\ell(\theta)+ \log N  
+\]
+as we wanted to see.   
+\end{proof}
+
 
 \section{Good views for Contrastive Learning}
 
