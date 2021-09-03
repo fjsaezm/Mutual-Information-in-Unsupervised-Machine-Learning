@@ -22,7 +22,10 @@ Also, a worrying generalization problem was discovered in a very simple classifi
 
 \emph{Unsupervised learning} avoids these problems by trying to infer properties (or features) of the data using the \emph{unlabeled} dataset. By not needing to have the labels of the examples, companies can save money and time that they would have invested creating a label for each individual example. Also, by discovering general features about the context the models, the general context of the data is less important than it sometimes happens to be in supervised learning.
 
-When the dimension of the data is high, for instance when treating images computationally, it is usual to first create a \emph{representation} of the input data. A representation is a lower dimensional vector that aims to contain the same features that the original data contained. \emph{Features} are parts or patterns of an datapoint $x \in \D$ that help to identify it. In fact, it is desirable that this attribute is shared by all independent units that represent the same object. For instance, if we consider an image of any square, we should be able to identify 4 corners and 4 edges. These could be features of a square.
+When the dimension of the data is high, for instance when treating images computationally, it is usual to first create a \emph{representation} of the input data. A representation is a lower dimensional vector that aims to contain the same features that the original data contained. More formally, if $x$ is a datapoint in a dataset $\D \subset \R^d$, a \emph{representation} of $x$ is a vector $r \in \R^n$ (usually, $n \leq d$), that shares information with the datapoint $x$. 
+
+
+\emph{Features} are parts or patterns of an datapoint $x \in \D$ that help to identify it. In fact, it is desirable that this attribute is shared by all independent units that represent the same object. For instance, if we consider an image of any square, we should be able to identify 4 corners and 4 edges. These could be features of a square.
 
 Representation learning is a set of techniques that allow a system to produce representations that help in the later tasks such as feature detection or classification.
 The performance of machine learning methods is heavily dependent on the choice of data features \citep{bengio_representation_2014}. This is why most of the current 
@@ -73,9 +76,9 @@ I(X,Z)  \geq - \ell(\theta) + \log N,
 \]
 where $\ell(\theta)$ refers to the contrastive loss. In short, the \emph{contrastive learning} problem consists of, given elements obtained from one distribution $P$ (considered as positive samples) and elements obtained from a different distribution $Q$ (considered as negative samples), learning how to discriminate between the elements of the different distributions. In order to do this, the recently mentioned contrastive loss is used, which usually takes the form
 \[
-\ell_{i,j} = -  \log \frac{f(x_i,x_j)}{\sum_{x_k \in X}f(x_i,x_k)}.
+\ell_{i,j} = -  \log \frac{f(x_i,x_j)}{\sum_{x_k \in X}f(x_i,x_k)},
 \] 
-Intuitively, contrastive loss takes the output of the network for a positive example and calculates its distance (using the function $f$) to an example of the same class and contrasts that with the distance to negative examples. In other words, the loss is low if positive examples are encoded to similar representations and negative examples are encoded to different representations. The use of this contrastive loss maximizing the mutual information had a huge impact on the state of art results of representation learning in 2018 \citep{oord_representation_2019}, achieving very promising results.
+where $(x_i,x_j)$ is a positive pair. Intuitively, contrastive loss takes the output of the network for a positive example and calculates its distance (using the function $f$) to an example of the same class and contrasts that with the distance to negative examples. In other words, the loss is low if positive examples are encoded to similar representations and negative examples are encoded to different representations. The use of this contrastive loss maximizing the mutual information had a huge impact on the state of art results of representation learning in 2018 \citep{oord_representation_2019}, achieving very promising results.
 
 However, during the development of this work (around July 2020), this drastically changed. New papers  \citep{chen_simple_2020, grill2020bootstrap} appeared stating that the success of the methods that were maximizing mutual information between the input and its representation was not caused by mutual information, but by the specific form that the contrastive loss has.
 
