@@ -1,0 +1,260 @@
+
+% Plantilla para un Trabajo Fin de Grado de la Universidad de Granada,
+% adaptada para el Doble Grado en Ingeniería Informática y Matemáticas.
+%
+%  Autor original de la plantilla original: Mario Román.
+%  Enlace: https://github.com/mroman42/templates
+%  Cambios en la plantilla por: Javier Sáez
+%  Licencia: GNU GPLv2.
+%
+% Esta plantilla es una adaptación al castellano de la plantilla
+% classicthesis de André Miede, que puede obtenerse en:
+%  https://ctan.org/tex-archive/macros/latex/contrib/classicthesis?lang=en
+% La plantilla original se licencia en GNU GPLv2.
+%
+% Esta plantilla usa símbolos de la Universidad de Granada sujetos a la normativa
+% de identidad visual corporativa, que puede encontrarse en:
+% http://secretariageneral.ugr.es/pages/ivc/normativa
+%
+% La compilación se realiza con las siguientes instrucciones:
+%   pdflatex --shell-escape main.tex
+%   bibtex main
+%   pdflatex --shell-escape main.tex
+%   pdflatex --shell-escape main.tex
+
+% Opciones del tipo de documento
+\documentclass[oneside,openright,titlepage,numbers=noenddot,openany,headinclude,footinclude=true, cleardoublepage=empty,abstractoff,BCOR=5mm,paper=a4,fontsize=11pt, dvipsnames,table,xcdraw]{scrreprt}
+
+% LaTeX packages loaded on start
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx} % Inclusión de imágenes.
+\usepackage{grffile}  % Distintos formatos para imágenes.
+\usepackage{longtable} % Tablas multipágina.
+\usepackage{wrapfig} % Coloca texto alrededor de una figura.
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{tikz} % Diagramas conmutativos.
+\usepackage{minted} % Código fuente.
+\usepackage[T1]{fontenc}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{ mathrsfs }
+
+
+
+\usepackage[toc,page]{appendix}
+
+%% ---------------------- Self added packages
+\usepackage{cancel}
+\usepackage{cleveref}
+\usepackage{bm}
+\usepackage{witharrows}
+\usepackage{algorithmic}
+\usepackage{ upgreek }
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{svg}
+
+
+%License
+
+% License
+\usepackage[
+    type={CC},
+    modifier={by-sa},
+    version={4.0},
+]{doclicense}
+
+%% ---------------------------------
+
+% Plantilla classicthesis
+\usepackage[beramono,eulerchapternumbers,linedheaders,parts,a4paper,dottedtoc,
+manychapters,pdfspacing]{classicthesis}
+
+% Geometría y espaciado de párrafos.
+\setcounter{secnumdepth}{0}
+\usepackage{enumitem}
+\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex}
+\usepackage[top=1in, bottom=1.5in, left=0.9in, right=1.2in]{geometry}
+\setlength\itemsep{0em}
+\setlength{\parindent}{0pt}
+\usepackage{parskip}
+
+% Algoritmos
+\usepackage[ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+
+% Todo notes
+\usepackage{todonotes}
+\let\marginpar\oldmarginpar
+
+% Profundidad de la tabla de contenidos.
+\setcounter{secnumdepth}{3}
+
+% Usa el paquete minted para mostrar trozos de código.
+% Pueden seleccionarse el lenguaje apropiado y el estilo del código.
+\usepackage{minted}
+\usemintedstyle{colorful}
+\setminted{fontsize=\small}
+\renewcommand{\theFancyVerbLine}{\sffamily\textcolor[rgb]{0.5,0.5,1.0}{\oldstylenums{\arabic{FancyVerbLine}}}}
+
+% Archivos de configuración.
+\input{macros}  % En macros.tex se almacenan las opciones y comandos para escribir matemáticas.
+\input{classicthesis-config} % En classicthesis-config.tex se almacenan las opciones propias de la plantilla.
+
+% Adding bib to toc
+\usepackage[nottoc,numbib]{tocbibind}
+
+% Color institucional UGR
+% \definecolor{ugrColor}{HTML}{ed1c3e} % Versión clara.
+\definecolor{ugrColor}{HTML}{c6474b}  % Usado en el título.
+\definecolor{ugrColor2}{HTML}{c6474b} % Usado en las secciones.
+
+% Datos de portada
+\usepackage{titling} % Facilita los datos de la portada
+\author{Francisco Javier Sáez Maldonado}
+\date{\today}
+\title{Mutual Information in Self-Supervised Learning}
+
+% Portada
+\include{titlepage}
+\usepackage{wallpaper}
+
+\begin{document}
+
+\ThisULCornerWallPaper{1}{media/ugrA4.pdf}
+\maketitle
+
+
+\vspace*{\fill}
+\doclicenseThis
+The source code of this text and developed programs are available in the Github repository \href{https://github.com/fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning}{fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning}
+
+\chapter*{Abstract}
+\input{Chapters/Abstract.tex}
+\chapter*{Resumen extendido en español}
+\input{Chapters/Resumen_extendido.tex}
+\newpage
+
+
+\tableofcontents
+\newpage
+\listoffigures
+\listoftables
+
+\newpage
+
+\ctparttext{
+  \color{black}
+  \begin{center}
+    In this part we will introduce the topic of this thesis, and also explain the underlying concepts of probability theory and probability distributions that will be needed. Also, the \emph{Noise Contrastive Estimation} problem will be presented.
+  \end{center}
+}
+\part{Introduction and basic notions}
+\chapter{Introduction, motivation and objectives}
+\input{Chapters/1-Fundamentals/1-Intro-Objectives}
+\clearpage
+\chapter{Fundamentals}
+\input{Chapters/1-Fundamentals/2-Probability-Theory}
+\input{Chapters/1-Fundamentals/2-Distributions}
+\clearpage
+\section{Statistical Inference}
+\input{Chapters/1-Fundamentals/3-Inference}
+\section{Introduction to Deep Learning}
+\input{Chapters/1-Fundamentals/4-Deep-Learning}
+\clearpage
+\chapter{Information theory fundamentals}
+\input{Chapters/2-Information-Theory/1-Entropy}
+\section{Mutual Information}
+\input{Chapters/2-Information-Theory/2-MI}
+
+
+
+\ctparttext{
+  \color{black}
+  \begin{center}
+  In this part, it will be explained what it is understood for \emph{Representation Learning}, explaining the first framework that was used in this field. Also, the \emph{Noise Contrastive Loss} is presented, which will be crutial in the rest of this work.
+  \end{center}
+}
+\part{Contrastive learning}
+
+\chapter{Noise Contrastive Estimation}
+\input{Chapters/3-Representation-Learning/1-Noise-Contrastive-Estimation}
+\clearpage
+ 
+
+\chapter{The InfoNCE Loss}
+\input{Chapters/3-Representation-Learning/2-Contrastive-Predictive-Coding}
+\clearpage
+\chapter{Triplet Losses}
+\input{Chapters/3-Representation-Learning/3-Connection-Triplets}
+\clearpage
+
+\ctparttext{
+  \color{black}
+  \begin{center}
+  In this part, deep learning and neural networks will first be motivated and later be presented. Then, the two most important frameworks that use contrastive learning for representation learning will be completely explained.
+  \end{center}
+}
+\part{New Frameworks for Representation Learning}
+\chapter{SimCLR}
+\input{Chapters/4-New-Frameworks/1-SimCLR}
+\chapter{Boostrap Your Own Latent}
+\input{Chapters/4-New-Frameworks/2-BYOL}
+
+\ctparttext{
+  \color{black}
+  \begin{center}
+  In this last part, the frameworks that we have presented in the last part will be tested. We will train the models in a specific dataset and the results obtained will be compared with the results of the original papers.
+  \end{center}
+}
+\part{Experiments}
+\chapter{Introduction}
+\input{Chapters/5-Experiments/1-Introduction}
+\chapter{Experimentation}
+\input{Chapters/5-Experiments/2-Experiments}
+
+\newpage
+
+\chapter{Conclusions and further work}
+\input{Chapters/Conclusions}
+
+\newpage 
+\
+\leavevmode\thispagestyle{empty}\newpage
+
+
+\chapter*{Acknowledgements}
+\input{Chapters/APPENDIX/Acknowledgements} 
+
+
+\appendix
+\renewcommand{\thechapter}{\Alph{chapter}}
+\ctparttext{
+  \color{red}
+  \begin{center}
+    Appendices
+  \end{center}
+}
+\part*{Appendix}
+\chapter{Appendix A}
+\input{Chapters/APPENDIX/APPENDIX-A}
+\chapter{Planification and estimated costs}
+\input{Chapters/Planning-cost}
+
+
+
+\nocite{*}
+\bibliographystyle{authordate1}
+\bibliography{Bibliography}
+
+\end{document}

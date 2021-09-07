@@ -1,0 +1,30 @@
+In this document, it has been presented an overview of representation learning using contrastive methods. Representation learning is one of the most studied problems in the machine learning field in the last years, so we provided a resume of the first methods that were used, the problems that were found in these methods and how new frameworks emerged to overcome the problems that the first methods were facing.
+
+At first, using mutual information maximization combined with contrastive learning seemed like the best way of obtaining representations that led to the state-of-art results in the posterior classification tasks. Furthermore, since we have an intuitive idea of what mutual information is, we also seemed to be using machine learning in an intuitive way, that is, understanding what it was happening in the model training which could be useful to avoid the problem that happened with the cows and camels classification task.
+
+However, since the first studies that showed that the mutual information maximization could be forgotten because it was not completely relevant for the learning, the direction of the current investigation changed to focus on defining architectures of siamese networks that, combined with different data augmentations, outperform the methods that relied on exploiting the mathematical use of information theory.
+
+After having formally presenting the whole  context, we decided to focus our \textbf{experimental part} on studying and testing two siamese networks that have proved to be the best performers in obtaining good representations: SimCLR and BYOL. The first one, which was developed first, followed in the wake of the previously developed frameworks and used the contrastive loss as loss function to minimize. However, the second framework stepped away from that direction and decided to use distance between representations of different views of the same image as the loss function to minimize. Indeed, this turned out to be beneficial for the learning of the models. 
+
+\subsubsection*{SimCLR}
+
+We consider the experiments performed with \lstinline{SimCLR} as a success. We have been able to adapt the framework to our hardware capabilities, perform a wide range of experiments with different values for the hyperparameters, and confirm some of the states that were made in the original paper ourselves in a different dataset.
+
+\subsubsection*{BYOL}
+
+This framework presented more difficulties to adapt to lower computational resources. It has shown that the training times where much higher, even with a dataset that has much less examples. In addition, the code for this framework presented less facilities for testing different hyperparameters configurations, which made our experiments harder to run.
+
+Even with this, we were able to perform some experiments and obtain surprisingly good results, confirming what we have learned from the original papers that presented the framework.
+
+\subsection*{Further work}
+
+The field of representation learning is booming and it is yet not fully explored, so while I was doing this work I realized  quite a few lines of work that could be explored in the future. The most remarkable ones are:
+
+\begin{itemize}
+
+    \item Formalizing why mutual information approaches to representation learning fail to keep improving the quality of the representations, since this was only proved empirically.
+    \item Formalizing the stages of the data augmentation that lead to obtain better representations, since nowadays these stages are set by trial and error. 
+    \item Fixing the bug that we found on Google's code for SimCLR that did not allow us to perform the learning transfer in any dataset and generalizing the BYOL's framework code in order to be able to test different configurations for the data augmentation that has proved to be so relevant.
+
+\end{itemize}
+

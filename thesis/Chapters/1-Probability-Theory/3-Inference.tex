@@ -1,0 +1,89 @@
+Statistical inference is the process of deducing properties of an underlying distribution by analyzing the data that it is available. With this purpose, techniques like deriving estimates and testing hypotheses are used. 
+
+Inferential statistics are usually contrasted with descriptive statistics, which are only concerned with properties of the observed data. The difference between these two is that in inferential statistics, we assume that the data comes from a larger
+population that we would like to know.
+
+In \emph{machine learning}, subject that concerns us the most, the term inference is sometimes used to mean \emph{make a prediction by evaluating an already trained model}, and in this context, inferring properties of the model is referred to as \emph{training or learning}.
+
+\subsection{Parametric Modeling}
+
+In the following chapters, we will be trying to estimate density functions in a dataset. To do this we will be using \emph{parametric models}. We say that a \emph{parametric model}, $P_\theta(x)$, 
+is a family of density functions that can be described using a finite numbers of parameters $\theta$. Let us present the \emph{likelihood}.
+
+\begin{ndef}
+The \emph{likelihood} $\mathcal L(\theta | x)$ of a parameter set $\theta$ is a function that measures how plausible is $\theta$, given an observed point $x$ in the dataset $\D$. It is defined as the value of the 
+density function parametrized by $\theta$ at $x$. That is:
+$$
+\mathcal L(\theta|x) = P_\theta(x).
+$$
+\end{ndef}
+
+In a finite dataset $\D$ consisting of independent observations, we can write:
+\[
+\mathcal L(\theta | X) = \prod_{x \in D} P_\theta(x).
+\]
+
+In practice, it is ofter convenient to work with the natural logarithm of the likelihood function. 
+
+\begin{ndef}
+Let $\D$ be a dataset of independent observations and $\theta$ a set of parameters. Then, we define the \emph{log-likelihood} $\ell$ as the sum of the logarithms of the evaluations of $p_\theta$ in each $x$ in the dataset. That is:
+\[
+\ell (\theta | X) = \sum_{x \in \D} \log P_\theta(x).
+\]
+\end{ndef}
+
+Since the logarithm is a monotonic function, the maximum of $\mathcal L$ and the maximum of its logarithm will occur at the same $\theta$.   Our goal would be to find the optimal value $\hat{\theta}$ that maximizes the likelihood of observing the dataset $\D$. We get to the following definition:
+
+\begin{ndef}
+    We say that $\hat{\theta} = \hat\theta (\D)$ is a \emph{maximum likelihood estimator}(MLE) for $\theta$ if  
+    $$
+    \hat\theta \in \argmax_{\theta} \mathcal L(\theta | \D)
+    $$
+    for every observation $\D$. 
+\end{ndef}
+
+Usually, we seek for likelihood functions that are differentiable, so the derivative test for determining maxima can be applied. Sometimes, the first-order conditions of the likelihood function can be solved explicitly, like in the case of the ordinary least squares estimator which maximizes the likelihood of a linear regression model. However, most of the times, we have to make use of numerical methods to be able to find the maximum of the likelihood function.
+
+There is another concept related to the probability and the set of parameters that the distribution takes:
+\begin{ndef}
+The \emph{prior probability} is the probability distribution that it is believed to exist before evidence is taken into account.\\
+
+The \emph{posterior probability} is the probability of the parameters $\theta$ given the sampled data $X$, that is, $P(\theta,X)$.
+\end{ndef}
+The relation with the likelihood function $P(X|\theta)$ is that, given a prior belief that a p.d.f. is $P(\theta)$ and observations $x$ have a likelihood $P(x|\theta)$, the posterior probability is defined using the prior probability as follows:
+\[
+P(\theta|x) = \frac{P(x|\theta)}{P(x)} P(\theta),   
+\]
+where we have simply used Bayes' theorem.
+
+
+\subsection{Generative Models}
+\input{Chapters/1-Fundamentals/3-Generative-Models}
+
+\subsection{Minimal sufficient statistics}
+
+In parametric modeling, the goal was to determine the density function under a distribution. Another interesting task can be determining specific parameters or quantities related to a distribution, given a sample $X = (x_1,\cdots,x_n)$.
+
+\begin{ndef}
+    Let $(\Omega,\Alg)$ be a measurable space where $\Alg$ contains all singletons. A statistic is a measurable function of the data, that is: $T: X \to \Omega$ where $T$ is measurable.
+\end{ndef}
+\begin{remark}
+    A statistic is also a random variable.
+\end{remark}
+
+However, not all statistics will provide useful information for the statistical inference problem, since almost anything can be a statistic. We would like to find statistics that provide relevant information.
+
+\begin{ndef}
+    Let $X \sim P_\theta$. Then, the statistic $T(X) = T : (\Omega, \Alg) \to (\mathbb T, \mathcal B)$, is sufficient for a family of parameters $\{P_\theta \ : \ \theta \in \Theta \}$ if the conditional distribution of $X$, given $T = t$, is independent of $\theta$.\\
+\end{ndef}
+
+\begin{nexample}
+The simplest example of a sufficient statistic is the mean $\mu$ of a gaussian distribution with known variance. Oppositely, the \emph{median} of an arbitrary distribution
+is not sufficient for the mean since, even if the median of the sample is known, more information about the mean of the population can be obtained from the mean of the sample itself.
+\end{nexample}
+
+Although it will not be shown in this document, sufficient statistics are not unique. In fact, if $T$ is sufficient, $\psi(T)$ is sufficient for any bijective mapping $\psi$. It would be interesting to find a sufficient statistic $T$ that is \emph{the smallest} of them.
+
+\begin{ndef}
+    A sufficient statistic $T$ is minimal if, for every sufficient statistic $U$, there exists a mapping $f$ such that $T(x) = f(U(x))$ for any $x \in \Omega$.
+\end{ndef}

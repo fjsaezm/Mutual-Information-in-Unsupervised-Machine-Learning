@@ -1,0 +1,96 @@
+
+
+
+\section{Random variables, expectation and distributions}
+
+\begin{ndef}
+A \emph{measure space} is the tuple $(\Omega, \Alg,\Prob)$ where $\Prob$ is a \emph{measure} on $(\Omega, \Alg)$. If $\Prob$ is a \emph{probability measure} $(\Omega,\Alg,\Prob)$ will be called a \emph{probability space}.
+\end{ndef}
+
+Throughout this work, we will be always in the case where $\Prob$ is a probability measure, so we will always be talking about probability spaces and we will note $\Prob$ simply as $P$. Some notation for these measures must be introduced. Let $A$ and $B$ be two events.
+The notation $P(A,B)$ refers to the probability of the intersection of the events $A$ and $B$, that is: $P(A,B) := P(A\cap B)$.
+ It is clear that since $A \cap B = B \cap A$, then $P(A,B) = P(B,A)$. The following theorem will be used multiple times in the proofs that we will do in the next chapters:
+
+\begin{nth}[Bayes' Theorem]
+Let $A,B$ be two events in $\Omega$, given that $P(B) \neq 0$. Then
+$$
+P(B|A) = \frac{P(A|B) P(A)}{P(B)}.
+$$
+\end{nth}
+\begin{proof}
+Straight from the definition of the conditional probability we obtain that:
+$$
+P(A,B) = P(A|B)P(B).
+$$
+We also see from the definition that
+$$
+P(B,A) = P(B|A)P(A).
+$$
+Hence, since $P(A,B) = P(B,A)$,
+$$
+P(A|B)P(B) = P(B|A)P(A) \implies P(A|B) = \frac{P(B|A)P(A)}{P(B)}.
+$$
+\end{proof}
+
+\emph{Random variables} (RV) can now be introduced, since they are one of the concepts that will lead us to the main objective of this thesis. Underneath each experiment involving any grade of uncertainty there is a \emph{random variable}.
+
+\begin{ndef}
+Let $(\Omega,\Alg,\Prob)$ be a probability space, and $(E,\mathcal B)$ be a measurable space. 
+A \emph{random variable} is a measurable function $X: \Omega \to E$, from the probability space to the measurable space. This means: for every subset $B \in (E,\mathcal B)$, its pre-image
+$$
+X^{-1}(B) = \{\omega : X(\omega) \in B\} \in \Alg .
+$$
+\end{ndef}
+
+
+\subsection*{Expectation of a random variable}
+
+Imagine observing a wide number of outcomes from our random variable, and taking the average of these random values. The expectation is the value of this average when we 
+take \emph{infinite} outcomes of our random variable.
+
+\begin{ndef}\label{def:expectation}
+Let $X$ be a non negative random variable on a probability space $(\Omega,\Alg,\Prob)$. The \emph{expectation} $E[X]$ of $X$ is defined as:
+$$
+E[X] = \int_\Omega X(\omega) \ dP(\omega).
+$$
+\end{ndef}
+
+Sometimes we might be referring to multiple random variables. In these cases, in order to make reference to the variable (or distribution function, that will be presented later) for which we calculate the expectation, we will denote it as $E_X$ (or $E_P$, in the case that we are addressing a distribution).
+
+Recall that the expectation $E[X]$ of a random variable is a linear operation. That is, if $Y$ is another random variable, and $\alpha,\beta \in \R$, then
+$$
+E[\alpha X + \beta \mathcal Y] = \alpha E[X] + \beta E[\mathcal Y].
+$$
+This is a trivial consequence of the linearity of the \emph{Lebesgue integral}.
+
+
+\subsection*{Random vectors}
+
+
+Usually, when it comes to applying these concepts to a real problem, we will be observing multiple features that a phenomenon in nature presents. We would like to have a collection of random variables each one representing one of this features.
+In order to set the notation for these kinds of situations, we will introduce \emph{random vectors}.
+
+\begin{ndef}
+  A random vector is a row vector $\rvc$ whose components are real-valued random variables on the same probability space $(\Omega,\Alg,P)$.
+\end{ndef}
+
+
+We can also extend the notion of expectation to a random vector. Let $\rvc$ be a random vector and assume that $E[X_i]$ exists for all $i \in \{1, \dots, n \}$. The expectation of $\rv$ is defined as the vector containing the expectations of each individual random vector, that is:
+$$
+E[\rv] = \left[ \begin{array}{c} 
+E[X_1]\\
+\vdots\\
+E[X_n]
+\end{array} \right].
+$$
+
+It can also happen that, given a random vector, we would like to know the probability distribution of some of its components. That is called the \emph{marginal distribution}.
+
+\begin{ndef}
+Let $\rvc$ be a random vector. The \emph{marginal distribution} of a subset of $\rv$ is the probability distribution of the variables contained in the subset. 
+\end{ndef}
+In the simple case of having two random variables, e.g. $X= (X_1, X_2)$, then the marginal distribution of $X_1$ is:
+$$
+P(x) = \int_{x_2} P(x_1,x_2) dx_2.
+$$
+

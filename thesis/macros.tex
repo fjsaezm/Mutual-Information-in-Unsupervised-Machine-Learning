@@ -1,0 +1,114 @@
+%------------------------
+% Math libraries
+%------------------------
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{shapes,fit}
+\usepackage{bussproofs}
+\EnableBpAbbreviations{}
+\usepackage{mathtools}
+\usepackage{scalerel}
+\usepackage{stmaryrd}
+
+%------------------------
+% Estilos para los teoremas
+%------------------------
+\theoremstyle{plain}
+\newtheorem{nth}{Theorem}[section]
+% For theorems not in sections
+\newtheorem{nthC}{Theorem}[chapter]
+
+\newtheorem{nprop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{ndef}{Definition}[section]
+% For definitions not in sections
+\newtheorem{ndefC}{Definition}[chapter]
+
+\newtheorem{nproof}{Proof}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{nexample}{Example}
+
+
+\theoremstyle{notation}
+\newtheorem{notation}{Notation}
+
+
+\begingroup\makeatletter\@for\theoremstyle:=definition,ndefC,remark,plain\do{\expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{\addtolength\thm@preskip\parskip}}\endgroup
+
+%------------------------
+% Macros
+% ------------------------
+
+%Frequently used mathematical commands
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand{\R}{\mathbb{R}}
+% \newcommand{\E}{\mathbb{E}}
+\newcommand{\bmu}{\bm{\mu}}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bX}{\bm{X}}
+\newcommand{\bz}{\bm{z}}
+\newcommand{\bZ}{\bm{Z}}
+\newcommand{\bv}{\bm{v}}
+\newcommand{\bh}{\bm{h}}
+\newcommand{\bSigma}{\bm{\Sigma}}
+\newcommand{\bpi}{\bm{\pi}}
+\newcommand{\bLambda}{\bm{\Lambda}}
+\newcommand{\btheta}{\bm{\theta}}
+
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\Y}{\mathcal{Y}}
+
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+\newcommand\E[2]{\mathbb{E}_{#1}\Big[#2\Big]}
+\newcommand\KL[2]{KL\Big(#1 \bigm| #2\Big)}
+\newcommand{\bigCI}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\newcommand{\bigCD}{\centernot{\bigCI}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% My own commands:
+
+\newcommand{\Prob}{\mathcal{P}}
+\newcommand{\Alg}{\mathscr{A}}
+\newcommand{\N}{\mathbb N}
+\newcommand{\A}{\mathcal A}
+%\newcommand{\abs}[1]{\lvert#1\rvert}  
+\newcommand{\rv}{\mathbf{X}}
+\newcommand{\rvc}{\mathbf{X} = (X_1,\dots,X_n)}
+\newcommand{\pd}{P_{\text{data}}}
+\newcommand{\xtk}{x_{t+k}}
+\newcommand{\ps}{x^+}
+\newcommand{\ns}{x^-}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+
+
+% Set Graphics Path
+\usepackage{float}
+\graphicspath{{media/}}
+
+% Math operators
+
+\DeclareMathOperator*{\Var}{Var}
+
+\DeclareMathOperator*{\Cov}{Cov}
+
+% For resnet tables
+
+\newcommand{\blockb}[3]{\left[\begin{array}{c}\text{1$\times$1, #2}\\[-.1em] \text{3$\times$3, #2}\\[-.1em] \text{1$\times$1, #1}\end{array}\right]\times#3}
+
+
+
+
