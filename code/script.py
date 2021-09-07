@@ -5,7 +5,7 @@ import itertools
 from operator import add
 import subprocess
 
-COMMAND = """python -m byol.main_loop --experiment_mode='pretrain' --worker_mode='train' --pretrain_epochs=1000 """
+COMMAND = """python -m byol.main_loop --experiment_mode='pretrain' --worker_mode='train' --pretrain_epochs=100 """
 
 
 def separator():
@@ -18,14 +18,14 @@ def separator():
 
 headers = ["--batch_size=","--checkpoint_root="]
 
-batch_sizes = [32,64,128,256,512,1024,2048]
+batch_sizes = [32,64,128,256]
 
 #batch_sizes = [32]
 all = [batch_sizes]
 
 for el in tqdm(list(itertools.product(*all))):
     # Create model dir name and create dir for the model
-    model_dir = "byol/models/"+str(el[0])+"-RN50"
+    model_dir = "byol/models/test/"+str(el[0])+"-RN50"
     if not os.path.exists(model_dir):
         os.mkdir(model_dir)
     # Join model dir name to the list of parameters

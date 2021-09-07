@@ -51,6 +51,7 @@ Experiment = Union[
 
 
 def write_tensorboard_epoch(writer,scalars,step):
+    print(scalars)
     with writer.as_default():
         tf.summary.scalar('train/top_1_acc',float(scalars['top1_accuracy']),step=step)
         tf.summary.scalar('train/top_5_acc',float(scalars['top5_accuracy']),step=step)
@@ -112,13 +113,15 @@ def train_loop(experiment_class: Experiment, config: Mapping[Text, Any]):
       current_time = time.time()
       if current_time - last_logging > FLAGS.log_tensors_interval:
         logging.info('Step %d: %s', step, scalars)
-        write_tensorboard_epoch(train_summary_writer,scalars,step)
+        if FLAGS.experiment_mode == 'pretrain':
+            write_tensorboard_epoch(train_summary_writer,scalars,step)
 
         last_logging = current_time
     step += 1
   logging.info('Saving final checkpoint')
   logging.info('Step %d: %s', step, scalars)
-  write_tensorboard_end(train_summary_writer,scalars,step)
+  if FLAGS.experiment_mode == 'pretrain':
+      write_tensorboard_end(train_summary_writer,scalars,step)
   experiment.save_checkpoint(step, rng)
 
 
