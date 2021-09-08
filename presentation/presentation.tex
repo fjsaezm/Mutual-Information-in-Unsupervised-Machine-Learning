@@ -1,0 +1,196 @@
+\documentclass[aspectratio=169]{beamer}
+
+
+
+% OPCIONES DE BEAMER
+
+\definecolor{Maroon}{cmyk}{0, 0.87, 0.88, 0.1}
+\definecolor{teal}{rgb}{0.0, 0.45, 0.45}
+
+\usetheme[block=fill, subsectionpage=progressbar, titleformat section=smallcaps]{metropolis}
+\setbeamertemplate{frametitle continuation}[roman]
+\setbeamertemplate{section in toc}[balls numbered]
+\setbeamertemplate{subsection in toc}[subsections unnumbered]
+%\setsansfont[BviejoFont={Fira Sans SemiBold}]{Fira Sans Book}  % Increase font weigth
+\widowpenalties 1 10000
+\raggedbottom
+
+% COLORES
+\setbeamercolor{palette primary}{bg=teal}
+\setbeamercolor{progress bar}{use=Maroon, fg=Maroon}
+
+% PAQUETES
+\usepackage{bm}
+\usepackage{xcolor}
+\colorlet{shadecolor}{blue!15}
+\usepackage{framed}
+\usepackage{amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-noshorthands]{babel}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{minted}
+
+
+% Macros
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bX}{\bm{X}}
+\newcommand{\bw}{\bm{w}}
+\newcommand{\bW}{\bm{W}}
+\newcommand{\bz}{\bm{z}}
+\newcommand{\bZ}{\bm{Z}}
+\newcommand{\bv}{\bm{v}}
+\newcommand{\bV}{\bm{V}}
+\newcommand{\bH}{\bm{H}}
+\newcommand{\bh}{\bm{h}}
+\newcommand{\bSigma}{\bm{\Sigma}}
+\newcommand{\bpi}{\bm{\pi}}
+\newcommand{\bLambda}{\bm{\Lambda}}
+\newcommand{\bmu}{\bm{\mu}}
+\newcommand{\btheta}{\bm{\theta}}
+\newcommand{\bnu}{\bm{\nu}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand\E[2]{\mathbb{E}_{#1}\left[#2\right]}
+\newcommand\KL[2]{KL\Big(#1 \bigm|\bigm| #2\Big)}
+\newcommand{\bigCI}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\newcommand{\bigCD}{\centernot{\bigCI}}
+\newcommand{\X}{\mathcal{X}}
+\usepackage{pgfplots}
+
+% TikZ
+\usepackage{tikz}
+
+\newtheorem{defi}{Definición}
+
+\usetikzlibrary{arrows.meta,
+chains,
+positioning}
+
+\newcommand\Fontvi{\fontsize{8}{7.2}\selectfont}
+
+\title{Información mutua y métodos contrastivos en el aprendizaje de representaciones}
+\subtitle{Doble Grado en Ingeniería Informática y Matemáticas}
+\date{\today}
+\author{Francisco Javier Sáez Maldonado}
+\institute{Trabajo Fin de Grado \\\\\\ \emph{E.T.S. de Ingenierías Informática y de Telecomunicación} \\ \emph{Facultad de Ciencias}}
+
+\usepackage[absolute,overlay]{textpos}
+\titlegraphic{
+  \begin{textblock*}{5cm}(9.5cm,4.8cm)
+    \includegraphics[width=5cm]{ugr}
+  \end{textblock*}
+}
+
+\begin{document}
+  \maketitle
+
+  \begin{frame}{Índice}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+         % Inferencia estadística\\
+         % \quad Enfoques\\
+         Teoría de la información\\
+         \quad Entropía\\
+         \quad Información mutua\\
+         \quad Cotas inferiores\\
+         \vspace*{0.2cm}
+         Aprendizaje contrastivo\\
+         \quad Estimación del ruido contrastiva\\
+         \quad Contrastive predictive coding\\
+         \quad Pérdida usando tripletas\\
+       \end{column}
+       \begin{column}{0.5\textwidth}
+         Marcos de trabajo\\
+         \quad SimCLR \\
+         \quad Bootstrap your own latent
+         \vspace*{0.2cm}
+         Experimentación\\
+         \quad Objetivos\\
+         \quad Experimentos con SimCLR\\
+         \quad Experimentos con BYOL\\
+       \end{column}
+     \end{columns}
+  \end{frame}
+
+  \begin{frame}{Introducción}
+
+
+  % Timeline + decir qué es ejemplos etiquetados y qué no son ejemplos etiquetados
+
+
+  \end{frame}
+
+    \begin{frame}{Divergencia Kullback-Leibler}
+      \begin{defi}[Divergencia Kullback-Leibler]
+    Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio probabilístico, su \emph{divergencia de Kullback-Leibler} \(\KL{Q}{P}\) mide la ``diferencia'' de \(Q\) a \(P\)
+    \[
+      \KL{P}{Q} = \E{P}{\log \frac{P(x)}{Q(x)}}.
+    \]
+      \end{defi}
+      La divergencia de Kullback-Leibler es siempre no negativa.
+ 
+  \end{frame}
+
+  
+  \section{Teoría de la información}
+
+  \begin{frame}{Entropía}
+    Sean \(X,Y\) variables aleatorias discretas, con imágenes \(\X, \mathcal Y\) .
+
+
+    \begin{defi}[Entropía y entropía relativa]
+    
+    
+      La entropía \(H(X)\) de \(X\) se define como
+      \[
+        H(X) = E_X\left[\log\frac{1}{P_X(X)}\right] =  \sum_{x \in \X} P_X(x) \log\frac{1}{P_X(x)}.
+      \]
+    \end{defi}
+    \begin{defi}
+      La entropía  condicionada \(H(X\mid Y)\) se define como
+      \[
+        H(X\mid Y) = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}.
+      \]
+      
+      
+    \end{defi}
+
+  \end{frame}
+
+
+  \begin{frame}{Información mutua}
+    
+    \begin{itemize}
+      \item $0 \leq H(X) \leq \log(|\X|)$
+      \item $ H(X|Y) \leq H(X) $
+     \end{itemize}
+
+     
+    \begin{defi}
+      La entropía  condicionada \(H(X\mid Y)\) se define como
+      \[
+        H(X\mid Y) = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}.
+      \]
+      
+      
+    \end{defi}
+ 
+  \end{frame}
+  \begin{frame}{titulo}
+  
+  \end{frame}
+  \begin{frame}{titulo}
+  
+  \end{frame}
+  \begin{frame}{titulo}
+  
+  \end{frame}
+  \begin{frame}{titulo}
+  
+  \end{frame}
+  \begin{frame}{titulo}
+  
+  \end{frame}
+
+\end{document}

@@ -1,9 +1,7 @@
-**This implementation was directly obtained from [this Github repository](https://github.com/deepmind/deepmind-research/tree/master/byol)**
+**This implementation was directly obtained from [BYOL official repository](https://github.com/deepmind/deepmind-research/tree/master/byol)**
 **I DO NOT OWN THE RIGHTS ON THE CODE ON THIS ENTIRE FOLDER**
 
 Some modifications or scripts have been added in order to obtain more information or make the executions easier for me.
-
-In particular, I have used the instructions to run the experiments using Imagenette.
 
 
 # Bootstrap Your Own Latent
