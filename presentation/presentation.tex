@@ -62,6 +62,9 @@
 \usepackage{tikz}
 
 \newtheorem{defi}{Definición}
+\newtheorem{prop}{Proposición}
+\newtheorem{nth}{Teorema}
+\newtheorem{cor}{Corolario}
 
 \usetikzlibrary{arrows.meta,
 chains,
@@ -167,18 +170,44 @@ positioning}
      \end{itemize}
 
      
-    \begin{defi}
-      La entropía  condicionada \(H(X\mid Y)\) se define como
+    \begin{defi}[Información mutua]
+      Sean \(X,Z\) variables aleatorias. La \emph{información mutua} entre ellas se expresa como
       \[
-        H(X\mid Y) = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}.
+      I(X,Z) = H(X) - H(X\mid Z).
       \]
-      
-      
     \end{defi}
+    Usando la definición y la divergencia de Kullback-Leibler entre las distribuciones \(P_X,P_Z\) asociadas a cada variable, se obtiene que
+    \[
+    I(X,Z) = D_{KL}  \KL{P_{XZ}}{P_X P_Z}
+    \]
  
   \end{frame}
-  \begin{frame}{titulo}
+  \begin{frame}{Cotas inferiores de la información mutua}
+  \begin{prop}[Cota inferior variacional]
+  Sean \(X,Z\) variables aleatorias y \(Q_\theta (Z\mid X)\) una distribución de probabilidad arbitraria. Entonces,
+  \[
+  I(X,Z) \geq H(Z) + E_{P_X} \left[ E_{P_{X \mid Z}} \left[ \log Q_\theta(Z \mid X) \right]\right]
+  \]
+  \end{prop}
   
+  
+  \end{prop}
+  
+  
+  \begin{nth}[Representación Donsker-Varadhan]
+  La divergencia de Kullback-Leibler entre las distribuciones \(P\) y \(Q\) también puede expresarse como
+  \[
+  D_{KL}(P \mid \mid Q) = \sup_{T} E_P[T] - \log E_Q\left[e^T\right],
+  \]
+  donde el supremo se toma sobre todas las funciones \(T: \Omega \to \R \) que hacen que la esperanza bajo \( P \) exista.
+  \end{nth}
+  
+  \begin{cor}
+  Sea \(\mathcal F\) una clase de funciones \( T : \Omega \to \R \) que satisfacen las condiciones del teorema anterior. Entonces:
+  \[
+  I(P,Q) = D_{KL}(P \mid \mid Q) \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q\left[e^T\right]
+  \]
+  \end{cor}
   \end{frame}
   \begin{frame}{titulo}
   
