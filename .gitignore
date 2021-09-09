@@ -16,3 +16,6 @@ _minted-thesis/
 build/
 code/SimCLR/test*
 code/byol/models
+*.nav
+*.snm
+*.gz
