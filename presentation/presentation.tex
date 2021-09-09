@@ -59,6 +59,11 @@
 \newcommand{\R}{\mathbb{R}}
 \usepackage{pgfplots}
 
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\ps}{x^+}
+\newcommand{\ns}{x^-}
+
 % TikZ
 \usepackage{tikz}
 
@@ -66,6 +71,9 @@
 \newtheorem{prop}{Proposición}
 \newtheorem{nth}{Teorema}
 \newtheorem{cor}{Corolario}
+
+
+
 
 \usetikzlibrary{arrows.meta,
 chains,
@@ -313,10 +321,44 @@ positioning}
   \end{frame}
   
   \begin{frame}{Funciones de pérdida usando tripletas}
-  
+    \begin{figure}[H]%!htb]
+      \minipage{0.32\textwidth}
+      \centering
+      \includegraphics[scale=0.15]{c1}
+      \caption*{Original $x$}\label{fig:cat1}
+      \endminipage\hfill
+      \minipage{0.32\textwidth}%
+      \centering
+      \includegraphics[scale=0.1]{c2}
+      \caption*{Ejemplo positivo $\ps$}\label{fig:c2}
+      \endminipage
+      \minipage{0.32\textwidth}%
+      \centering
+      \includegraphics[scale=0.1]{doggo}
+      \caption*{Ejemplo negativo $\ns$}\label{fig:doggo}
+      \endminipage
+    \end{figure}
+
+    \[
+    \norm{g(x) - g(\ps)}_2 + \alpha < \norm{g(x) - g(\ns)}_2.
+    \]
+    \[
+      \ell^\alpha (x,\ps,\ns) = \max \left(0, \norm{g(x) - g(\ps)}_2^2 - \norm{g(x) - g(\ns)}_2^2 + \alpha\right).
+    \]
+
   \end{frame}
   
   \begin{frame}{titulo}
+
+
+    \begin{defi}
+      Dado un conjunto de tripletas, cada una con una imagen original, un ejemplo positivo y uno negativo  \(\mathcal T = \{(x_i,\ps_i,\ns_i)\}_{i \in \Lambda} \), una función de pérdida usando tripletas se define como:
+      \[
+      \mathcal L (x_i,\ps_i,\ns_i) = \sum_{i \in \Lambda} \ell^\alpha(x_i,\ps_i,\ns_i).
+      \]
+
+    \end{defi}
+    
   
   \end{frame}
   
