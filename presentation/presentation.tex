@@ -7,7 +7,7 @@
 \definecolor{Maroon}{cmyk}{0, 0.87, 0.88, 0.1}
 \definecolor{teal}{rgb}{0.0, 0.45, 0.45}
 
-\usetheme[block=fill, subsectionpage=progressbar, titleformat section=smallcaps]{metropolis}
+\usetheme[block=fill,numbering=fraction,, subsectionpage=progressbar, titleformat section=smallcaps]{metropolis}
 \setbeamertemplate{frametitle continuation}[roman]
 \setbeamertemplate{section in toc}[balls numbered]
 \setbeamertemplate{subsection in toc}[subsections unnumbered]
@@ -130,34 +130,35 @@ positioning}
 
   \begin{frame}{Motivación}
 
-    \begin{defi}[Representación]
+    \begin{shaded}
       Sea $x \in \R^d$ un vector de entrada a un modelo de aprendizaje automático. Una \emph{representación} $\tilde{x} \in \R^n$ es otro vector de menor dimensión que comparte información o características con $x$.
-    \end{defi}
+    \end{shaded}
 
   % Timeline + decir qué es ejemplos etiquetados y qué no son ejemplos etiquetados
 
-
-  \end{frame}
-
-    \begin{frame}{Divergencia Kullback-Leibler}
-      \begin{defi}[Divergencia Kullback-Leibler]
-    Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio probabilístico, su \emph{divergencia de Kullback-Leibler} \(\KL{Q}{P}\) mide la ``diferencia'' de \(Q\) a \(P\)
-    \[
-      \KL{P}{Q} = E_P{\log \frac{P(x)}{Q(x)}}.
-    \]
-      \end{defi}
-      La divergencia de Kullback-Leibler es siempre no negativa.
- 
   \end{frame}
 
   
   \section{Teoría de la información}
 
+
+\begin{frame}{Divergencia Kullback-Leibler}
+  \begin{defi}[Divergencia Kullback-Leibler]
+Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio probabilístico, su \emph{divergencia de Kullback-Leibler} \(\KL{Q}{P}\) mide la ``diferencia'' de \(Q\) a \(P\)
+\[
+  \KL{P}{Q} = E_P{\log \frac{P(x)}{Q(x)}}.
+\]
+  \end{defi}
+  La divergencia de Kullback-Leibler es siempre no negativa.
+
+\end{frame}
+  
+
   \begin{frame}{Entropía}
     Sean \(X,Y\) variables aleatorias discretas, con imágenes \(\X, \mathcal Y\) .
 
 
-    \begin{defi}[Entropía y entropía relativa]
+    \begin{defi}[Entropía]
     
     
       La entropía \(H(X)\) de \(X\) se define como
@@ -165,7 +166,8 @@ positioning}
         H(X) = E_X\left[\log\frac{1}{P_X(X)}\right] =  \sum_{x \in \X} P_X(x) \log\frac{1}{P_X(x)}.
       \]
     \end{defi}
-    \begin{defi}
+    \pause
+    \begin{defi}[Entropía relativa]
       La entropía  condicionada \(H(X\mid Y)\) se define como
       \[
         H(X\mid Y) = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}.
@@ -179,33 +181,38 @@ positioning}
 
   \begin{frame}{Información mutua}
     
+    \begin{shaded}
+    Propiedades:
     \begin{itemize}
       \item $0 \leq H(X) \leq \log(|\X|)$
       \item $ H(X|Y) \leq H(X) $
      \end{itemize}
+    \end{shaded}
 
+    \pause
      
     \begin{defi}[Información mutua]
       Sean \(X,Z\) variables aleatorias. La \emph{información mutua} entre ellas se expresa como
       \[
       I(X,Z) = H(X) - H(X\mid Z).
       \]
+      También se puede expresar como
+      \[
+      I(X,Z) =  \KL{P_{XZ}}{P_X P_Z}
+      \]
     \end{defi}
-    Usando la definición y la divergencia de Kullback-Leibler entre las distribuciones \(P_X,P_Z\) asociadas a cada variable, se obtiene que
-    \[
-    I(X,Z) =  \KL{P_{XZ}}{P_X P_Z}
-    \]
  
   \end{frame}
   \begin{frame}{Cotas inferiores de la información mutua}
   \begin{prop}[Cota inferior variacional]
   Sean \(X,Z\) variables aleatorias y \(Q_\theta (Z\mid X)\) una distribución de probabilidad arbitraria. Entonces,
   \[
-  I(X,Z) \geq H(Z) + E_{P_X} \left[ E_{P_{X \mid Z}} \left[ \log Q_\theta(Z \mid X) \right]\right]
+  I(X,Z) \geq H(Z) + E_{P_X} \left[ E_{P_{Z \mid X}} \left[ \log Q_\theta(Z \mid X) \right]\right]
   \]
   \end{prop}
 
-  En el contexto del aprendizaje automático, podemos considerar que \(Q_\theta\) es una red neuronal y maximizar el lado derecho de la desigualdad para acercarnos al valor real de la información mutua.
+
+  En el contexto del aprendizaje automático, podemos considerar que \(Q_\theta\) es una red neuronal y maximizar la cota inferior usando \emph{backpropagation}.
   
 
 \end{frame}
@@ -220,7 +227,7 @@ positioning}
   \]
   donde el supremo se toma sobre todas las funciones \(T: \Omega \to \R \) que hacen que la esperanza bajo \( P \) exista.
   \end{nth}
-  
+  \pause
   \begin{cor}
   Sea \(\mathcal F\) una clase de funciones \( T : \Omega \to \R \) que satisfacen las condiciones del teorema anterior. Entonces:
   \[
@@ -238,47 +245,49 @@ positioning}
       \item \( Y = \{ y_1,\dots,y_{T_n}\}\) una muestra de elementos idénticamente distribuidos, que asumimos extraída de una distribución de ruido conocida \( P_n\).
 
     \end{itemize}
+    \pause
   
     \begin{shaded}
       \textbf{Problema:} Considerando el conjunto \(U = X \cup Y = \left\{u_1,\dots,u_{T_d+T_n}\right\}\), ser capaces de discriminar entre elementos de \(U\) que fueron extraídos de \(P_d\) y elementos extraídos de \(P_n\).
     \end{shaded}
-
+    \pause
     Trataremos de estimar el ratio \(P_d/P_n\) y usaremos este ratio para conocer propiedades sobre la distribución \(P_d\).
   \end{frame}
   \begin{frame}{Estimación del ruido contrastiva - Resolución}
     Asignando a cada elemento de \(U\) una \emph{etiqueta} para poder aplicar la regresión logística
     \[
       C_t(u_t) = \begin{cases}
-      1 & if \ u_t \in X\\
-      0 & if \ u_t \in Y
+      1 & si \ u_t \in X\\
+      0 & si \ u_t \in Y
       \end{cases} \implies \begin{cases}
         P(u\mid C = 1,\theta) = P_m(u;\theta) \\
          P(u\mid C = 0) = P_n(u)
         \end{cases}
     \]
-    Sabemos además que, si \(\nu = P(C = 0)/P(C=1)\), las probabilidades posteriores son
-    \[
-      P(C=1|u;\theta) = \frac{P_m(u;\theta)}{P_m(u;\theta) + \nu P_n(u)} \quad , \quad P(C = 0|u; \theta)  =  \frac{\nu P_n(u)}{P_m(u;\theta) + \nu P_n(u)}.
-\]
+%    Sabemos además que, si \(\nu = P(C = 0)/P(C=1)\), las probabilidades posteriores son
+%    \[
+%      P(C=1|u;\theta) = \frac{P_m(u;\theta)}{P_m(u;\theta) + \nu P_n(u)} \quad , \quad P(C = 0|u; \theta)  =  \frac{\nu P_n(u)}{P_m(u;\theta) + \nu P_n(u)}.
+%\]
     Llamaremos \(G(u;\theta)\) al logaritmo del ratio que queremos estimar 
     \[
       G(u;\theta) = \log \frac{P_m(u;\theta)}{P_n(u)} 
       \]
   \end{frame}
-  \begin{frame}{Estimación del ruido contrastiva - Resolución (2)}
+  \begin{frame}{Estimación del ruido contrastiva - Resolución}
   
     \begin{prop}
       En las condiciones presentadas y llamando \(h(u;\theta) := P(C = 1|u ; \theta)\), se tiene que 
       \[
       h(u;\theta) = r_\nu(G(u;\theta)), \quad \text{donde} \quad  r_\nu(u) = \frac{1}{1 + \nu exp(-u)}
       \]
-      es la función logística parametrizada por \(\nu\).
+      es la función logística parametrizada por \(\nu = P(C = 0)/P(C=1)\).
       \end{prop}
-
-      Puesto que las etiquetas \(C_t\) siguen una distribución de Bernoulli y son independientes, el logaritmo de la verosimilitud condicional tiene la forma
+     
+      \pause
+      Puesto que las etiquetas \(C_t\) siguen una distribución de Bernoulli y son independientes, el logaritmo de la verosimilitud condicionada tiene la forma
       \begin{align*}
-        \ell(\theta) & =  \sum_{t = 1}^{T_d + T_n} C_t \log P(C_t = 1|u_t; \theta) + (1-C_t) \log P(C_t = 0|u_t;\theta)\\
-        & =  \sum_{t = 1}^{T_d} \log [h(x_t;\theta)] + \sum_{t = 1}^{T_n} \log[1- h(y_t,\theta)]  
+        \ell(\theta) & =  %\sum_{t = 1}^{T_d + T_n} C_t \log P(C_t = 1|u_t; \theta) + (1-C_t) \log P(C_t = 0|u_t;\theta)  \\& = 
+        \sum_{t = 1}^{T_d} \log [h(x_t;\theta)] + \sum_{t = 1}^{T_n} \log[1- h(y_t,\theta)]  
       \end{align*}
 
   \end{frame}
@@ -311,6 +320,7 @@ positioning}
         \]
     \end{defi}
 
+    \pause
     \begin{prop}
       En las mismas condiciones que en la definición anterior, se tiene que
       \[
@@ -339,16 +349,18 @@ positioning}
       \endminipage
     \end{figure}
 
+    Nos interesa tener un margen \(\alpha \in \R\)
     \[
-    \norm{g(x) - g(\ps)}_2 + \alpha < \norm{g(x) - g(\ns)}_2.
+    \norm{g(x) - g(\ps)}_2 + \alpha < \norm{g(x) - g(\ns)}_2,
     \]
+    lo que nos lleva a la pérdida de una tripleta individual
     \[
       \ell^\alpha (x,\ps,\ns) = \max \left(0, \norm{g(x) - g(\ps)}_2^2 - \norm{g(x) - g(\ns)}_2^2 + \alpha\right).
     \]
 
   \end{frame}
   
-  \begin{frame}{titulo}
+  \begin{frame}{Funciones de pérdida usando tripletas}
 
 
     \begin{defi}
@@ -357,8 +369,50 @@ positioning}
       \mathcal L (x_i,\ps_i,\ns_i) = \sum_{i \in \Lambda} \ell^\alpha(x_i,\ps_i,\ns_i).
       \]
 
+
+
     \end{defi}
     
+    
+    Podemos generalizar esta función de pérdida a un caso más eficiente y, a continuación, se puede probar que se está generalizando la pérdida contrastiva.
+    
+  
+  \end{frame}
+
+  \section{Nuevos marcos de trabajo}
+  
+  \begin{frame}{SimCLR}
+    \begin{figure}[H]
+      \small
+          \centering
+      \begin{tikzpicture}
+          \node at (0,1.8) (h) {$\longleftarrow\,$Representation$\,\longrightarrow$};
+          \node[draw, circle] at (0,-1) (x) {$\,~\bm{x}~\,$};
+          \node[draw, circle] at (-2.5,0) (x1) {$\tilde{\bm{x}}_i$};
+          \node[draw, circle] at (2.5,0) (x2) {$\tilde{\bm{x}}_j$};
+          \node at (-2.5,1.8) (h) {$\bm h_i$};
+          \node at (2.5,1.8) (c) {$\bm h_j$};
+          \node at (-2.5,3) (hh) {$\bm z_i$};
+          \node at (2.5,3) (cc) {$\bm z_j$};
+          \path[->] 
+              (x)  edge [>=latex] node[below,rotate=-25] {$t\sim\mathcal{T}$} (x1)
+              (x)  edge [>=latex] node[below,rotate=25] {$t'\sim \mathcal{T}$} (x2)
+              (x1)  edge [>=latex] node[left,rotate=0] {$f(\cdot)$} (h)
+              (x2)  edge [>=latex] node[right,rotate=0] {$f(\cdot)$} (c)
+              (h)  edge [>=latex] node[left,rotate=0] {$g(\cdot)$} (hh)
+              (c)  edge [>=latex] node[right,rotate=0] {$g(\cdot)$} (cc);
+          \path[<->]
+              (hh)  edge [>=latex] node[above,rotate=0] {Maximize agreement} (cc);
+          \end{tikzpicture}
+      \end{figure}
+
+      \[
+        \ell_{i,j} = -\log \frac{exp(sim(z_i,z_j)/\tau)}{\sum_{k=1}^{2N} I_{k \neq i} exp(sim(z_i,z_k)/\tau)},    
+      \]
+  \end{frame}
+
+  
+  \begin{frame}{Bootstrap your own latent}
   
   \end{frame}
   
@@ -370,6 +424,17 @@ positioning}
   \begin{frame}{titulo}
   
   \end{frame}
+
+  
+  \begin{frame}{titulo}
+  
+  \end{frame}
+
+  
+  \begin{frame}{titulo}
+  
+  \end{frame}
+
   
   \begin{frame}{titulo}
   
