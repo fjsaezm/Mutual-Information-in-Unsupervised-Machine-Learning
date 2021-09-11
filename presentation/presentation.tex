@@ -30,7 +30,7 @@
 \usepackage{subfig}
 \usepackage{graphicx}
 \usepackage{minted}
-
+\usepackage{ upgreek }
 
 % Macros
 \newcommand{\bx}{\bm{x}}
@@ -403,7 +403,7 @@ Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio pro
               (c)  edge [>=latex] node[right,rotate=0] {$g(\cdot)$} (cc);
           \path[<->]
               (hh)  edge [>=latex] node[above,rotate=0] {Maximize agreement} (cc);
-          \end{tikzpicture}
+      \end{tikzpicture}
       \end{figure}
 
       \[
@@ -413,11 +413,20 @@ Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio pro
 
   
   \begin{frame}{Bootstrap your own latent}
-  
+    \begin{figure}[H]
+      \centering 
+      \includegraphics[scale=0.8]{Archi-BYOL.pdf}
+    \end{figure}
+
+    \[
+    \mathcal L_{\theta,\upxi} = \norm{\overline{q_\theta}(z_\theta) - \overline{z_\upxi'}}_2^2. 
+    \]
   \end{frame}
   
   \begin{frame}{titulo}
-  
+    \[
+\left(\sum_{i=1}^{n+1} \right)
+    \]
   \end{frame}
 
   
