@@ -32,6 +32,8 @@
 \usepackage{minted}
 \usepackage{ upgreek }
 
+
+
 % Macros
 \newcommand{\bx}{\bm{x}}
 \newcommand{\bX}{\bm{X}}
@@ -64,8 +66,13 @@
 \newcommand{\ps}{x^+}
 \newcommand{\ns}{x^-}
 
+
 % TikZ
 \usepackage{tikz}
+
+\usepackage{arydshln}
+
+\captionsetup[subfloat]{labelformat=empty}
 
 \newtheorem{defi}{Definición}
 \newtheorem{prop}{Proposición}
@@ -100,27 +107,28 @@ positioning}
 \begin{document}
   \maketitle
 
+
   \begin{frame}{Índice}
     \begin{columns}
       \begin{column}{0.5\textwidth}
          % Inferencia estadística\\
          % \quad Enfoques\\
-         Teoría de la información\\
-         \quad Entropía\\
+         \textbf{1. Teoría de la información}\\
+         %\quad Entropía\\
          \quad Información mutua\\
          \quad Cotas inferiores\\
          \vspace*{0.2cm}
-         Aprendizaje contrastivo\\
+         \textbf{2. Aprendizaje contrastivo}\\
          \quad Estimación del ruido contrastiva\\
          \quad Contrastive predictive coding\\
          \quad Pérdida usando tripletas\\
        \end{column}
        \begin{column}{0.5\textwidth}
-         Marcos de trabajo\\
+         \textbf{3. Nuevos marcos de trabajo}\\
          \quad SimCLR \\
          \quad Bootstrap your own latent\\
          \vspace*{0.2cm}
-         Experimentación\\
+         \textbf{4. Experimentación}\\
          \quad Objetivos\\
          \quad Experimentos con SimCLR\\
          \quad Experimentos con BYOL\\
@@ -128,14 +136,40 @@ positioning}
      \end{columns}
   \end{frame}
 
+  
+
   \begin{frame}{Motivación}
 
+  \centering
+  \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{center}
+        \textbf{Dato}
+        \end{center}
+        \[
+      \left(0.1,0,2,1,0,0.5,2.4,5 \right)  
+     \]
+      \end{column}
+      \begin{column}{0.5\textwidth}  %%<--- here
+        \begin{center}
+          \textbf{Etiqueta}
+          \end{center}
+        \[
+        \text{Perro}  
+        \]
+
+      \end{column}
+    \end{columns}
+
+
+    \pause 
+    
     \begin{shaded}
       Sea $x \in \R^d$ un vector de entrada a un modelo de aprendizaje automático. Una \emph{representación} $\tilde{x} \in \R^n$ es otro vector de menor dimensión que comparte información o características con $x$.
     \end{shaded}
 
-  % Timeline + decir qué es ejemplos etiquetados y qué no son ejemplos etiquetados
 
+    {\color{Maroon}\textbf{Objetivo}:} extraer \textbf{representaciones} que sean buenas en general para \textbf{tareas posteriores}.
   \end{frame}
 
   
@@ -154,65 +188,66 @@ Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio pro
 \end{frame}
   
 
-  \begin{frame}{Entropía}
-    Sean \(X,Y\) variables aleatorias discretas, con imágenes \(\X, \mathcal Y\) .
-
-
-    \begin{defi}[Entropía]
-    
-    
-      La entropía \(H(X)\) de \(X\) se define como
-      \[
-        H(X) = E_X\left[\log\frac{1}{P_X(X)}\right] =  \sum_{x \in \X} P_X(x) \log\frac{1}{P_X(x)}.
-      \]
-    \end{defi}
-    \pause
-    \begin{defi}[Entropía relativa]
-      La entropía  condicionada \(H(X\mid Y)\) se define como
-      \[
-        H(X\mid Y) = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}.
-      \]
-      
-      
-    \end{defi}
-
-  \end{frame}
-
+%  \begin{frame}{Entropía}
+%    Sean \(X,Y\) variables aleatorias discretas, con imágenes \(\X, \mathcal Y\) .
+%
+%
+%    \begin{defi}[Entropía]
+%    
+%    
+%      La entropía \(H(X)\) de \(X\) se define como
+%      \[
+%        H(X) = E_X\left[\log\frac{1}{P_X(X)}\right] =  \sum_{x \in \X} P_X(x) \log\frac{1}{P_X(x)}.
+%      \]
+%    \end{defi}
+%    \pause
+%    \begin{defi}[Entropía relativa]
+%      La entropía  condicionada \(H(X\mid Y)\) se define como
+%      \[
+%        H(X\mid Y) = \sum_{x \in X,y \in \mathcal Y}P_{XY}(x,y)\log\frac{P_Y(y)}{P_{XY}(x,y)}.
+%      \]
+%      
+%      
+%    \end{defi}
+%
+%  \end{frame}
+%
 
   \begin{frame}{Información mutua}
-    
-    \begin{shaded}
-    Propiedades:
-    \begin{itemize}
-      \item $0 \leq H(X) \leq \log(|\X|)$
-      \item $ H(X|Y) \leq H(X) $
-     \end{itemize}
-    \end{shaded}
-
-    \pause
-     
+    %
+    %\begin{shaded}
+    %Propiedades:
+    %\begin{itemize}
+    %  \item $0 \leq H(X) \leq \log(|\X|)$
+    %  \item $ H(X|Y) \leq H(X) $
+    % \end{itemize}
+    %\end{shaded}
+%
+    %\pause
+    % 
     \begin{defi}[Información mutua]
       Sean \(X,Z\) variables aleatorias. La \emph{información mutua} entre ellas se expresa como
       \[
       I(X,Z) = H(X) - H(X\mid Z).
       \]
-      También se puede expresar como
-      \[
-      I(X,Z) =  \KL{P_{XZ}}{P_X P_Z}
-      \]
+      
     \end{defi}
+    También se puede expresar como
+      \[
+      I(X,Z) =  \KL{P_{XZ}}{P_X P_Z}.
+      \]
  
   \end{frame}
   \begin{frame}{Cotas inferiores de la información mutua}
   \begin{prop}[Cota inferior variacional]
   Sean \(X,Z\) variables aleatorias y \(Q_\theta (Z\mid X)\) una distribución de probabilidad arbitraria. Entonces,
   \[
-  I(X,Z) \geq H(Z) + E_{P_X} \left[ E_{P_{Z \mid X}} \left[ \log Q_\theta(Z \mid X) \right]\right]
+  I(X,Z) \geq H(Z) + E_{P_X} \left[ E_{P_{Z \mid X}} \left[ \log Q_\theta(Z \mid X) \right]\right].
   \]
   \end{prop}
 
 
-  En el contexto del aprendizaje automático, podemos considerar que \(Q_\theta\) es una red neuronal y maximizar la cota inferior usando \emph{backpropagation}.
+  En el contexto del aprendizaje automático, podemos considerar que \(Q_\theta\) es una red neuronal y maximizar la cota inferior usando un algoritmo de optimización como \emph{backpropagation}.
   
 
 \end{frame}
@@ -231,7 +266,7 @@ Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio pro
   \begin{cor}
   Sea \(\mathcal F\) una clase de funciones \( T : \Omega \to \R \) que satisfacen las condiciones del teorema anterior. Entonces:
   \[
-  I(P,Q) = \KL{P}{Q}  \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q\left[e^T\right]
+  I(P,Q) = \KL{P}{Q}  \geq \sup_{T \in \mathcal F} E_P[T] - \log E_Q\left[e^T\right].
   \]
   \end{cor}
   \end{frame}
@@ -270,7 +305,7 @@ Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio pro
 %\]
     Llamaremos \(G(u;\theta)\) al logaritmo del ratio que queremos estimar 
     \[
-      G(u;\theta) = \log \frac{P_m(u;\theta)}{P_n(u)} 
+      G(u;\theta) = \log \frac{P_m(u;\theta)}{P_n(u)} .
       \]
   \end{frame}
   \begin{frame}{Estimación del ruido contrastiva - Resolución}
@@ -324,7 +359,7 @@ Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio pro
     \begin{prop}
       En las mismas condiciones que en la definición anterior, se tiene que
       \[
-        I(x^*,z) \geq -  \ell(\theta) + \log N
+        I(x^*,z) \geq -  \ell(\theta) + \log N.
       \]
     \end{prop}
   
@@ -419,34 +454,242 @@ Sean \(P\) y \(Q\) dos distribuciones de probabilidad sobre el mismo espacio pro
     \end{figure}
 
     \[
-    \mathcal L_{\theta,\upxi} = \norm{\overline{q_\theta}(z_\theta) - \overline{z_\upxi'}}_2^2. 
+    \mathcal L_{\theta,\upxi} = \norm{\overline{q_\theta}(z_\theta) - \overline{z_\upxi'}}_2^2 
     \]
-  \end{frame}
-  
-  \begin{frame}{titulo}
     \[
-\left(\sum_{i=1}^{n+1} \right)
+    \upxi \gets \tau \upxi + (1-\tau) \theta  
     \]
   \end{frame}
 
+  \section{Experimentos}
   
-  \begin{frame}{titulo}
+  \begin{frame}{Problemas y objetivos}
+    \textbf{Problemas:}
+    \pause
+    \begin{itemize}
+      \item El conjunto de datos usado en los artículos originales es demasiado grande
+      \pause
+      \item La capacidad de la que disponemos es claramente inferior (1GPU vs 128 TPU)
+    \end{itemize}
+
+    \pause
+
+    \textbf{Objetivos:}
+    \begin{itemize}
+      \item Adaptar los experimentos a un conjunto de datos más pequeño
+      \pause
+      \item Experimentar con los hiperparámetros de los modelos para comprobar si las hipótesis originales se siguen cumpliendo
+    
+    \end{itemize}
+
+    \pause
+    \textbf{Tecnologías (Python):}
+    \begin{itemize}
+      \item Tensorflow
+      \item Jax
+      \item Tensorboard
+    \end{itemize}
+  \end{frame}
+
+  
+  \begin{frame}{Primer experimento SimCLR}
+  Primer acercamiento, búsqueda en malla para explorar el comportamiento de los hiperparámetros:
+  \pause
+
+  \begin{itemize}
+   \item Tamaño de batch 
+   \item Temperatura $\tau$
+   \item Intensidad de la fluctuación de color
+  \end{itemize}
+  \pause
+
+  Este primer experimento se hace utilizando \textbf{ResNet18} como codificador.
+  \pause
+
+
+
+  \begin{table}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lrrrrrr}
+Procedencia & batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_accuracy & top\_5\_accuracy          \\ \hline
+ Propio &512  &  0.25 &  0.25 &  0.0093      &  0.833         &  0.994          \\
+ Propio &1024 &    0.25       &  0.75 &  0.0093      & 0.841          &  0.995           \\ \hdashline
+ Original & 512 & 0.5 & - & - & $\sim 0.846$ & -  \\
+ Original & 1024 & 0.5 & - & - &  $\sim 0.851$ & - \\
+\end{tabular}
+}
+\end{table}
+  
+
+  \end{frame}
+
+  
+  \begin{frame}{Influencia del tamaño de batch }
+
+    \begin{figure}[htp] 
+      \centering
+      \subfloat[Evolución de la precisión según el tamaño del batch.]{%
+          \includegraphics[width=0.45\textwidth]{simclr-batch-comparison}%
+          }%
+      \hfill%
+      \subfloat[Curvas de evolución de la precisión en función del tamaño del batch.]{%
+          \includegraphics[width=0.45\textwidth]{train_supervised_acc}%
+        
+  
+          }%
+  \end{figure}
+
+  En la evaluación de la pérdida, se compara con el resto del batch.
+  \end{frame}
+
+  
+  \begin{frame}{Influencias de la intensidad de fluctuación del color y de la temperatura}
+
+    \begin{figure}[htp] 
+      \centering
+      \subfloat[Influencia de la intensidad de fluctuación.]{%
+      \includegraphics[width=0.48\textwidth]{color-jitter-impact-simclr}%
+          %
+          }%
+      \hfill%
+      \subfloat[Influencia de la temperatura.]{%
+          \includegraphics[width=0.48\textwidth]{temperature-impact-simclr}
+          
+  
+          }%
+  \end{figure}
+
   
   \end{frame}
 
   
-  \begin{frame}{titulo}
+  \begin{frame}{Segundo experimento SimCLR}
+  Aumentamos la profundidad del codificador, usamos \textbf{ResNet50}.
+
+  \begin{figure}[htp] 
+    \centering
+    \subfloat[Pérdida contrastiva en train]{%
+        \includegraphics[width=0.3\textwidth]{simclr-exp2/train_contrast_loss}%
+        %
+        }%
+    %
+    \subfloat[Pérdida supervisada]{%
+        \includegraphics[width=0.3\textwidth]{simclr-exp2/train_supervised_loss}%
+        
+
+        }%
+        \begin{table}[H]
+          \centering
+          \resizebox{\columnwidth}{!}{
+          \begin{tabular}{rlllllll}
+          resnet\_depth & batch\_size   & temperature   & color\_jitter & regularization\_loss & top\_1\_accuracy & top\_5\_accuracy & steps         \\ \hline
+          18 & 1024 &    0.25       &  0.75 &  0.0093      &  0.841          &  0.995          &  4900 \\
+          \textbf{50} & 128 & 0.5 & 0.65 & 0.0225 & 0.844 & 0.994 & 39100 \\
+           & \textbf{256} & \textbf{0.5} & \textbf{0.75} & \textbf{0.023} & \textbf{0.848} & \textbf{0.994} & \textbf{19695} 
+          \end{tabular}
+          }
+          
+          \label{table:best:second:simclr}
+          \end{table}
+      
+\end{figure}
+
   
   \end{frame}
 
   
-  \begin{frame}{titulo}
   
+  \begin{frame}{Tercer experimento y resultados finales}
+  Añadimos \textbf{alisado gaussiano} al preprocesamiento.
+  \begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{rrrrrrrrr}{}
+    Experimento &resnet\_depth & batch\_size  & temperature   & color\_jitter & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy & global\_step   \\ \hline 
+1& 18 & 1024 &    0.25       &  0.75 &  0.0093      &  0.841          &  0.995          &  4900 \\
+2& 50 & {256} & {0.5} & {0.75} & {0.023} & {0.848} & {994} & {19695}  \\
+\textbf{3}&    18              & 1024         & 0.25          & 0.65          & 0.0093               & 0.846                   & 0.994   &  4900                     \\
+& \textbf{50}   & \textbf{256} & \textbf{0.25} & \textbf{0.65} & \textbf{0.0228}      & \textbf{0.862}          & \textbf{0.997} & \textbf{19695}\\
+ \hdashline
+ Original & 50&  512 & 0.5 & - & - & $\sim 0.846$ & - & 9800 \\
+  & 50&1024 & 0.5 & - & - &  $\sim 0.851$ & - & 4900\\                                                    
+    \end{tabular}
+    }
+    \end{table}
+  
+    \pause
+
+    \begin{shaded}
+      Encontramos un \textbf{bug} en el código de Google a la hora de realizar la transferencia de aprendizaje a otros dataset.
+    \end{shaded}
   \end{frame}
 
   
-  \begin{frame}{titulo}
   
+  \begin{frame}{Experimento con BYOL}
+
+  Se pretende comprobar (usando \textbf{ResNet50}) si el tamaño de batch sigue siendo relevante y si se obtienen mejores resultados que los obtenidos en SimCLR.
+
+\begin{columns}
+  \begin{column}{0.4\textwidth}
+    \[
+      \mathcal L_{\theta,\upxi} = \norm{\overline{q_\theta}(z_\theta) - \overline{z_\upxi'}}_2^2 
+      \]
+  \end{column}
+  \pause
+  \begin{column}{0.6\textwidth}  %%<--- here
+    \begin{figure}[H]
+      \centering 
+      \includegraphics[scale=0.3]{byol-batch-comparison}
+    \end{figure}
+  \end{column}
+\end{columns}
+
+
+\begin{table}[H]
+  \resizebox{\columnwidth}{!}{
+  \begin{tabular}{rrrrr}
+  batch\_size  & loss & top\_1\_accuracy & top\_5\_accuracy & steps    \\ \hline
+  
+  \textbf{64} & \textbf{0.381}       & \textbf{0.9240764}          & \textbf{1}              & \textbf{148000} \\       
+  \end{tabular}
+  }
+  \end{table}
+
+  
+  
+  
+  \end{frame}
+  
+
+  
+
+
+  
+  \begin{frame}{Conclusiones}
+
+    \begin{itemize}
+      \item El uso de la teoría de la información proporciona un buen punto de partida para el aprendizaje de representaciones.
+      \item El aprendizaje contrastivo ha probado ser la mejor forma de obtener representaciones que son útiles en tareas posteriores.
+      \item Ambos marcos de trabajo probados obtienen buenos resultados en la adaptación a conjuntos de datos más pequeños.
+    \end{itemize}
+  \end{frame}
+  
+  \appendix
+
+  \begin{frame}[noframenumbering,standout]
+    Gracias por su atención
+  \end{frame}
+
+  
+  \begin{frame}[noframenumbering]{Nota final}
+    El contenido que se expondrá en esta presentación está explicado detalladamente en un documento en
+    \begin{center}
+    \url{https://github.com/fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning}.
+    \end{center}
+
+    El código que se ha elaborado para ayudarnos en este trabajo también se encuentra en este repositorio.
+    
   \end{frame}
 
 
