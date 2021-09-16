@@ -466,6 +466,9 @@ With all this considerations, the best hyperparameters found are the ones presen
 % --------------------------------------------------
 \section{BYOL exploration}
 
+
+\subsection{Introduction:}
+
 Using the same iterative process that we have followed to explore SimCLR, we are going to train the models of this framework using different hyperparameters and we are going to see what results we obtain.
 
 In this case, the number of hyperparameters that we are able to explore is drastically reduced, we will focus on two hyperparameters that showed to be very important in the previous framework. Specifically, we will try to determine how the following hyperparameters affect the results:
@@ -475,7 +478,14 @@ In this case, the number of hyperparameters that we are able to explore is drast
 \item \lstinline{resnet_depth}. Since it is repeated in many cases, the depth and width of the used networks affect the results in a directly proportional way: the wider and deeper networks, the better representations we obtain. Even a new version of SimCLR (\emph{SimCLRv2}) was born emphasizing this idea \citep{chen2020big}. We want to see if this hypothesis is also fulfilled in the used dataset.
 \end{itemize}
 
-At first, we wanted to give both models the same treat and try to perform the grid search algorithm with the same amount of hyperparameters. However, in a first attempt to train BYOL in CIFAR10 we found out that the training times were much longer than SimCLR training times. A single execution of the pretraining and evaluation process would take around 15 hours to finish, which was more time than we could afford to spend for each model. Due to this, we decided to change the dataset to smaller one: Imagenette. 
+At first, we wanted to give both models the same treat and try to perform the grid search algorithm with the same amount of hyperparameters. However, in a first attempt to train BYOL in CIFAR10 we found out that the training times were much longer than SimCLR training times. A single execution of the pretraining and evaluation process would take around 15 hours to finish, which was more time than we could afford to spend for each model. Due to this, we decided to change the dataset to smaller one: Imagenette.
+
+
+\begin{remark}
+  This is a \textbf{very important} point. Since the size of this new dataset is considerably smaller, all the results presented in  Subsections \ref{experiments:byol:first} and \ref{byol:second:experimentt} were obtained in the \textbf{train} set and, thus, they have \textbf{no} value. In 
+\end{remark}
+
+
 
 Before introducing the results obtained, a little observation has to be made. When we configured the tensorboard logs, we fixed a log per epoch. Due of this and probably to the value of the learning rate being bigger than it should be, we can see in Figure \ref{fig:byol:not:smoothed} that the lines have lots of ups and downs even if they are converging in time. Because of this we have to increase the smoothing value from $0.6$ to $1$, which will result in showing big shadows on our charts, indicating the \emph{real values} that the lines would take. We use the smoothed curves for our comparisons, since they are more representative of how the individual model would perform on average.
 
@@ -665,6 +675,10 @@ Observing Figure \ref{fig:repr:loss:exp2}, we can see that the selected as best 
 In Figure \ref{fig:byol:supervised:loss:exp2} we can see that, in the supervised part, the improvement can come from any of the models, since none of them completely flattens the loss curve in the amount of steps that we have set for them. Adding the two losses we obtain the total loss represented in Figure \ref{fig:byol:total:loss:exp2}. If we remember the first experiment, the range for the total loss was $[0.7,1.4]$, in this case the total loss values are reduced to the range $[0.4,0.7]$ which indicates lower losses in general. This is also consistent with the better accuracy scores in the linear evaluation.
 
 
+\subsection{Evaluating ResNet50 models to test performance}
+
+As we have mentioned before, the already presented results were obtained in the train set, which has no value in the machine learning field. Our last step in this experimentation was to test the models obtained in a \emph{test} set. The original code provided with a parameter option that allowed us to do this.
+
 \subsection{Conclusions about BYOL}
 
 With the two experiments that we have done using BYOL, we can conclude the following:
@@ -679,15 +693,15 @@ With the two experiments that we have done using BYOL, we can conclude the follo
 
 \end{itemize}
 
-Recall that we achieved $100\%$ top 1 accuracy in one of our executions. This is a rather strange result, since it is not common to obtain the maximum possible accuracy in any classification task. This could be indicating that there is a mistake in the interpretation of the results or that we got really lucky to find extremely good representations.
-With these last points and considering that, in the code of the original repository they report approximately $92\%$ and we got the complete $100\%$ accuracy, we summarize in Table \ref{table:byol:conclusions} the best model obtained and we state that the experiments were successful.
+Recall that we achieved $100\%$ top 1 accuracy in \emph{train} in one of our executions. This may indicate that we are overfitting our train set. However, when we evaluated the models in the train set and although the final accuracy was still very high, we did not classify the whole test set correctly. We obtained the following model:
+
 
 \begin{table}[H]
-    \resizebox{\columnwidth}{!}{
+  \resizebox{\columnwidth}{!}{
     \begin{tabular}{rrrrr}
-    ResNet    & batch\_size  & regularization\_loss & label\_top\_1\_accuracy & label\_top\_5\_accuracy    \\ \hline
-
-    {50} & {128} & {0.2747}      & {1}              & {1}                 
+      batch\_size  & loss & top\_1\_accuracy & top\_5\_accuracy & steps    \\ \hline
+      
+      \textbf{64} & \textbf{0.381}       & \textbf{0.9240764}          & \textbf{1}              & \textbf{148000} \\       
     \end{tabular}
     }
     \caption{Conclusion of the experiments with BYOL.}
