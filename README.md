@@ -1,4 +1,4 @@
-Trabajo de Fin de Grado en Ingeniería informática y matemáticas en la Universidad de Granada. Puede encontrar una versión compilada de la memoria (en inglés) en (https://github.com/fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning/releases/download/v1.0/thesis.pdf)[este archivo].
+Trabajo de Fin de Grado en Ingeniería informática y matemáticas en la Universidad de Granada. Puede encontrar una versión compilada de la memoria (en inglés) en [este archivo](https://github.com/fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning/releases/download/v1.0/thesis.pdf).
 
 En este reporitorio se encuentran el código original utilizado tanto para realizar la memoria como los experimentos  y gráficos de mi TFG en **Información mutua y aprendizaje de representaciones**. 
 
@@ -13,7 +13,7 @@ A continuación, presentamos nuevos marcos de trabajo que se utilizan en el camp
 ----
 
 
-Repo for my Bachelor's thesis about **Mutual Information** in unsupervised Machine Learning. A compiled version of the thesis can be found (https://github.com/fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning/releases/download/v1.0/thesis.pdf)[here].
+Repo for my Bachelor's thesis about **Mutual Information** in unsupervised Machine Learning. A compiled version of the thesis can be found [here](https://github.com/fjsaezm/Mutual-Information-in-Unsupervised-Machine-Learning/releases/download/v1.0/thesis.pdf).
 
 The pdf version of this thesis can be obtained by using the `Makefile` (use the command `make`) provided in the `thesis` folder.
 
