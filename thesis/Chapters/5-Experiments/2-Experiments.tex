@@ -482,7 +482,7 @@ At first, we wanted to give both models the same treat and try to perform the gr
 
 
 \begin{remark}
-  This is a \textbf{very important} point. Since the size of this new dataset is considerably smaller, all the results presented in  Subsections \ref{experiments:byol:first} and \ref{byol:second:experimentt} were obtained in the \textbf{train} set and, thus, they have \textbf{no} value. In 
+  This is a \textbf{very important} point. Since the size of this new dataset is considerably smaller, all the results presented in  Subsections \ref{experiments:byol:first} and \ref{byol:second:experiment} were obtained in the \textbf{train} set and, thus, they have \textbf{no} value. In Subsection \ref{byol:evaluation} we will present the \textbf{definitive results} in the evaluation set.
 \end{remark}
 
 
@@ -644,7 +644,7 @@ To be able to do this, we modify the \lstinline{configs/byol.py} script , changi
 
 In Table \ref{table:byol:exp2:comparison} we report the best two models of each of the experiments performed with BYOL. As we can see, the model that obtains the highest top 1 accuracy is the one that uses ResNet50 as the encoder, that is, the one with deeper encoder architecture. 
 
-We also have to remark that the best model achieves perfect accuracy on the classification task, which is really surprising. The representations that the model is creating for the Imagenette dataset are very accurate, so the linear head can classify all the elements in the test set correctly. Also, as we can see, all the models obtain $100\%$ top 5 accuracy, which means that even if the prediction that the linear head does is not correct, it is always close to be correct, so this informs us that our models advance towards learning representations that contain a lot of information about the original input.
+We also have to remark that the best model achieves perfect accuracy on the classification task in the training set, which may not be a good signal, because the models may be overfitting. The representations that the model is creating for the Imagenette dataset are very accurate, so the linear head can classify all the elements in the test set correctly. Also, as we can see, all the models obtain $100\%$ top 5 accuracy, which means that even if the prediction that the linear head does is not correct, it is always close to be correct, so this informs us that our models advance towards learning representations that contain a lot of information about the original input.
 
 
 \begin{figure}[htp] 
@@ -676,8 +676,31 @@ In Figure \ref{fig:byol:supervised:loss:exp2} we can see that, in the supervised
 
 
 \subsection{Evaluating ResNet50 models to test performance}
+\label{byol:evaluation}
 
-As we have mentioned before, the already presented results were obtained in the train set, which has no value in the machine learning field. Our last step in this experimentation was to test the models obtained in a \emph{test} set. The original code provided with a parameter option that allowed us to do this.
+As we have mentioned before, the already presented results were obtained in the train set, which has no value in the machine learning field. Our last step in this experimentation was to test the models obtained in a \emph{test} set. The original code provided with parameter options that allowed us to firstly train the linear head for a few epochs in the evaluation set and then evaluate the weights obtained in this evaluation set. We evaluated the models that used ResNet50 as the encoder, since we understand that they achieve better results in the downstream tasks. The results obtained are presented in Table \ref{byol:final:results}. 
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{rrrr}
+    batch\_size & loss  & top1\_acc & top5\_acc \\ \hline
+    32          & 0.287 & 0.922     & 0.990     \\
+    64          & 0.245 & 0.924     & 0.992     \\
+    128         & 0.243 & 0.922     & 0.993     \\
+    256         & 0.243 & 0.920     & 0.993    
+    \end{tabular}
+    \caption{Results of the evaluation of the BYOL models using ResNet50.}
+    \label{byol:final:results}
+    \end{table}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.55\textwidth]{byol-batch-comparison}%
+        \caption{Top 1 accuracy scores in the validation test using BYOL and ResNet50. }
+        \label{fig:byol:batch:comparison}%
+        \end{figure}
+
+As we can see, all the results were very similar in all the values. This reaffirms the belief that batch size does not cause a significant improvement when using BYOL. Also, we can see that the accuracy results are not as high as we obtained in the training set.
 
 \subsection{Conclusions about BYOL}
 
